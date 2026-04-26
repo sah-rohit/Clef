@@ -105,13 +105,15 @@
 }
 
 .cursor-hover #custom-cursor {
-  transform: translate(-50%, -50%) scale(1.5);
-  background: #F9FF00;
+  transform: translate(-50%, -50%) scale(1.4) rotate(45deg);
+  background: #FF0004;
+  border-color: white;
 }
 
 .cursor-hover #custom-cursor-outline {
-  transform: translate(-50%, -50%) scale(1.2);
-  border-color: #F9FF00;
+  transform: translate(-50%, -50%) scale(1.5) rotate(-45deg);
+  border-color: #FF0004;
+  border-width: 3px;
 }
 
 /* Animations */
