@@ -96,7 +96,9 @@ export function ToolsGrid() {
                   {/* Overlay */}
                   <div
                     className={`absolute inset-0 transition-all duration-300 ${
-                      hoveredId === tool.id ? "bg-[#FF0004]/90" : "bg-transparent"
+                      hoveredId === tool.id 
+                        ? "bg-[#FF0004]/90" 
+                        : "bg-gradient-to-t from-black/80 via-black/20 to-transparent md:bg-transparent"
                     }`}
                   />
                   
@@ -111,7 +113,7 @@ export function ToolsGrid() {
                       className={`transition-all duration-300 ${
                         hoveredId === tool.id
                           ? "opacity-100 translate-y-0"
-                          : "opacity-0 translate-y-4"
+                          : "opacity-100 md:opacity-0 translate-y-0 md:translate-y-4"
                       }`}
                     >
                       <div className="flex items-start justify-between">

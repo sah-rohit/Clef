@@ -76,7 +76,7 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
       {children}
       {options && (
         <div className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-white border-[3px] border-black w-full max-w-md mx-4 shadow-2xl animate-scale-in">
+          <div className="bg-white border-[3px] border-black w-full max-w-sm mx-4 shadow-2xl animate-scale-in">
             <div className={`px-6 py-4 border-b-[3px] border-black ${variantStyles[options.variant || "default"]}`}>
               <div className="flex items-center gap-3">
                 <AlertTriangle size={20} />

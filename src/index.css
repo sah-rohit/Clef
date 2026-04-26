@@ -38,12 +38,11 @@
     --ring: 0 0% 10%;
     --radius: 0px;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
     font-family: "Inter", sans-serif;
     background: var(--color-white);
@@ -53,23 +52,52 @@
     overflow-x: hidden;
   }
 
-  /* Hide system cursor on desktop browsers to allow custom cursor to work */
+  /* Hide system cursor on desktop browsers */
   @media (min-width: 1024px) and (hover: hover) {
     body, a, button, input, textarea, [role="button"], label, select, summary, * {
       cursor: none !important;
     }
   }
 
-  /* Responsive Headings */
-  h1 { @apply text-5xl md:text-7xl lg:text-8xl; }
-  h2 { @apply text-4xl md:text-6xl lg:text-7xl; }
-  h3 { @apply text-3xl md:text-5xl; }
-  
   h1, h2, h3, h4, h5, h6 {
     font-family: "Oswald", sans-serif;
     text-transform: uppercase;
     letter-spacing: -0.02em;
     line-height: 0.9;
+  }
+
+  h1 { @apply text-5xl md:text-7xl lg:text-8xl; }
+  h2 { @apply text-4xl md:text-6xl lg:text-7xl; }
+  h3 { @apply text-3xl md:text-5xl; }
+}
+
+@layer components {
+  .btn-brutal {
+    @apply inline-flex items-center justify-center font-oswald font-bold uppercase tracking-widest border-[3px] border-black transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-none shadow-[4px_4px_0px_rgba(0,0,0,1)];
+  }
+
+  .btn-brutal-yellow {
+    @apply bg-[#F9FF00] text-black hover:bg-black hover:text-[#F9FF00];
+  }
+
+  .btn-brutal-black {
+    @apply bg-black text-white hover:bg-[#F9FF00] hover:text-black;
+  }
+
+  .btn-brutal-white {
+    @apply bg-white text-black hover:bg-[#F9FF00] hover:text-black;
+  }
+
+  .btn-brutal-red {
+    @apply bg-[#FF0004] text-white hover:bg-black hover:text-[#FF0004];
+  }
+
+  .card-brutal {
+    @apply bg-white border-[3px] border-black shadow-[6px_6px_0px_rgba(0,0,0,1)];
+  }
+
+  .input-brutal {
+    @apply w-full border-[3px] border-black p-3 font-inter text-sm outline-none focus:bg-[#F9FF00]/5 placeholder:text-black/30;
   }
 }
 
@@ -127,10 +155,19 @@
   to { opacity: 1; }
 }
 
+@keyframes scale-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
 .animate-slide-up {
   animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
