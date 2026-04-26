@@ -5,7 +5,7 @@
 
 ### [🚀 LIVE DEMO: GETCLEF.NETLIFY.APP](https://getclef.netlify.app/)
 
-**CLEF** is a high-fidelity, brutalist workbench designed for creators, developers, and power users who value speed and privacy over bloated interfaces. It consolidates fragmented web utilities into a single, lightning-fast "Daily Workbench."
+**CLEF** is a high-fidelity, brutalist workbench designed for creators, developers, and power users who value speed and efficiency. It consolidates fragmented web utilities into a single, lightning-fast "Daily Workbench."
 
 ---
 
@@ -17,28 +17,31 @@ Clef is a unified productivity hub that provides professional-grade tools for te
 ### WHO IS IT FOR?
 - **Developers**: Who need a quick, distraction-free environment to format JSON, test CSS snippets, or generate UUIDs.
 - **Writers**: Who want a minimalist "Text Forge" for drafting without the clutter of traditional word processors.
-- **Power Users**: Who want an AI assistant that respects privacy and runs on high-performance logic engines.
+- **Power Users**: Who want an AI assistant that respects speed and provides clean, logical responses.
 
-### WHY IS IT DIFFERENT?
-- **Brutalist UX**: No gradients, no rounded corners, no nonsense. Just high-contrast efficiency.
-- **Privacy First**: Most tools run 100% locally in your browser. Your data never touches a server unless you explicitly save it to your cloud profile.
-- **Zero Friction**: No forced accounts. Guest mode is a first-class citizen.
+---
+
+## 🔒 PRIVACY & SECURITY
+
+Clef is built with a **Privacy-First** mindset. 
+
+### 🔒 PROTOCOLS
+- **No Cookies/Analytics**: We use zero third-party tracking or invasive analytics.
+- **Local Storage Sovereignty**: Guest data is stored entirely on your device.
+- **Secure Cloud Sync**: Logged-in users benefit from AES-256 encrypted storage via Convex for their profiles and chat history.
+- **Clean Backend**: All AI requests are handled through our secure serverless worker, ensuring your interaction data remains ephemeral and safe.
 
 ---
 
 ## 🤖 CLEF AI: THE LOGIC ENGINE
 ![Clef AI Integration](./screenshots/Screenshot%202026-04-26%20073746.png)
 
-Clef features an integrated AI assistant powered by the **Llama 3.1 (8B)** model via the **Groq Engine**. Unlike typical chatbots, Clef AI is designed for logical tasks, code debugging, and text synthesis.
+Clef features an integrated AI assistant powered by the **Llama 3.1** model. It is optimized for logical tasks, code debugging, and text synthesis.
 
-### 🛡️ SECURE ARCHITECTURE
-We use **Convex Backend Actions** to handle AI requests. This means your interaction is processed through our secure server layer—keeping API keys hidden and ensuring your data isn't used for training third-party models.
-
-### ⏳ USAGE LIMITS (FREE TIER)
-To ensure high-speed access for everyone, Clef AI operates on a fair-use model:
-- **10 Requests per Hour**
-- **50 Requests per Day**
-*Limits are reset automatically based on your session timestamp.*
+### 🌟 SMART FEATURES
+- **Saved History**: Access previous conversations via the **Local Chat Archive** (History button) or cloud sync.
+- **Compact UI**: Optimized, minimalist interface that puts logic first.
+- **One-Click Retry**: Instantly regenerate responses with the "Retry" button.
 
 ---
 
@@ -52,18 +55,14 @@ A distraction-free writing environment with real-time word/character counting an
 ![Code Workbench](./screenshots/Screenshot%202026-04-26%20073728.png)
 Run and format JavaScript, HTML, CSS, JSON, and SQL directly in the browser. Perfect for testing logic before implementation.
 
-### 🛠️ UTILITY HUB
-- **Data Forge**: JSON Formatter, UUID Generator, Base64 Converter.
-- **Color Engine**: HEX/RGB/HSL conversion with visual previews.
-- **Logic Tools**: Regex tester and Markdown previewer.
-
 ---
 
 ## 🏗️ TECH STACK
 - **FRONTEND**: [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
 - **BACKEND**: [Convex](https://www.convex.dev/) (Serverless Real-time Database)
 - **AUTH**: [Convex Auth](https://labs.convex.dev/auth)
-- **STYLING**: Vanilla CSS (Custom Brutalist Design System)
+- **PWA**: [vite-plugin-pwa](https://vite-pwa-org.netlify.app/)
+- **AI**: Llama 3.1 via Groq
 
 ---
 
@@ -83,19 +82,7 @@ npm install
 ### 3. CONFIGURE ENVIRONMENT
 1. Copy the example environment file: `cp .env.example .env.local`
 2. Update `VITE_CONVEX_URL` with your Convex deployment URL.
-3. To enable AI features locally, set your Groq key in Convex: `npx convex env set GROQ_API_KEY your_key_here`
-
----
-
-## 🛡️ PRIVACY POLICY
-- **NO COOKIES**: We don't use cookies for tracking.
-- **NO ANALYTICS**: We don't use Google Analytics or third-party tracking scripts.
-- **LOCAL FIRST**: Your "Guest Mode" data stays in your browser's LocalStorage.
-
----
-
-## 🤖 DEVELOPMENT NOTE
-This project was developed with the assistance of advanced AI modeling to ensure logical consistency and rapid iteration, while maintaining a strictly human-led design philosophy and aesthetic vision.
+3. Set your Groq key in Convex: `npx convex env set GROQ_API_KEY your_key_here`
 
 ---
 

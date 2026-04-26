@@ -28,4 +28,11 @@ export default defineSchema({
       timestamp: v.string(),
     })),
   }),
+
+  ai_messages: defineTable({
+    userId: v.string(), // can be user._id or a session/guest ID
+    role: v.union(v.literal("user"), v.literal("assistant")),
+    content: v.string(),
+    timestamp: v.number(),
+  }).index("by_userId", ["userId"]),
 });

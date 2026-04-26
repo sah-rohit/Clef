@@ -11,7 +11,7 @@ export const chat = action({
   handler: async (ctx, args) => {
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
-      throw new Error("GROQ_API_KEY is not set");
+      throw new Error("GROQ_API_KEY is not set. Set it via: npx convex env set GROQ_API_KEY <key>");
     }
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -26,7 +26,7 @@ export const chat = action({
           { role: "system", content: "You are Clef AI, a helpful assistant built for Clef (Sonata Interactive). Be concise and friendly." },
           ...args.messages
         ],
-        stream: false, // For simplicity in the first pass, we'll use non-streaming or we can do streaming if needed.
+        stream: false,
       }),
     });
 

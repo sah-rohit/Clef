@@ -1,26 +1,58 @@
-import devServer from "@hono/vite-dev-server"
 import path from "path"
-const __dirname = import.meta.dirname
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import { inspectAttr } from 'kimi-plugin-inspect-react'
+import { VitePWA } from 'vite-plugin-pwa'
+
+const __dirname = import.meta.dirname
 
 // https://vite.dev/config/
 export default defineConfig({
   base: process.env.VITE_BASE_URL || "/",
   plugins: [
-    devServer({ entry: "api/boot.ts", exclude: [/^\/(?!api\/).*$/] }),
-    inspectAttr(), react()],
+    inspectAttr(), 
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true
+      },
+      includeAssets: ['pwa-192x192.png', 'pwa-512x512.png'],
+      manifest: {
+        name: 'Clef — Your daily workbench',
+        short_name: 'Clef',
+        description: 'High-fidelity brutalist workbench for creators by Sonata Interactive.',
+        theme_color: '#F9FF00',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/',
+        icons: [
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
+        ]
+      }
+    })
+  ],
   server: {
     port: 3000,
   },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@contracts": path.resolve(__dirname, "./contracts"),
-      "@db": path.resolve(__dirname, "./db"),
-      "db": path.resolve(__dirname, "./db"),
-      "contracts": path.resolve(__dirname, "./contracts"),
     },
   },
   envDir: path.resolve(__dirname),

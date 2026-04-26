@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 
 export function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice || window.innerWidth < 1024) {
+    // Check if device supports hover (mouse/trackpad) and is large screen
+    const supportsHover = window.matchMedia("(hover: hover)").matches;
+    const isLargeScreen = window.innerWidth >= 1024;
+    
+    if (!supportsHover || !isLargeScreen) {
       setIsVisible(false);
       return;
     }
 
     const updatePosition = (e: MouseEvent) => {
+      // Show cursor as soon as mouse moves
       if (!isVisible) setIsVisible(true);
-      
-      window.requestAnimationFrame(() => {
-        setPosition({ x: e.clientX, y: e.clientY });
-      });
+      setPosition({ x: e.clientX, y: e.clientY });
     };
 
     const updateHoverState = (e: MouseEvent) => {
@@ -38,6 +39,10 @@ export function CustomCursor() {
 
     window.addEventListener("mousemove", updatePosition, { passive: true });
     window.addEventListener("mouseover", updateHoverState, { passive: true });
+    
+    // Hide when mouse leaves the window
+    document.addEventListener("mouseleave", () => setIsVisible(false));
+    document.addEventListener("mouseenter", () => setIsVisible(true));
 
     return () => {
       window.removeEventListener("mousemove", updatePosition);
