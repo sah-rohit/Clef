@@ -219,7 +219,11 @@ export function ClefAI() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 w-14 h-14 md:w-16 md:h-16 bg-[#1a1a1a] text-white border-[3px] md:border-[4px] border-black flex items-center justify-center hover:bg-[#F9FF00] hover:text-black transition-all shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[6px_6px_0px_rgba(0,0,0,1)] group"
+          className="fixed right-4 md:right-6 z-[56] w-14 h-14 md:w-16 md:h-16 bg-[#1a1a1a] text-white border-[3px] md:border-[4px] border-black flex items-center justify-center hover:bg-[#F9FF00] hover:text-black transition-all shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[6px_6px_0px_rgba(0,0,0,1)] group"
+          style={{
+            /* Sit above the FooterBar ribbon (40px) + 12px gap */
+            bottom: "calc(40px + 12px)",
+          }}
         >
           <Bot size={24} className="shrink-0" />
           <div className="absolute right-full mr-4 px-3 py-1 bg-black text-white text-[10px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden md:block">
@@ -229,7 +233,13 @@ export function ClefAI() {
       )}
 
       {isOpen && (
-        <div className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 z-[100] md:z-50 w-full h-full md:w-[380px] md:h-[580px] transition-all duration-300 flex flex-col border-[4px] border-black bg-white animate-slide-up overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+        <div
+          className="fixed inset-0 md:inset-auto md:right-6 z-[100] md:z-[57] w-full h-full md:w-[380px] md:h-[580px] transition-all duration-300 flex flex-col border-[4px] border-black bg-white animate-slide-up overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,1)]"
+          style={{
+            /* On desktop, sit above the FooterBar ribbon */
+            bottom: "calc(40px + 12px)",
+          }}
+        >
           <div className="bg-[#1a1a1a] text-white px-4 md:px-6 py-3 flex items-center justify-between border-b-[4px] border-black shrink-0">
             <div className="flex items-center gap-3">
               <Bot size={24} className="shrink-0" />

@@ -14,10 +14,12 @@ const convex = new ConvexReactClient(convexUrl);
 
 // ── Lenis smooth scroll ──────────────────────────────────────────────────────
 const lenis = new Lenis({
-  duration: 1.2,
-  easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  duration: 0.9,                                    // was 1.2 — shorter = more responsive
+  easing: (t: number) => 1 - Math.pow(1 - t, 4),  // quartic ease-out: fast start, gentle stop
   smoothWheel: true,
-  touchMultiplier: 1.5,
+  wheelMultiplier: 0.9,                             // slightly reduce wheel sensitivity
+  touchMultiplier: 1.2,                             // was 1.5 — less over-scroll on touch
+  infinite: false,
 });
 
 function raf(time: number) {
