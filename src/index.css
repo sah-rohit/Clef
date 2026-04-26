@@ -401,3 +401,26 @@
   opacity: 0.04;
   mix-blend-mode: overlay;
 }
+
+/* ── Custom scrollbar ────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover { background: #F9FF00; }
+/* Firefox */
+* { scrollbar-width: thin; scrollbar-color: #1a1a1a transparent; }
+
+/* ── AI Markdown styles ──────────────────────────────────────────────────────── */
+.ai-markdown .katex { font-size: 1em; }
+.ai-markdown .katex-display { overflow-x: auto; padding: 0.5rem 0; }
+.ai-markdown pre code.hljs { background: transparent; padding: 0; }
+.ai-markdown .hljs-keyword  { color: #F9FF00; }
+.ai-markdown .hljs-string   { color: #00FF87; }
+.ai-markdown .hljs-comment  { color: #ffffff55; font-style: italic; }
+.ai-markdown .hljs-number   { color: #00E5FF; }
+.ai-markdown .hljs-function { color: #FF0004; }
+.ai-markdown .hljs-variable { color: #ffffff; }
+.ai-markdown .hljs-built_in { color: #7C3AED; }

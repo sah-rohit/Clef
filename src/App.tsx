@@ -54,6 +54,7 @@ import PWAReloadPrompt from "./components/PWAReloadPrompt";
 import { PageLoader } from "./components/PageLoader";
 import { PageTransition } from "./components/PageTransition";
 import { FooterBar } from "./components/FooterBar";
+import { NetworkStatus } from "./components/NetworkStatus";
 
 export default function App() {
   return (
@@ -118,6 +119,7 @@ export default function App() {
     <WelcomePopup />
     <ClefAI />
     <FooterBar />
+    <NetworkStatus />
     <PWAReloadPrompt />
     </div>
   );
