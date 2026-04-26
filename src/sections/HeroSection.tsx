@@ -188,7 +188,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-white overflow-hidden">
+    <section ref={sectionRef} className="relative bg-white">
 
       {/* ── Main hero split ── */}
       <div className="flex flex-col md:flex-row min-h-screen">
@@ -713,7 +713,7 @@ export function HeroSection() {
 
       {/* ── HORIZONTAL SCROLL SHOWCASE ── */}
       {/* overflow-visible is critical — GSAP translates the track outside the wrapper bounds */}
-      <div ref={hScrollWrap} className="relative bg-[#1a1a1a]" style={{ height: "100vh", overflow: "hidden" }}>
+      <div ref={hScrollWrap} className="relative bg-[#1a1a1a] overflow-clip" style={{ height: "100vh" }}>
         {/* Sticky label */}
         <div className="absolute top-8 left-8 z-20 pointer-events-none">
           <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">

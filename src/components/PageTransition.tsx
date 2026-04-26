@@ -42,7 +42,9 @@ export function PageTransition({ children }: Props) {
           wrap,
           { opacity: 0, y: 16 },
           { opacity: 1, y: 0, duration: 0.55, ease: "power2.out", force3D: true }
-        );
+        )
+        // Clear residual transform so position:fixed children (GSAP pin) work correctly
+        .set(wrap, { clearProps: "transform" });
       } else {
         // Real page change: curtain sweeps in from top, then retracts
         tl.set(curtain, { scaleY: 1, transformOrigin: "top center" })
@@ -58,7 +60,9 @@ export function PageTransition({ children }: Props) {
             { opacity: 0, y: 20 },
             { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", force3D: true },
             "-=0.2"
-          );
+          )
+          // Clear residual transform so position:fixed children (GSAP pin) work correctly
+          .set(wrap, { clearProps: "transform" });
       }
     });
 
