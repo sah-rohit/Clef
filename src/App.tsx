@@ -34,6 +34,15 @@ import UuidGenerator from "./pages/tools/UuidGenerator";
 import RegexTester from "./pages/tools/RegexTester";
 import ImageToBase64 from "./pages/tools/ImageToBase64";
 import HashGenerator from "./pages/tools/HashGenerator";
+import CssMinifier from "./pages/tools/CssMinifier";
+import DiffChecker from "./pages/tools/DiffChecker";
+import TimestampConverter from "./pages/tools/TimestampConverter";
+import ColorPalette from "./pages/tools/ColorPalette";
+import TextCaseConverter from "./pages/tools/TextCaseConverter";
+import NumberBaseConverter from "./pages/tools/NumberBaseConverter";
+import AspectRatio from "./pages/tools/AspectRatio";
+import JwtDecoder from "./pages/tools/JwtDecoder";
+import CronBuilder from "./pages/tools/CronBuilder";
 
 import { ScrollToTop } from "./components/ScrollToTop";
 import { CustomCursor } from "./components/CustomCursor";
@@ -83,6 +92,15 @@ export default function App() {
         <Route path="regex-tester" element={<RegexTester />} />
         <Route path="image-to-base64" element={<ImageToBase64 />} />
         <Route path="hash-generator" element={<HashGenerator />} />
+        <Route path="css-minifier" element={<CssMinifier />} />
+        <Route path="diff-checker" element={<DiffChecker />} />
+        <Route path="timestamp-converter" element={<TimestampConverter />} />
+        <Route path="color-palette" element={<ColorPalette />} />
+        <Route path="text-case-converter" element={<TextCaseConverter />} />
+        <Route path="number-base-converter" element={<NumberBaseConverter />} />
+        <Route path="aspect-ratio" element={<AspectRatio />} />
+        <Route path="jwt-decoder" element={<JwtDecoder />} />
+        <Route path="cron-builder" element={<CronBuilder />} />
       </Route>
 
       {/* Fallback */}

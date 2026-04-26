@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "@/providers/AuthProvider";
-import { Menu, X, Bell, User } from "lucide-react";
+import { Menu, X, Bell, User, Github, Star } from "lucide-react";
 
 export function Navigation() {
   const { user, isAuthenticated, notifications, markNotificationRead } = useAuth();
@@ -40,13 +40,53 @@ export function Navigation() {
   );
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white border-b-[4px] border-black"
-          : "bg-transparent"
-      }`}
-    >
+    <>
+      {/* ── GitHub Top Ribbon ── */}
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-[#1a1a1a] border-b-[3px] border-black flex items-center justify-between px-4 md:px-8 h-9">
+        <div className="flex items-center gap-3">
+          <Github size={13} className="text-white/60" />
+          <span className="font-oswald text-[10px] font-bold uppercase tracking-widest text-white/60 hidden sm:block">
+            OPEN SOURCE
+          </span>
+          <div className="w-px h-3 bg-white/20 hidden sm:block" />
+          <a
+            href="https://github.com/sah-rohit/Clef"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-[10px] text-white/80 hover:text-[#F9FF00] transition-colors"
+          >
+            sah-rohit/Clef
+          </a>
+        </div>
+        <div className="flex items-center gap-2">
+          <a
+            href="https://github.com/sah-rohit/Clef"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 bg-white/10 hover:bg-[#F9FF00] hover:text-black text-white border border-white/20 hover:border-[#F9FF00] px-3 py-0.5 font-oswald text-[9px] font-bold uppercase tracking-widest transition-all"
+          >
+            <Star size={10} />
+            STAR REPO
+          </a>
+          <a
+            href="https://github.com/sah-rohit/Clef"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 bg-[#F9FF00] text-black border border-[#F9FF00] px-3 py-0.5 font-oswald text-[9px] font-bold uppercase tracking-widest hover:bg-white transition-all"
+          >
+            <Github size={10} />
+            VIEW SOURCE
+          </a>
+        </div>
+      </div>
+
+      <nav
+        className={`fixed top-9 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-white border-b-[4px] border-black"
+            : "bg-transparent"
+        }`}
+      >
       <div className="w-full">
         {/* Desktop Nav */}
         <div className="hidden md:grid grid-cols-12">
@@ -213,5 +253,6 @@ export function Navigation() {
         )}
       </div>
     </nav>
+    </>
   );
 }
