@@ -7,7 +7,8 @@ import {
 import { useAuth } from "@/providers/AuthProvider";
 import { useToast } from "@/providers/ToastProvider";
 
-const API_KEY = "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";
+import { useAction } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 interface MessageVersion {
   content: string;
@@ -40,6 +41,7 @@ export function ClefAI() {
   const { user, isAuthenticated } = useAuth();
   const { showToast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const chatAction = useAction(api.ai.chat);
 
   const isEmailUser = user && !user.isGuest;
   const limits = isEmailUser
@@ -138,68 +140,24 @@ export function ClefAI() {
     setAbortController(controller);
 
     try {
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${API_KEY}`,
-          "Content-Type": "application/json"
-        },
-        signal: controller.signal,
-        body: JSON.stringify({
-          model: "llama-3.1-8b-instant",
-          messages: [
-            { role: "system", content: "You are Clef AI, a helpful assistant built for Clef (Sonata Interactive). Be concise and friendly." },
-            ...currentPairs.slice(0, pairIndex !== undefined ? pairIndex : currentPairs.length - 1).flatMap(p => [
-              { role: "user", content: p.user.versions[p.user.currentIdx].content },
-              { role: "assistant", content: p.ai.versions[p.ai.currentIdx].content }
-            ]),
-            { role: "user", content: text }
-          ],
-          stream: true
-        })
+      const chatMessages = [
+        ...currentPairs.slice(0, pairIndex !== undefined ? pairIndex : currentPairs.length - 1).flatMap(p => [
+          { role: "user", content: p.user.versions[p.user.currentIdx].content },
+          { role: "assistant", content: p.ai.versions[p.ai.currentIdx].content }
+        ]),
+        { role: "user", content: text }
+      ];
+
+      const result = await chatAction({ messages: chatMessages });
+      
+      setPairs(prev => {
+        const newPairs = [...prev];
+        const idx = pairIndex !== undefined ? pairIndex : newPairs.length - 1;
+        newPairs[idx].ai.versions[newPairs[idx].ai.currentIdx].content = result;
+        return newPairs;
       });
-
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      let aiResponse = "";
-
-      if (reader) {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value);
-          const lines = chunk.split("\n").filter(line => line.trim() !== "");
-          for (const line of lines) {
-            if (line.includes("[DONE]")) break;
-            if (line.startsWith("data: ")) {
-              try {
-                const data = JSON.parse(line.substring(6));
-                const content = data.choices[0].delta.content || "";
-                aiResponse += content;
-                
-                setPairs(prev => {
-                  const newPairs = [...prev];
-                  const idx = pairIndex !== undefined ? pairIndex : newPairs.length - 1;
-                  newPairs[idx].ai.versions[newPairs[idx].ai.currentIdx].content = aiResponse;
-                  return newPairs;
-                });
-              } catch (e) {}
-            }
-          }
-        }
-      }
     } catch (err: any) {
-      if (err.name === 'AbortError') {
-        setPairs(prev => {
-          const newPairs = [...prev];
-          const idx = pairIndex !== undefined ? pairIndex : newPairs.length - 1;
-          newPairs[idx].stopped = true;
-          return newPairs;
-        });
-        showToast("Generation stopped.", "info");
-      } else {
-        showToast("Chat error.", "error");
-      }
+      showToast("AI Engine error. Please try again.", "error");
     } finally {
       setIsTyping(false);
       setAbortController(null);

@@ -8,6 +8,7 @@ import CookiePolicy from "./pages/CookiePolicy";
 import UserAgreement from "./pages/UserAgreement";
 import Login from "./pages/Login";
 import AccountCenter from "./pages/AccountCenter";
+import OpenSource from "./pages/OpenSource";
 import Github from "./pages/Github";
 import Contact from "./pages/Contact";
 
@@ -50,7 +51,8 @@ export default function App() {
       <Route path="cookies" element={<CookiePolicy />} />
       <Route path="agreement" element={<UserAgreement />} />
       <Route path="login" element={<Login />} />
-      <Route path="account" element={<AccountCenter />} />
+      <Route path="/account" element={<AccountCenter />} />
+      <Route path="/open-source" element={<OpenSource />} />
       <Route path="github" element={<Github />} />
       <Route path="contact" element={<Contact />} />
       

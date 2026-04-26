@@ -58,6 +58,10 @@ export function Navigation() {
             >
               CLEF
             </Link>
+            <div className="hidden lg:flex items-center gap-1.5 px-2 py-0.5 border-[2px] border-black bg-[#F9FF00] font-oswald text-[8px] font-bold uppercase tracking-widest shadow-[2px_2px_0px_rgba(0,0,0,1)] ml-auto">
+              <div className="w-1 h-1 bg-black rounded-full animate-pulse" />
+              OSS
+            </div>
           </div>
           <div className="col-span-8 flex">
             {navItems.map((item, i) => (

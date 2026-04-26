@@ -13,12 +13,17 @@ export function CustomCursor() {
     }
 
     const updatePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
       if (!isVisible) setIsVisible(true);
+      
+      window.requestAnimationFrame(() => {
+        setPosition({ x: e.clientX, y: e.clientY });
+      });
     };
 
     const updateHoverState = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+      if (!target) return;
+      
       const isInteractive = 
         target.tagName === "A" || 
         target.tagName === "BUTTON" || 
@@ -31,8 +36,8 @@ export function CustomCursor() {
       setIsHovering(!!isInteractive);
     };
 
-    window.addEventListener("mousemove", updatePosition);
-    window.addEventListener("mouseover", updateHoverState);
+    window.addEventListener("mousemove", updatePosition, { passive: true });
+    window.addEventListener("mouseover", updateHoverState, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", updatePosition);

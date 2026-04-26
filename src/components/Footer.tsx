@@ -53,6 +53,7 @@ export function Footer() {
               { label: "Terms & Conditions", path: "/terms" },
               { label: "Cookie Policy", path: "/cookies" },
               { label: "User Agreement", path: "/agreement" },
+              { label: "Open Source", path: "/open-source" },
             ].map((item) => (
               <Link
                 key={item.label}
