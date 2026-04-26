@@ -1,77 +1,40 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "@/providers/AuthProvider";
 import { Menu, X, Bell, User, Github, Star } from "lucide-react";
-import type Lenis from "lenis";
 
-// Heights in px — must match CSS variables in index.css
 const RIBBON_H = 36;
-const NAV_H    = 56; // approximate nav bar height
 
 export function Navigation() {
   const { user, isAuthenticated, notifications, markNotificationRead } = useAuth();
-  const [scrolled,  setScrolled]  = useState(false);
-  const [menuOpen,  setMenuOpen]  = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [ribbonHidden, setRibbonHidden] = useState(false);
   const location = useLocation();
 
-  // DOM refs — we move these directly without React state for 60fps
-  const ribbonRef  = useRef<HTMLDivElement>(null);
-  const navRef     = useRef<HTMLElement>(null);
-  const lastY      = useRef(0);
-  const hidden     = useRef(false); // current hide state
-
+  const lastY = useRef(0);
   const unreadCount = notifications.filter(n => !n.read).length;
 
-  // ── Scroll-driven hide/show via Lenis ──────────────────────────────────────
+  // ── Scroll handler: only hide/show the GitHub ribbon ──
   useEffect(() => {
-    const applyHide = (hide: boolean) => {
-      if (hide === hidden.current) return; // no change
-      hidden.current = hide;
-
-      const ribbon = ribbonRef.current;
-      const nav    = navRef.current;
-      if (!ribbon || !nav) return;
-
-      if (hide) {
-        // Slide both up together: ribbon goes -RIBBON_H, nav goes -(RIBBON_H + NAV_H)
-        ribbon.style.transform = `translateY(-${RIBBON_H}px)`;
-        nav.style.transform    = `translateY(-${RIBBON_H + NAV_H}px)`;
-      } else {
-        ribbon.style.transform = "translateY(0)";
-        nav.style.transform    = "translateY(0)";
-      }
-    };
-
-    const onScroll = ({ scroll }: { scroll: number }) => {
-      const y = scroll;
-
-      // Update scrolled state for nav background (throttled via state is fine)
+    const onScroll = () => {
+      const y = window.scrollY;
       setScrolled(y > 50);
 
       if (y < 60) {
-        applyHide(false);
+        setRibbonHidden(false);
       } else if (y > lastY.current + 4) {
-        applyHide(true);   // scrolling down → hide
+        setRibbonHidden(true);
       } else if (y < lastY.current - 4) {
-        applyHide(false);  // scrolling up → show
+        setRibbonHidden(false);
       }
       lastY.current = y;
     };
 
-    // Subscribe to Lenis scroll events
-    const lenis = (window as unknown as Record<string, unknown>).__lenis__ as Lenis | undefined;
-    if (lenis) {
-      lenis.on("scroll", onScroll);
-      return () => lenis.off("scroll", onScroll);
-    }
-
-    // Fallback: native scroll (if Lenis not ready yet)
-    const native = () => {
-      onScroll({ scroll: window.scrollY });
-    };
-    window.addEventListener("scroll", native, { passive: true });
-    return () => window.removeEventListener("scroll", native);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -95,16 +58,15 @@ export function Navigation() {
     </svg>
   );
 
-  return (
+  const navContent = (
     <>
-      {/* ── GitHub Top Ribbon ── */}
+      {/* ── GitHub Top Ribbon ── hides on scroll down, shows on scroll up */}
       <div
-        ref={ribbonRef}
         className="fixed left-0 right-0 z-[60] bg-[#1a1a1a] border-b-[3px] border-black flex items-center justify-between px-4 md:px-8"
         style={{
           top: 0,
           height: RIBBON_H,
-          transform: "translateY(0)",
+          transform: ribbonHidden ? `translateY(-${RIBBON_H}px)` : "translateY(0)",
           transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)",
           willChange: "transform",
         }}
@@ -146,17 +108,14 @@ export function Navigation() {
         </div>
       </div>
 
-      {/* ── Main Nav ── */}
+      {/* ── Main Nav ── always visible, adjusts top when ribbon hides */}
       <nav
-        ref={navRef}
         className={`fixed left-0 right-0 z-50 ${
           scrolled ? "bg-white border-b-[4px] border-black" : "bg-transparent"
         }`}
         style={{
-          top: RIBBON_H,
-          transform: "translateY(0)",
-          transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1), background-color 0.25s, border-color 0.25s",
-          willChange: "transform",
+          top: ribbonHidden ? 0 : RIBBON_H,
+          transition: "top 0.32s cubic-bezier(0.4,0,0.2,1), background-color 0.25s, border-color 0.25s",
         }}
       >
         <div className="w-full">
@@ -312,4 +271,8 @@ export function Navigation() {
       </nav>
     </>
   );
+
+  // Portal into document.body so that parent transforms (Lenis, GSAP PageTransition)
+  // cannot break position:fixed
+  return createPortal(navContent, document.body);
 }
