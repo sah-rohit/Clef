@@ -36,6 +36,7 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { CustomCursor } from "./components/CustomCursor";
 import { ClefAI } from "./components/ClefAI";
 import { WelcomePopup } from "./components/WelcomePopup";
+import PWAReloadPrompt from "./components/PWAReloadPrompt";
 
 export default function App() {
   return (
@@ -83,6 +84,7 @@ export default function App() {
     </Routes>
     <WelcomePopup />
     <ClefAI />
+    <PWAReloadPrompt />
     </div>
   );
 }
