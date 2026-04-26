@@ -43,9 +43,9 @@ export function Navigation() {
   }, [location.pathname]);
 
   const navItems = [
-    { label: "TOOLS",       path: "/#tools" },
-    { label: "OUR PROMISE", path: "/#promise" },
-    { label: "ROSTER",      path: "/#roster" },
+    { label: "FEATURES",    path: "/features" },
+    { label: "TOOLS",       path: "/features#tools" },
+    { label: "OUR PROMISE", path: "/features#promise" },
     { label: "HOW TO USE",  path: "/how-to-use" },
     { label: "PRICING",     path: "/pricing" },
     { label: "ABOUT",       path: "/about" },

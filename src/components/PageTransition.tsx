@@ -71,6 +71,7 @@ export function PageTransition({ children }: Props) {
   const curtainColor = (() => {
     const p = location.pathname;
     if (p.startsWith("/tools/")) return "#1a1a1a";
+    if (p === "/features")       return "#F9FF00";
     if (p === "/about")          return "#F9FF00";
     if (p === "/pricing")        return "#00FF87";
     if (p === "/how-to-use")     return "#00E5FF";

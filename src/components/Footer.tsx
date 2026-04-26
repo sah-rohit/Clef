@@ -26,14 +26,15 @@ export function Footer() {
           </h4>
           <div className="space-y-2">
             {[
-              { label: "Tools", path: "/#tools" },
-              { label: "Our Promise", path: "/#promise" },
-              { label: "Roster", path: "/#roster" },
-              { label: "Inquiry", path: "/#inquiry" },
-              { label: "Pricing", path: "/pricing" },
-              { label: "Account", path: "/account" },
-              { label: "How To Use", path: "/how-to-use" },
-              { label: "Changelog", path: "/changelog" },
+              { label: "Features",    path: "/features" },
+              { label: "Tools",       path: "/features#tools" },
+              { label: "Our Promise", path: "/features#promise" },
+              { label: "Roster",      path: "/features#roster" },
+              { label: "Inquiry",     path: "/features#inquiry" },
+              { label: "Pricing",     path: "/pricing" },
+              { label: "Account",     path: "/account" },
+              { label: "How To Use",  path: "/how-to-use" },
+              { label: "Changelog",   path: "/changelog" },
             ].map((item) => (
               <Link
                 key={item.label}

@@ -15,6 +15,8 @@ import HowToUse from "./pages/HowToUse";
 import Changelog from "./pages/Changelog";
 import ToolsGuide from "./pages/ToolsGuide";
 
+import Features from "./pages/Features";
+
 // Tool Pages
 import TextFileMaker from "./pages/tools/TextFileMaker";
 import CodeEditor from "./pages/tools/CodeEditor";
@@ -62,6 +64,7 @@ export default function App() {
       <PageTransition>
         <Routes>
       <Route index element={<Home />} />
+      <Route path="features" element={<Features />} />
       <Route path="about" element={<About />} />
       <Route path="pricing" element={<Pricing />} />
       <Route path="privacy" element={<PrivacyPolicy />} />

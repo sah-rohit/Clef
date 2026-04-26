@@ -124,9 +124,10 @@ export function FooterBar() {
             <h4 className="font-oswald text-[10px] font-bold uppercase tracking-[0.2em] text-[#00E5FF] mb-3">Navigate</h4>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
               {[
-                { label: "Tools",       path: "/#tools" },
-                { label: "Our Promise", path: "/#promise" },
-                { label: "Roster",      path: "/#roster" },
+                { label: "Features",    path: "/features" },
+                { label: "Tools",       path: "/features#tools" },
+                { label: "Our Promise", path: "/features#promise" },
+                { label: "Roster",      path: "/features#roster" },
                 { label: "Pricing",     path: "/pricing" },
                 { label: "How To Use",  path: "/how-to-use" },
                 { label: "Changelog",   path: "/changelog" },

@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import { ArrowRight, Zap, Globe, Shield, FileText, Type, Palette, Key, QrCode, Menu, ArrowUpRight, Braces, Hash, Timer, Fingerprint } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function HeroSection() {
+  const navigate = useNavigate();
   const sectionRef  = useRef<HTMLElement>(null);
   const badgeRef    = useRef<HTMLDivElement>(null);
   const headingRef  = useRef<HTMLHeadingElement>(null);
@@ -17,10 +18,7 @@ export function HeroSection() {
   const gridRef     = useRef<HTMLDivElement>(null);
   const featRef     = useRef<HTMLDivElement>(null);
 
-  const scrollToTools = () => {
-    const el = document.getElementById("tools");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToTools = () => navigate("/features#tools");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -375,12 +373,12 @@ export function HeroSection() {
                 <span className="text-outline-white">ZERO FRICTION.</span>
               </h2>
             </div>
-            <Link
-              to="/how-to-use"
-              className="inline-flex items-center gap-2 border-[2px] border-white/20 px-5 py-2.5 font-oswald text-[10px] font-bold uppercase tracking-widest text-white hover:bg-[#F9FF00] hover:text-black hover:border-[#F9FF00] transition-all duration-200 w-fit"
-            >
-              FULL GUIDE <ArrowUpRight size={12} />
-            </Link>
+              <Link
+                to="/features"
+                className="inline-flex items-center gap-2 border-[2px] border-white/20 px-5 py-2.5 font-oswald text-[10px] font-bold uppercase tracking-widest text-white hover:bg-[#F9FF00] hover:text-black hover:border-[#F9FF00] transition-all duration-200 w-fit"
+              >
+                FULL GUIDE <ArrowUpRight size={12} />
+              </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-[3px] border-white/10">
             {[
