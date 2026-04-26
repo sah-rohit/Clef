@@ -8,6 +8,8 @@ export function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   // Use refs for position to avoid re-renders on every mousemove
   const pos = useRef({ x: -200, y: -200 });
+  // Track visibility in a ref so event handlers never go stale
+  const isVisibleRef = useRef(false);
 
   useEffect(() => {
     const supportsHover = window.matchMedia("(hover: hover)").matches;
@@ -23,7 +25,10 @@ export function CustomCursor() {
       if (ringRef.current) {
         ringRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
       }
-      if (!isVisible) setIsVisible(true);
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
+        setIsVisible(true);
+      }
     };
 
     const onOver = (e: MouseEvent) => {
@@ -42,8 +47,14 @@ export function CustomCursor() {
 
     const onDown = () => setIsClicking(true);
     const onUp = () => setIsClicking(false);
-    const onLeave = () => setIsVisible(false);
-    const onEnter = () => setIsVisible(true);
+    const onLeave = () => {
+      isVisibleRef.current = false;
+      setIsVisible(false);
+    };
+    const onEnter = () => {
+      // Don't force visible on enter — wait for first mousemove
+      // so position is known before showing
+    };
 
     window.addEventListener("mousemove", move, { passive: true });
     window.addEventListener("mouseover", onOver, { passive: true });
@@ -60,7 +71,8 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", onLeave);
       document.removeEventListener("mouseenter", onEnter);
     };
-  }, [isVisible]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!isVisible) return null;
 
