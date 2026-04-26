@@ -1,7 +1,7 @@
 # 🎹 CLEF
 > **By Sonata Interactive**
 
-![Clef Banner](https://raw.githubusercontent.com/sah-rohit/clef/main/public/banner.png)
+![Clef Dashboard](./screenshots/Screenshot%202026-04-26%20073638.png)
 
 ### [🚀 LIVE DEMO: GETCLEF.NETLIFY.APP](https://getclef.netlify.app/)
 
@@ -10,16 +10,17 @@
 ---
 
 ## 🖼️ GALLERY
-![Clef Interface - Desktop](https://raw.githubusercontent.com/sah-rohit/clef/main/screenshots/desktop_main.png)
-*Your daily workbench for code, text, and color.*
 
-![Clef AI Integration](https://raw.githubusercontent.com/sah-rohit/clef/main/screenshots/ai_interface.png)
+### 🤖 AI INTERFACE
+![Clef AI Integration](./screenshots/Screenshot%202026-04-26%20073746.png)
 *Secure, server-side AI logic via Groq Engine.*
 
-![Text Forge](https://raw.githubusercontent.com/sah-rohit/clef/main/screenshots/text_forge.png)
+### ✍️ TEXT FORGE
+![Text Forge](./screenshots/Screenshot%202026-04-26%20073701.png)
 *Distraction-free writing and text processing.*
 
-![Code Workbench](https://raw.githubusercontent.com/sah-rohit/clef/main/screenshots/code_workbench.png)
+### 💻 CODE WORKBENCH
+![Code Workbench](./screenshots/Screenshot%202026-04-26%20073728.png)
 *Real-time code execution and formatting.*
 
 ---
