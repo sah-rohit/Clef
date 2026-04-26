@@ -44,6 +44,14 @@ export function RosterSection() {
       clef: true, 
       others: "BLOATED" 
     },
+    { 
+      feature: "MIT OPEN SOURCE", 
+      status: "PUBLIC",
+      availability: "GITHUB",
+      specialties: "FULL CODE ACCESS",
+      clef: true, 
+      others: "PROPRIETARY" 
+    },
   ];
 
   return (

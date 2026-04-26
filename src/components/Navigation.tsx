@@ -154,23 +154,26 @@ export function Navigation() {
         </div>
 
         {/* Mobile Nav */}
-        <div className="md:hidden flex items-center justify-between px-4 py-3">
+        <div className="md:hidden flex items-center justify-between px-4 py-3 relative z-[60]">
           <Link
             to="/"
-            className="font-oswald text-lg font-bold tracking-tight-oswald uppercase"
+            className={`font-oswald text-lg font-bold tracking-tight-oswald uppercase ${!scrolled && location.pathname === "/" ? "text-white" : "text-black"}`}
           >
             CLEF
           </Link>
           <div className="flex items-center gap-2">
             {isAuthenticated && unreadCount > 0 && (
-              <Link to="/account" className="relative p-1">
+              <Link to="/account" className={`relative p-1 ${!scrolled && location.pathname === "/" ? "text-white" : "text-black"}`}>
                 <Bell size={18} />
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#FF0004] text-white text-[8px] font-bold flex items-center justify-center border border-black">
                   {unreadCount}
                 </span>
               </Link>
             )}
-            <button onClick={() => setMenuOpen(!menuOpen)} className="p-2">
+            <button 
+              onClick={() => setMenuOpen(!menuOpen)} 
+              className={`p-2 border-[2px] border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] ${menuOpen ? "bg-[#FF0004] text-white" : "bg-[#F9FF00] text-black"}`}
+            >
               {menuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
