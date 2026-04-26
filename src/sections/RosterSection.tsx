@@ -3,10 +3,20 @@ import { Check, X } from "lucide-react";
 
 export function RosterSection() {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
+
+  const statusBg = (color: string) => {
+    if (color === "yellow") return "bg-[#F9FF00] text-black";
+    if (color === "cyan")   return "bg-[#00E5FF] text-black";
+    if (color === "green")  return "bg-[#00FF87] text-black";
+    if (color === "purple") return "bg-[#7C3AED] text-white";
+    if (color === "red")    return "bg-[#FF0004] text-white";
+    return "bg-white text-black";
+  };
   const comparison = [
     { 
       feature: "AI CHATBOT (LLAMA 3.1)", 
       status: "ACTIVE",
+      statusColor: "yellow",
       availability: "PUBLIC",
       specialties: "ADVANCED LOGIC / MEMORY",
       clef: true, 
@@ -15,6 +25,7 @@ export function RosterSection() {
     { 
       feature: "UNLIMITED TOOL ACCESS", 
       status: "OPEN",
+      statusColor: "cyan",
       availability: "GLOBAL",
       specialties: "ZERO GATEKEEPING",
       clef: true, 
@@ -23,6 +34,7 @@ export function RosterSection() {
     { 
       feature: "NO DATA TRACKING", 
       status: "LOCKED",
+      statusColor: "green",
       availability: "LOCAL",
       specialties: "TOTAL PRIVACY",
       clef: true, 
@@ -31,6 +43,7 @@ export function RosterSection() {
     { 
       feature: "PRIVATE STORAGE", 
       status: "SECURE",
+      statusColor: "purple",
       availability: "OFFLINE",
       specialties: "BROWSER-BASED ENCRYPTION",
       clef: true, 
@@ -39,6 +52,7 @@ export function RosterSection() {
     { 
       feature: "BRUTALIST FAST UI", 
       status: "STABLE",
+      statusColor: "yellow",
       availability: "INSTANT",
       specialties: "PERFORMANCE DRIVEN",
       clef: true, 
@@ -47,6 +61,7 @@ export function RosterSection() {
     { 
       feature: "MIT OPEN SOURCE", 
       status: "PUBLIC",
+      statusColor: "green",
       availability: "GITHUB",
       specialties: "FULL CODE ACCESS",
       clef: true, 
@@ -79,9 +94,7 @@ export function RosterSection() {
             <div key={i} className="border-[3px] border-black p-6 bg-white shadow-[6px_6px_0px_rgba(0,0,0,1)]">
               <div className="flex items-center justify-between mb-4 pb-4 border-b-[1px] border-black/10">
                 <span className="font-oswald text-lg font-bold uppercase">{item.feature}</span>
-                <span className={`px-3 py-1 font-oswald text-[10px] font-bold border-[2px] border-black ${
-                  item.status === 'ACTIVE' ? 'bg-[#F9FF00]' : 'bg-white'
-                }`}>{item.status}</span>
+                <span className={`px-3 py-1 font-oswald text-[10px] font-bold border-[2px] border-black ${statusBg(item.statusColor)}`}>{item.status}</span>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -142,9 +155,7 @@ export function RosterSection() {
                 </span>
               </div>
               <div className="col-span-2 px-6 py-5 border-l-[3px] border-black flex items-center justify-center">
-                <span className={`px-3 py-1 font-oswald text-[10px] font-bold border-[2px] border-black ${
-                  item.status === 'ACTIVE' ? 'bg-[#F9FF00]' : 'bg-white'
-                }`}>
+                <span className={`px-3 py-1 font-oswald text-[10px] font-bold border-[2px] border-black ${statusBg(item.statusColor)}`}>
                   {item.status}
                 </span>
               </div>

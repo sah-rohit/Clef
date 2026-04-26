@@ -86,22 +86,22 @@ export function ToolLayout({ toolId, children }: ToolLayoutProps) {
                
                {/* Quick Tips / Info Bar */}
                <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-                 <div className="flex gap-4 p-6 border-[3px] border-black bg-white">
-                   <Info size={20} className="shrink-0 text-black/30" />
+                 <div className="flex gap-4 p-6 border-[3px] border-black bg-white border-l-[6px]" style={{ borderLeftColor: "#00E5FF" }}>
+                   <Info size={20} className="shrink-0" style={{ color: "#00E5FF" }} />
                    <div>
                      <h4 className="font-oswald text-[10px] font-bold uppercase tracking-widest mb-1">LOCAL EXECUTION</h4>
                      <p className="font-inter text-[9px] font-bold text-black/40 uppercase leading-tight">All processing happens locally on your device for maximum security.</p>
                    </div>
                  </div>
-                 <div className="flex gap-4 p-6 border-[3px] border-black bg-white">
-                   <Sparkles size={20} className="shrink-0 text-black/30" />
+                 <div className="flex gap-4 p-6 border-[3px] border-black bg-white border-l-[6px]" style={{ borderLeftColor: "#F9FF00" }}>
+                   <Sparkles size={20} className="shrink-0" style={{ color: "#F9FF00" }} />
                    <div>
                      <h4 className="font-oswald text-[10px] font-bold uppercase tracking-widest mb-1">PRO FEATURES</h4>
                      <p className="font-inter text-[9px] font-bold text-black/40 uppercase leading-tight">This module is unlocked for all users. Free forever with no limits.</p>
                    </div>
                  </div>
-                 <div className="flex gap-4 p-6 border-[3px] border-black bg-white">
-                   <Shield size={20} className="shrink-0 text-black/30" />
+                 <div className="flex gap-4 p-6 border-[3px] border-black bg-white border-l-[6px]" style={{ borderLeftColor: "#00FF87" }}>
+                   <Shield size={20} className="shrink-0" style={{ color: "#00FF87" }} />
                    <div>
                      <h4 className="font-oswald text-[10px] font-bold uppercase tracking-widest mb-1">SECURE EXPORT</h4>
                      <p className="font-inter text-[9px] font-bold text-black/40 uppercase leading-tight">Download your results directly as local files. No cloud sync required.</p>

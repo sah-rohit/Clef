@@ -11,6 +11,9 @@ import AccountCenter from "./pages/AccountCenter";
 import OpenSource from "./pages/OpenSource";
 import Github from "./pages/Github";
 import Contact from "./pages/Contact";
+import HowToUse from "./pages/HowToUse";
+import Changelog from "./pages/Changelog";
+import ToolsGuide from "./pages/ToolsGuide";
 
 // Tool Pages
 import TextFileMaker from "./pages/tools/TextFileMaker";
@@ -56,6 +59,9 @@ export default function App() {
       <Route path="/open-source" element={<OpenSource />} />
       <Route path="github" element={<Github />} />
       <Route path="contact" element={<Contact />} />
+      <Route path="how-to-use" element={<HowToUse />} />
+      <Route path="changelog" element={<Changelog />} />
+      <Route path="tools-guide" element={<ToolsGuide />} />
       
       {/* Tools Routes */}
       <Route path="tools">

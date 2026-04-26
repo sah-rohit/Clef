@@ -28,7 +28,7 @@ export default function About() {
         {/* Vision Grid */}
         <div className="px-6 md:px-12 lg:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-[3px] border-black">
           <div className="p-10 border-r-[3px] border-b-[3px] border-black md:border-b-0 lg:border-b-0">
-            <Zap size={32} className="text-[#F9FF00] mb-6" />
+            <Zap size={32} className="mb-6" style={{ color: "#F9FF00" }} />
             <h3 className="font-oswald text-2xl font-bold uppercase mb-4">SPEED & SIMPLICITY</h3>
             <p className="font-inter text-sm text-black/60 leading-relaxed">
               No splash screens, no complex configurations. Every tool is designed to do exactly what it says
@@ -36,7 +36,7 @@ export default function About() {
             </p>
           </div>
           <div className="p-10 border-r-[3px] border-b-[3px] border-black lg:border-r-[3px] lg:border-b-0">
-            <Shield size={32} className="text-[#FF0004] mb-6" />
+            <Shield size={32} className="mb-6" style={{ color: "#00E5FF" }} />
             <h3 className="font-oswald text-2xl font-bold uppercase mb-4">PRIVACY FIRST</h3>
             <p className="font-inter text-sm text-black/60 leading-relaxed">
               Your data never leaves your machine. All processing happens locally in your browser. We don't
@@ -44,7 +44,7 @@ export default function About() {
             </p>
           </div>
           <div className="p-10">
-            <Heart size={32} className="text-[#FF0004] mb-6" />
+            <Heart size={32} className="mb-6" style={{ color: "#00FF87" }} />
             <h3 className="font-oswald text-2xl font-bold uppercase mb-4">PERSONAL PROJECT</h3>
             <p className="font-inter text-sm text-black/60 leading-relaxed">
               Clef is a labor of love. It's free to use and always will be. No ads, no tracking,
@@ -62,7 +62,7 @@ export default function About() {
               </h2>
               <div className="space-y-8">
                 <div className="flex gap-6">
-                  <div className="w-12 h-12 bg-black text-white flex items-center justify-center font-oswald text-xl font-bold flex-shrink-0">
+                  <div className="w-12 h-12 bg-[#F9FF00] border-[3px] border-black text-black flex items-center justify-center font-oswald text-xl font-bold flex-shrink-0">
                     01
                   </div>
                   <div>
@@ -74,7 +74,7 @@ export default function About() {
                   </div>
                 </div>
                 <div className="flex gap-6">
-                  <div className="w-12 h-12 bg-black text-white flex items-center justify-center font-oswald text-xl font-bold flex-shrink-0">
+                  <div className="w-12 h-12 bg-[#00E5FF] border-[3px] border-black text-black flex items-center justify-center font-oswald text-xl font-bold flex-shrink-0">
                     02
                   </div>
                   <div>
@@ -86,7 +86,7 @@ export default function About() {
                   </div>
                 </div>
                 <div className="flex gap-6">
-                  <div className="w-12 h-12 bg-black text-white flex items-center justify-center font-oswald text-xl font-bold flex-shrink-0">
+                  <div className="w-12 h-12 bg-[#00FF87] border-[3px] border-black text-black flex items-center justify-center font-oswald text-xl font-bold flex-shrink-0">
                     03
                   </div>
                   <div>

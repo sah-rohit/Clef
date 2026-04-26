@@ -21,7 +21,7 @@ export function Footer() {
           </p>
         </div>
         <div className="md:col-span-3 border-r-[3px] border-white/10 px-6 md:px-10 py-10">
-          <h4 className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#F9FF00] mb-4">
+          <h4 className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#00E5FF] mb-4">
             Navigate
           </h4>
           <div className="space-y-2">
@@ -32,6 +32,8 @@ export function Footer() {
               { label: "Inquiry", path: "/#inquiry" },
               { label: "Pricing", path: "/pricing" },
               { label: "Account", path: "/account" },
+              { label: "How To Use", path: "/how-to-use" },
+              { label: "Changelog", path: "/changelog" },
             ].map((item) => (
               <Link
                 key={item.label}
@@ -44,7 +46,7 @@ export function Footer() {
           </div>
         </div>
         <div className="md:col-span-3 border-r-[3px] border-white/10 px-6 md:px-10 py-10">
-          <h4 className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#F9FF00] mb-4">
+          <h4 className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#00FF87] mb-4">
             Legal
           </h4>
           <div className="space-y-2">
@@ -54,6 +56,7 @@ export function Footer() {
               { label: "Cookie Policy", path: "/cookies" },
               { label: "User Agreement", path: "/agreement" },
               { label: "Open Source", path: "/open-source" },
+              { label: "Tools Guide", path: "/tools-guide" },
             ].map((item) => (
               <Link
                 key={item.label}
@@ -66,7 +69,7 @@ export function Footer() {
           </div>
         </div>
         <div className="md:col-span-2 px-6 md:px-10 py-10">
-          <h4 className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#F9FF00] mb-4">
+          <h4 className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#7C3AED] mb-4">
             Connect
           </h4>
           <div className="space-y-2">

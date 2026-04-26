@@ -56,16 +56,16 @@ export default function OpenSource() {
                 <h3 className="font-oswald text-xs font-bold uppercase mb-4 text-[#FF0004]">PROTOCOL</h3>
                 <ul className="space-y-3 font-inter text-[10px] font-bold uppercase tracking-tighter">
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-black rotate-45" /> No Tracking
+                    <div className="w-2 h-2 rotate-45" style={{ background: "#F9FF00" }} /> No Tracking
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-black rotate-45" /> No Cookies
+                    <div className="w-2 h-2 rotate-45" style={{ background: "#00E5FF" }} /> No Cookies
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-black rotate-45" /> Real-time Data
+                    <div className="w-2 h-2 rotate-45" style={{ background: "#00FF87" }} /> Real-time Data
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-black rotate-45" /> Brutalist UX
+                    <div className="w-2 h-2 rotate-45" style={{ background: "#7C3AED" }} /> Brutalist UX
                   </li>
                 </ul>
               </div>

@@ -25,8 +25,10 @@ export default function NotFound() {
         {/* Decorative */}
         <div className="flex justify-center gap-0 mt-12">
           <div className="w-16 h-16 bg-[#F9FF00] border-[3px] border-black" />
-          <div className="w-16 h-16 bg-white border-[3px] border-black" />
+          <div className="w-16 h-16 bg-[#00E5FF] border-[3px] border-black" />
           <div className="w-16 h-16 bg-[#FF0004] border-[3px] border-black" />
+          <div className="w-16 h-16 bg-[#00FF87] border-[3px] border-black" />
+          <div className="w-16 h-16 bg-[#7C3AED] border-[3px] border-black" />
           <div className="w-16 h-16 bg-[#1a1a1a] border-[3px] border-black" />
         </div>
       </div>

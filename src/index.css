@@ -16,6 +16,9 @@
     --color-yellow: #F9FF00;
     --color-red: #FF0004;
     --color-white: #FFFFFF;
+    --color-cyan: #00E5FF;
+    --color-green: #00FF87;
+    --color-purple: #7C3AED;
 
     --background: 0 0% 100%;
     --foreground: 0 0% 10%;
@@ -90,6 +93,18 @@
 
   .btn-brutal-red {
     @apply bg-[#FF0004] text-white hover:bg-black hover:text-[#FF0004];
+  }
+
+  .btn-brutal-cyan {
+    @apply bg-[#00E5FF] text-black hover:bg-black hover:text-[#00E5FF];
+  }
+
+  .btn-brutal-green {
+    @apply bg-[#00FF87] text-black hover:bg-black hover:text-[#00FF87];
+  }
+
+  .btn-brutal-purple {
+    @apply bg-[#7C3AED] text-white hover:bg-black hover:text-[#7C3AED];
   }
 
   .card-brutal {

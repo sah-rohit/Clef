@@ -79,17 +79,18 @@ export function ToolsGrid() {
                 onMouseLeave={() => setHoveredId(null)}
               >
                 <div
-                  className={`relative overflow-hidden bg-white ${
+                  className={`relative overflow-hidden ${
                     isWide ? "aspect-[2/1] sm:aspect-auto sm:h-[400px]" : "aspect-[4/3] sm:aspect-[3/4]"
                   }`}
+                  style={{ backgroundColor: `${tool.color}18` }}
                 >
                   {/* Tool Visual Representation */}
                   <div className="absolute inset-0 flex items-center justify-center p-8 transition-transform duration-500 group-hover:scale-110">
-                    <div className="relative w-full h-full border-[3px] border-black/10 flex items-center justify-center overflow-hidden">
-                       <Icon size={isWide ? 140 : 100} strokeWidth={1} className="text-black/20 group-hover:text-black transition-colors duration-300 z-10" />
+                    <div className="relative w-full h-full border-[3px] flex items-center justify-center overflow-hidden" style={{ borderColor: `${tool.color}40` }}>
+                       <Icon size={isWide ? 140 : 100} strokeWidth={1} className="transition-colors duration-300 z-10" style={{ color: `${tool.color}60` }} />
                        
-                       {/* Background decoration to match portfolio aesthetic */}
-                       <div className="absolute top-0 left-0 p-4 font-oswald text-[100px] font-black text-black/[0.03] leading-none select-none">
+                       {/* Background decoration */}
+                       <div className="absolute top-0 left-0 p-4 font-oswald text-[100px] font-black leading-none select-none" style={{ color: `${tool.color}08` }}>
                          {tool.name.substring(0, 2).toUpperCase()}
                        </div>
                     </div>
@@ -138,9 +139,12 @@ export function ToolsGrid() {
 
                 {/* Label bar */}
                 <div className="border-t-[3px] border-black bg-white px-3 py-2 flex items-center justify-between">
-                  <span className="font-oswald text-xs font-bold uppercase tracking-wider">
-                    {tool.category.toUpperCase()}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 flex-shrink-0" style={{ backgroundColor: tool.color }} />
+                    <span className="font-oswald text-xs font-bold uppercase tracking-wider">
+                      {tool.category.toUpperCase()}
+                    </span>
+                  </div>
                   <span className="font-inter text-[10px] uppercase text-[#1a1a1a]/50">
                     {String(i + 1).padStart(2, "0")}
                   </span>

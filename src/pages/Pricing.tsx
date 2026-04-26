@@ -94,18 +94,18 @@ export default function Pricing() {
 
         {/* FAQ Style Values */}
         <div className="px-6 md:px-12 lg:px-16 mt-24 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center p-8 border-[3px] border-black hover:bg-[#F9FF00]/10 transition-colors">
-            <Shield size={32} className="mx-auto mb-4 text-[#FF0004]" />
+          <div className="text-center p-8 border-[3px] border-black hover:bg-[#00E5FF]/20 transition-colors">
+            <Shield size={32} className="mx-auto mb-4" style={{ color: "#00E5FF" }} />
             <h4 className="font-oswald text-lg font-bold uppercase mb-2">MY GUARANTEE</h4>
             <p className="font-inter text-xs text-black/60">I will never sell your data or compromise your privacy. This is my reputation on the line.</p>
           </div>
-          <div className="text-center p-8 border-[3px] border-black hover:bg-[#F9FF00]/10 transition-colors">
-            <Clock size={32} className="mx-auto mb-4 text-[#F9FF00]" />
+          <div className="text-center p-8 border-[3px] border-black hover:bg-[#F9FF00]/20 transition-colors">
+            <Clock size={32} className="mx-auto mb-4" style={{ color: "#F9FF00" }} />
             <h4 className="font-oswald text-lg font-bold uppercase mb-2">INSTANT START</h4>
             <p className="font-inter text-xs text-black/60">No onboarding, no verification, no friction. Just use the tools when you need them.</p>
           </div>
-          <div className="text-center p-8 border-[3px] border-black hover:bg-[#F9FF00]/10 transition-colors">
-            <Infinity size={32} className="mx-auto mb-4 text-black" />
+          <div className="text-center p-8 border-[3px] border-black hover:bg-[#00FF87]/20 transition-colors">
+            <Infinity size={32} className="mx-auto mb-4" style={{ color: "#00FF87" }} />
             <h4 className="font-oswald text-lg font-bold uppercase mb-2">UNLIMITED</h4>
             <p className="font-inter text-xs text-black/60">Because the tools run on your device, there are no bandwidth costs for me to limit.</p>
           </div>

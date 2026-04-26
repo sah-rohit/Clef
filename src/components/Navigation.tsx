@@ -27,7 +27,7 @@ export function Navigation() {
     { label: "TOOLS", path: "/#tools" },
     { label: "OUR PROMISE", path: "/#promise" },
     { label: "ROSTER", path: "/#roster" },
-    { label: "INQUIRY", path: "/#inquiry" },
+    { label: "HOW TO USE", path: "/how-to-use" },
     { label: "PRICING", path: "/pricing" },
     { label: "ABOUT", path: "/about" },
   ];

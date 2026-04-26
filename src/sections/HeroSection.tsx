@@ -51,15 +51,15 @@ export function HeroSection() {
           {/* Stats Row */}
           <div className="flex border-2 border-black max-w-md">
             <div className="flex-1 border-r-2 border-black py-4 flex flex-col items-center justify-center">
-              <span className="font-oswald text-2xl font-bold text-black mb-1">18+</span>
+              <span className="font-oswald text-2xl font-bold text-[#FF0004] mb-1">18+</span>
               <span className="font-inter text-[9px] font-bold uppercase tracking-widest text-black/60">TOOLS</span>
             </div>
-            <div className="flex-1 border-r-2 border-black py-4 flex flex-col items-center justify-center">
+            <div className="flex-1 border-r-2 border-black py-4 flex flex-col items-center justify-center bg-[#00FF87]/20">
               <span className="font-oswald text-2xl font-bold text-black mb-1">$0</span>
               <span className="font-inter text-[9px] font-bold uppercase tracking-widest text-black/60">ALWAYS FREE</span>
             </div>
             <div className="flex-1 py-4 flex flex-col items-center justify-center">
-              <span className="font-oswald text-2xl font-bold text-black mb-1">0</span>
+              <span className="font-oswald text-2xl font-bold text-[#7C3AED] mb-1">0</span>
               <span className="font-inter text-[9px] font-bold uppercase tracking-widest text-black/60">ADS EVER</span>
             </div>
           </div>
@@ -107,7 +107,7 @@ export function HeroSection() {
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <div className="w-6 h-6 bg-white flex items-center justify-center flex-shrink-0">
+              <div className="w-6 h-6 bg-[#00E5FF] flex items-center justify-center flex-shrink-0">
                 <Shield size={12} className="text-black" />
               </div>
               <p className="font-inter text-xs text-white/80 leading-snug font-medium">

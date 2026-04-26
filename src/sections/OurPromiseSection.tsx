@@ -32,12 +32,25 @@ const features = [
     title: "BUILT FOR EVERYONE",
     desc: "Whether you're a developer debugging code, a writer formatting text, or someone who just needs a QR code — we've got you covered.",
     status: "UNIVERSAL",
-    color: "yellow",
+    color: "cyan",
     details: [
       "Developer tools & utilities",
       "Productivity essentials",
       "Everyday converters",
       "Simple, clean interfaces",
+    ],
+  },
+  {
+    num: "04",
+    title: "OPEN SOURCE",
+    desc: "Every line of code is public. Fork it, audit it, contribute to it. Clef is built in the open because trust is earned, not claimed.",
+    status: "PUBLIC",
+    color: "green",
+    details: [
+      "MIT licensed — fully open",
+      "Community contributions welcome",
+      "No black-box algorithms",
+      "Audit the code yourself",
     ],
   },
 ];
@@ -86,11 +99,17 @@ export function OurPromiseSection() {
             No compromises, no exceptions.
           </p>
           <div className="flex gap-2">
-            {features.map((_, i) => (
+            {features.map((f, i) => (
               <div
                 key={i}
                 className={`h-3 flex-1 border-[3px] border-black transition-colors ${
-                  i === activeStep ? "bg-[#F9FF00]" : "bg-white"
+                  i === activeStep
+                    ? f.color === "yellow" ? "bg-[#F9FF00]"
+                      : f.color === "red"  ? "bg-[#FF0004]"
+                      : f.color === "cyan" ? "bg-[#00E5FF]"
+                      : f.color === "green"? "bg-[#00FF87]"
+                      : "bg-[#7C3AED]"
+                    : "bg-white"
                 }`}
               />
             ))}
@@ -100,10 +119,16 @@ export function OurPromiseSection() {
         {/* Right Column - Features */}
         <div className="md:col-span-8 lg:col-span-9">
           {features.map((feature, i) => (
-            <div
+          <div
               key={i}
               data-step={i}
-              className="border-b-[3px] border-black px-6 md:px-12 py-12 md:py-16 min-h-[60vh] flex flex-col justify-center hover:bg-[#F9FF00]/20 transition-colors"
+              className={`border-b-[3px] border-black px-6 md:px-12 py-12 md:py-16 min-h-[60vh] flex flex-col justify-center transition-colors ${
+                feature.color === "yellow" ? "hover:bg-[#F9FF00]/20"
+                : feature.color === "red"  ? "hover:bg-[#FF0004]/10"
+                : feature.color === "cyan" ? "hover:bg-[#00E5FF]/20"
+                : feature.color === "green"? "hover:bg-[#00FF87]/20"
+                : "hover:bg-[#7C3AED]/10"
+              }`}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                 <div>
@@ -114,8 +139,14 @@ export function OurPromiseSection() {
                     <span
                       className={`font-oswald text-xs font-bold uppercase tracking-widest px-3 py-1 border-[3px] border-black ${
                         feature.color === "yellow"
-                          ? "bg-[#F9FF00]"
-                          : "bg-[#FF0004] text-white"
+                          ? "bg-[#F9FF00] text-black"
+                          : feature.color === "red"
+                          ? "bg-[#FF0004] text-white"
+                          : feature.color === "cyan"
+                          ? "bg-[#00E5FF] text-black"
+                          : feature.color === "green"
+                          ? "bg-[#00FF87] text-black"
+                          : "bg-[#7C3AED] text-white"
                       }`}
                     >
                       {feature.status}
@@ -133,9 +164,21 @@ export function OurPromiseSection() {
                     {feature.details.map((detail, j) => (
                       <div
                         key={j}
-                        className="flex items-center gap-4 px-4 py-3 border-b-[3px] border-black last:border-b-0 hover:bg-[#F9FF00] transition-colors"
+                        className={`flex items-center gap-4 px-4 py-3 border-b-[3px] border-black last:border-b-0 transition-colors ${
+                          feature.color === "yellow" ? "hover:bg-[#F9FF00]"
+                          : feature.color === "red"  ? "hover:bg-[#FF0004] hover:text-white"
+                          : feature.color === "cyan" ? "hover:bg-[#00E5FF]"
+                          : feature.color === "green"? "hover:bg-[#00FF87]"
+                          : "hover:bg-[#7C3AED] hover:text-white"
+                        }`}
                       >
-                        <span className="font-oswald text-xs font-bold text-[#FF0004]">
+                        <span className={`font-oswald text-xs font-bold ${
+                          feature.color === "red" ? "text-[#FF0004]"
+                          : feature.color === "cyan" ? "text-[#00E5FF]"
+                          : feature.color === "green" ? "text-[#00FF87]"
+                          : feature.color === "purple" ? "text-[#7C3AED]"
+                          : "text-[#FF0004]"
+                        }`}>
                           {feature.num}.{j + 1}
                         </span>
                         <span className="font-inter text-sm font-medium uppercase tracking-wide">
