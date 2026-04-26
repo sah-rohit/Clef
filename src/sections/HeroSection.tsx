@@ -17,6 +17,8 @@ export function HeroSection() {
   const rightRef    = useRef<HTMLDivElement>(null);
   const gridRef     = useRef<HTMLDivElement>(null);
   const featRef     = useRef<HTMLDivElement>(null);
+  const hScrollWrap = useRef<HTMLDivElement>(null);
+  const hScrollTrack = useRef<HTMLDivElement>(null);
 
   const scrollToTools = () => navigate("/features#tools");
 
@@ -135,6 +137,51 @@ export function HeroSection() {
           scrollTrigger: { trigger: ".hero-ai-right", start: "top 88%", toggleActions: "play none none none" },
         }
       );
+
+      // ── Horizontal scroll section ─────────────────────────────────────────
+      const track = hScrollTrack.current;
+      const wrap  = hScrollWrap.current;
+      if (track && wrap) {
+        const panels     = Array.from(track.querySelectorAll<HTMLElement>(".h-panel"));
+        const panelCount = panels.length;
+        if (panelCount < 2) return;
+
+        // Each panel is exactly 100vw; total travel = (n-1) panels
+        const getTotal = () => (panelCount - 1) * wrap.offsetWidth;
+
+        gsap.to(track, {
+          x: () => -getTotal(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrap,
+            start: "top top",
+            end: () => `+=${getTotal()}`,
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // Subtle scale-up on each panel as it scrolls into view
+        panels.forEach((panel, i) => {
+          if (i === 0) return; // first panel starts at full scale
+          gsap.fromTo(panel,
+            { scale: 0.92 },
+            {
+              scale: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: wrap,
+                start: () => `top top+=${i * wrap.offsetWidth * 0.8}`,
+                end:   () => `top top+=${i * wrap.offsetWidth}`,
+                scrub: 1,
+                invalidateOnRefresh: true,
+              },
+            }
+          );
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -661,6 +708,133 @@ export function HeroSection() {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* ── HORIZONTAL SCROLL SHOWCASE ── */}
+      {/* overflow-visible is critical — GSAP translates the track outside the wrapper bounds */}
+      <div ref={hScrollWrap} className="relative bg-[#1a1a1a]" style={{ height: "100vh", overflow: "hidden" }}>
+        {/* Sticky label */}
+        <div className="absolute top-8 left-8 z-20 pointer-events-none">
+          <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
+            SCROLL TO EXPLORE
+          </span>
+          <div className="mt-1 w-8 h-px bg-white/20" />
+        </div>
+
+        {/* Horizontal track — GSAP translates this left */}
+        <div
+          ref={hScrollTrack}
+          className="flex"
+          style={{ height: "100vh", willChange: "transform" }}
+        >
+          {/* Panel 1 — Speed */}
+          <div className="h-panel flex items-center justify-center relative overflow-hidden shrink-0" style={{ width: "100vw", height: "100vh" }}>
+            <div className="absolute inset-0 bg-[#1a1a1a]" />
+            <div className="absolute inset-0 opacity-[0.04]"
+              style={{ backgroundImage: "radial-gradient(#F9FF00 1px, transparent 0)", backgroundSize: "40px 40px" }} />
+            <div className="relative z-10 text-center px-8 max-w-2xl">
+              <div className="w-16 h-16 bg-[#F9FF00] border-[4px] border-[#F9FF00] flex items-center justify-center mx-auto mb-8 shadow-glow-yellow">
+                <Zap size={32} className="text-black" />
+              </div>
+              <h2 className="font-oswald text-6xl md:text-8xl font-bold uppercase text-white leading-[0.88] tracking-[-0.04em] mb-6">
+                INSTANT.<br />
+                <span className="text-gradient-yellow">ALWAYS.</span>
+              </h2>
+              <p className="font-inter text-sm text-white/55 leading-relaxed max-w-md mx-auto">
+                Every tool opens in under 100ms. No loading screens, no splash pages, no waiting. Just click and work.
+              </p>
+              <div className="mt-8 inline-flex items-center gap-3 border-[2px] border-white/20 px-5 py-2">
+                <span className="font-oswald text-[10px] font-bold uppercase tracking-widest text-white/60">AVERAGE LOAD TIME</span>
+                <span className="font-oswald text-2xl font-bold text-[#F9FF00]">&lt;100ms</span>
+              </div>
+            </div>
+            <div className="absolute bottom-8 right-8 font-oswald text-[120px] font-bold text-white/[0.03] leading-none select-none">01</div>
+          </div>
+
+          {/* Panel 2 — Privacy */}
+          <div className="h-panel flex items-center justify-center relative overflow-hidden shrink-0" style={{ width: "100vw", height: "100vh" }}>
+            <div className="absolute inset-0 bg-[#0a0a0a]" />
+            <div className="absolute inset-0 opacity-[0.06]"
+              style={{ backgroundImage: "linear-gradient(#00E5FF 1px, transparent 1px), linear-gradient(90deg, #00E5FF 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+            <div className="relative z-10 text-center px-8 max-w-2xl">
+              <div className="w-16 h-16 bg-[#00E5FF] border-[4px] border-[#00E5FF] flex items-center justify-center mx-auto mb-8 shadow-glow-cyan">
+                <Shield size={32} className="text-black" />
+              </div>
+              <h2 className="font-oswald text-6xl md:text-8xl font-bold uppercase text-white leading-[0.88] tracking-[-0.04em] mb-6">
+                YOUR DATA.<br />
+                <span className="text-gradient-cyber">YOUR DEVICE.</span>
+              </h2>
+              <p className="font-inter text-sm text-white/55 leading-relaxed max-w-md mx-auto">
+                Zero telemetry. Zero tracking. Everything runs locally in your browser. We literally cannot see what you're doing.
+              </p>
+              <div className="mt-8 grid grid-cols-3 gap-0 border-[2px] border-white/10 max-w-xs mx-auto">
+                {["0 Cookies", "0 Analytics", "0 Ads"].map((s, i) => (
+                  <div key={i} className={`py-3 text-center ${i < 2 ? "border-r-[2px] border-white/10" : ""}`}>
+                    <span className="font-oswald text-xs font-bold uppercase text-[#00E5FF] block">{s.split(" ")[0]}</span>
+                    <span className="font-inter text-[9px] text-white/40 uppercase">{s.split(" ")[1]}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="absolute bottom-8 right-8 font-oswald text-[120px] font-bold text-white/[0.03] leading-none select-none">02</div>
+          </div>
+
+          {/* Panel 3 — Free */}
+          <div className="h-panel flex items-center justify-center relative overflow-hidden shrink-0" style={{ width: "100vw", height: "100vh" }}>
+            <div className="absolute inset-0 bg-[#F9FF00]" />
+            <div className="absolute inset-0 opacity-[0.06]"
+              style={{ backgroundImage: "radial-gradient(#1a1a1a 1.5px, transparent 0)", backgroundSize: "32px 32px" }} />
+            <div className="relative z-10 text-center px-8 max-w-2xl">
+              <div className="w-16 h-16 bg-[#1a1a1a] border-[4px] border-[#1a1a1a] flex items-center justify-center mx-auto mb-8">
+                <span className="font-oswald text-2xl font-bold text-[#F9FF00]">$0</span>
+              </div>
+              <h2 className="font-oswald text-6xl md:text-8xl font-bold uppercase text-black leading-[0.88] tracking-[-0.04em] mb-6">
+                FREE.<br />
+                <span className="text-outline-black">FOREVER.</span>
+              </h2>
+              <p className="font-inter text-sm text-black/65 leading-relaxed max-w-md mx-auto">
+                Not "free with limits." Not "free trial." Not "free tier." Just free. 28 tools, no credit card, no expiry, no catch.
+              </p>
+              <div className="mt-8 flex items-center justify-center gap-4">
+                <Link to="/features" className="bg-[#1a1a1a] text-[#F9FF00] border-[3px] border-[#1a1a1a] font-oswald font-bold uppercase tracking-widest text-sm px-8 py-3 hover:bg-white hover:text-black transition-all">
+                  START NOW
+                </Link>
+              </div>
+            </div>
+            <div className="absolute bottom-8 right-8 font-oswald text-[120px] font-bold text-black/[0.04] leading-none select-none">03</div>
+          </div>
+
+          {/* Panel 4 — Open Source */}
+          <div className="h-panel flex items-center justify-center relative overflow-hidden shrink-0" style={{ width: "100vw", height: "100vh" }}>
+            <div className="absolute inset-0 bg-[#0d0d0d]" />
+            <div className="absolute inset-0 opacity-[0.05]"
+              style={{ backgroundImage: "linear-gradient(45deg, #00FF87 25%, transparent 25%), linear-gradient(-45deg, #00FF87 25%, transparent 25%)", backgroundSize: "20px 20px" }} />
+            <div className="relative z-10 text-center px-8 max-w-2xl">
+              <div className="w-16 h-16 bg-[#00FF87] border-[4px] border-[#00FF87] flex items-center justify-center mx-auto mb-8 shadow-glow-green">
+                <Globe size={32} className="text-black" />
+              </div>
+              <h2 className="font-oswald text-6xl md:text-8xl font-bold uppercase text-white leading-[0.88] tracking-[-0.04em] mb-6">
+                OPEN.<br />
+                <span className="text-gradient-cyber">TRANSPARENT.</span>
+              </h2>
+              <p className="font-inter text-sm text-white/55 leading-relaxed max-w-md mx-auto">
+                Every line of code is public on GitHub. Fork it, audit it, contribute to it. Trust is earned through transparency.
+              </p>
+              <a href="https://github.com/sah-rohit/Clef" target="_blank" rel="noopener noreferrer"
+                className="mt-8 inline-flex items-center gap-3 border-[2px] border-[#00FF87]/40 px-6 py-3 font-oswald text-[10px] font-bold uppercase tracking-widest text-[#00FF87] hover:bg-[#00FF87] hover:text-black transition-all">
+                VIEW ON GITHUB <ArrowUpRight size={14} />
+              </a>
+            </div>
+            <div className="absolute bottom-8 right-8 font-oswald text-[120px] font-bold text-white/[0.03] leading-none select-none">04</div>
+          </div>
+        </div>
+
+        {/* Progress dots */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20 pointer-events-none">
+          {[0, 1, 2, 3].map(i => (
+            <div key={i} className="w-1.5 h-1.5 bg-white/30 rotate-45" />
+          ))}
         </div>
       </div>
 

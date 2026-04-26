@@ -3,32 +3,40 @@ import { BrowserRouter } from 'react-router'
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { ConvexReactClient } from "convex/react";
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './index.css'
 import { AuthProvider } from './providers/AuthProvider'
 import { ToastProvider } from './providers/ToastProvider'
 import { ConfirmProvider } from './providers/ConfirmProvider'
 import App from './App.tsx'
 
+gsap.registerPlugin(ScrollTrigger);
+
 const convexUrl = import.meta.env.VITE_CONVEX_URL || "https://dummy.convex.cloud";
 const convex = new ConvexReactClient(convexUrl);
 
 // ── Lenis smooth scroll ──────────────────────────────────────────────────────
 const lenis = new Lenis({
-  duration: 0.9,                                    // was 1.2 — shorter = more responsive
-  easing: (t: number) => 1 - Math.pow(1 - t, 4),  // quartic ease-out: fast start, gentle stop
+  duration: 0.9,
+  easing: (t: number) => 1 - Math.pow(1 - t, 4),
   smoothWheel: true,
-  wheelMultiplier: 0.9,                             // slightly reduce wheel sensitivity
-  touchMultiplier: 1.2,                             // was 1.5 — less over-scroll on touch
+  wheelMultiplier: 0.9,
+  touchMultiplier: 1.2,
   infinite: false,
 });
 
-function raf(time: number) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
+// ── Bridge Lenis → GSAP ScrollTrigger ────────────────────────────────────────
+// Without this, ScrollTrigger reads native scrollY which Lenis overrides,
+// causing pinned sections and scrub animations to break.
+lenis.on("scroll", ScrollTrigger.update);
 
-// Expose for GSAP ScrollTrigger integration
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+gsap.ticker.lagSmoothing(0);
+
+// Expose for components that need direct Lenis access
 (window as unknown as Record<string, unknown>).__lenis__ = lenis;
 
 createRoot(document.getElementById('root')!).render(

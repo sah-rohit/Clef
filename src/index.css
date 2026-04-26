@@ -402,16 +402,41 @@
   mix-blend-mode: overlay;
 }
 
-/* ── Custom scrollbar ────────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
+/* ── Custom scrollbar — brutalist themed ────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-left: 1px solid #1a1a1a;
+}
 ::-webkit-scrollbar-thumb {
   background: #1a1a1a;
   border-radius: 0;
+  border: none;
 }
-::-webkit-scrollbar-thumb:hover { background: #F9FF00; }
+::-webkit-scrollbar-thumb:hover {
+  background: #F9FF00;
+  box-shadow: inset 0 0 0 1px #1a1a1a;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #FF0004;
+}
+::-webkit-scrollbar-corner {
+  background: #1a1a1a;
+}
 /* Firefox */
-* { scrollbar-width: thin; scrollbar-color: #1a1a1a transparent; }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1a1a1a #f0f0f0;
+}
+
+/* AI panel specific — slightly narrower */
+.ai-scroll::-webkit-scrollbar { width: 4px; }
+.ai-scroll::-webkit-scrollbar-track { background: #fafafa; border-left: 1px solid #1a1a1a22; }
+.ai-scroll::-webkit-scrollbar-thumb { background: #1a1a1a44; }
+.ai-scroll::-webkit-scrollbar-thumb:hover { background: #F9FF00; }
 
 /* ── AI Markdown styles ──────────────────────────────────────────────────────── */
 .ai-markdown .katex { font-size: 1em; }
