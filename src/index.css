@@ -105,44 +105,7 @@
   mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
-/* Custom Cursor */
-#custom-cursor {
-  position: fixed;
-  width: 14px;
-  height: 14px;
-  background: black;
-  border: 1px solid white;
-  border-radius: 0;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.1s ease-out;
-  transform: translate(-50%, -50%);
-}
 
-#custom-cursor-outline {
-  position: fixed;
-  width: 36px;
-  height: 36px;
-  border: 2px solid black;
-  outline: 1px solid white;
-  border-radius: 0;
-  pointer-events: none;
-  z-index: 9998;
-  transition: transform 0.2s ease-out;
-  transform: translate(-50%, -50%);
-}
-
-.cursor-hover #custom-cursor {
-  transform: translate(-50%, -50%) scale(1.4) rotate(45deg);
-  background: #FF0004;
-  border-color: white;
-}
-
-.cursor-hover #custom-cursor-outline {
-  transform: translate(-50%, -50%) scale(1.5) rotate(-45deg);
-  border-color: #FF0004;
-  border-width: 3px;
-}
 
 /* Animations */
 @keyframes slide-up {

@@ -25,6 +25,12 @@ Clef is a unified productivity hub that provides professional-grade tools for te
 
 Clef is built with a **Privacy-First** mindset. 
 
+### TWO MODES, TWO TRUST LEVELS
+
+**Guest Mode (default)** — runs entirely in your browser. No accounts, no tracking, no data leaves your device. All tool state and AI chat history are stored in `localStorage` only.
+
+**Logged-In Mode** — unlocks cross-device sync via [Convex](https://www.convex.dev/). Your profile and chat history are stored in the cloud with AES-256 encryption. You opt into this explicitly by signing in.
+
 ### 🔒 PROTOCOLS
 - **No Cookies/Analytics**: We use zero third-party tracking or invasive analytics.
 - **Local Storage Sovereignty**: Guest data is stored entirely on your device.

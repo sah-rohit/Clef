@@ -46,18 +46,20 @@ export function ToolsGrid() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap gap-0 border-[3px] border-black mt-12 bg-white w-fit">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat.value}
-              onClick={() => setFilter(cat.value)}
-              className={`px-6 py-3 font-oswald text-xs font-bold uppercase tracking-wider border-r-[3px] border-black last:border-r-0 transition-colors ${
-                filter === cat.value ? "bg-[#F9FF00]" : "hover:bg-[#F9FF00]/30"
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+        <div className="mt-12 overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+          <div className="flex gap-0 border-[3px] border-black bg-white w-max md:w-fit">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => setFilter(cat.value)}
+                className={`px-6 py-3 font-oswald text-xs font-bold uppercase tracking-wider border-r-[3px] border-black last:border-r-0 transition-colors whitespace-nowrap ${
+                  filter === cat.value ? "bg-[#F9FF00]" : "hover:bg-[#F9FF00]/30"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -78,7 +80,7 @@ export function ToolsGrid() {
               >
                 <div
                   className={`relative overflow-hidden bg-white ${
-                    isWide ? "aspect-[2/1] sm:aspect-auto sm:h-[400px]" : "aspect-[3/4]"
+                    isWide ? "aspect-[2/1] sm:aspect-auto sm:h-[400px]" : "aspect-[4/3] sm:aspect-[3/4]"
                   }`}
                 >
                   {/* Tool Visual Representation */}
@@ -98,7 +100,7 @@ export function ToolsGrid() {
                     className={`absolute inset-0 transition-all duration-300 ${
                       hoveredId === tool.id 
                         ? "bg-[#FF0004]/90" 
-                        : "bg-gradient-to-t from-black/80 via-black/20 to-transparent md:bg-transparent"
+                        : "bg-gradient-to-t from-black/60 via-black/10 to-transparent md:from-transparent md:via-transparent md:to-transparent"
                     }`}
                   />
                   
