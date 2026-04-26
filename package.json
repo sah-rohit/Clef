@@ -1,7 +1,9 @@
 {
-  "name": "my-app",
-  "private": true,
-  "version": "0.0.0",
+  "name": "clef",
+  "version": "1.0.0",
+  "description": "High-fidelity brutalist workbench for creators by Sonata Interactive.",
+  "author": "Rohit Sah / Sonata Interactive",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
