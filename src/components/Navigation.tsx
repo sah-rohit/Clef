@@ -1,21 +1,35 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "@/providers/AuthProvider";
 import { Menu, X, Bell, User, Github, Star } from "lucide-react";
 
 export function Navigation() {
   const { user, isAuthenticated, notifications, markNotificationRead } = useAuth();
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
+  const [scrolled, setScrolled]     = useState(false);
+  const [menuOpen, setMenuOpen]     = useState(false);
+  const [notifOpen, setNotifOpen]   = useState(false);
+  const [ribbonVisible, setRibbonVisible] = useState(true);
+  const lastScrollY = useRef(0);
   const location = useLocation();
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => {
+      const y = window.scrollY;
+      // Show ribbon when scrolling up or near top; hide when scrolling down
+      if (y < 60) {
+        setRibbonVisible(true);
+      } else if (y > lastScrollY.current + 4) {
+        setRibbonVisible(false);   // scrolling down
+      } else if (y < lastScrollY.current - 4) {
+        setRibbonVisible(true);    // scrolling up
+      }
+      lastScrollY.current = y;
+      setScrolled(y > 50);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -42,7 +56,10 @@ export function Navigation() {
   return (
     <>
       {/* ── GitHub Top Ribbon ── */}
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-[#1a1a1a] border-b-[3px] border-black flex items-center justify-between px-4 md:px-8 h-9">
+      <div
+        className="fixed left-0 right-0 z-[60] bg-[#1a1a1a] border-b-[3px] border-black flex items-center justify-between px-4 md:px-8 h-9 transition-transform duration-300 ease-in-out"
+        style={{ top: 0, transform: ribbonVisible ? "translateY(0)" : "translateY(-100%)" }}
+      >
         <div className="flex items-center gap-3">
           <Github size={13} className="text-white/60" />
           <span className="font-oswald text-[10px] font-bold uppercase tracking-widest text-white/60 hidden sm:block">
@@ -81,11 +98,10 @@ export function Navigation() {
       </div>
 
       <nav
-        className={`fixed top-9 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-white border-b-[4px] border-black"
-            : "bg-transparent"
+        className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled ? "bg-white border-b-[4px] border-black" : "bg-transparent"
         }`}
+        style={{ top: ribbonVisible ? "36px" : "0px", transition: "top 0.3s ease-in-out, background 0.3s, border 0.3s" }}
       >
       <div className="w-full">
         {/* Desktop Nav */}

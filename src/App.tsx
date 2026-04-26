@@ -49,10 +49,12 @@ import { CustomCursor } from "./components/CustomCursor";
 import { ClefAI } from "./components/ClefAI";
 import { WelcomePopup } from "./components/WelcomePopup";
 import PWAReloadPrompt from "./components/PWAReloadPrompt";
+import { PageLoader } from "./components/PageLoader";
 
 export default function App() {
   return (
     <div className="min-h-screen bg-white">
+      <PageLoader />
       <CustomCursor />
       <ScrollToTop />
       <Routes>
