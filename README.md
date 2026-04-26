@@ -1,65 +1,67 @@
-# 🎹 CLEF PRODUCTIVITY SUITE
+# 🎹 CLEF
+> **By Sonata Interactive**
 
 ![Clef Banner](https://raw.githubusercontent.com/sah-rohit/clef/main/public/banner.png)
 
-> **[LIVE DEMO: MY_LINK_HERE]**
->
-> **HIGH-FIDELITY BRUTALIST UTILITY HUB. BUILT FOR CREATORS. POWERED BY CLOUD.**
+### [🚀 LIVE DEMO: GETCLEF.NETLIFY.APP](https://getclef.netlify.app/)
+
+**CLEF** is a high-fidelity, brutalist workbench containing essential utilities for developers and creators. Built for speed, privacy, and simplicity, it provides a unified space for code, text, and data manipulation—running entirely in your browser with zero data tracking.
 
 ---
 
-## 🛠 THE ARCHITECTURE
+## 🖼️ GALLERY
+![Clef Interface - Desktop](https://raw.githubusercontent.com/sah-rohit/clef/main/screenshots/desktop_main.png)
+*Your daily workbench for code, text, and color.*
 
-Clef is a high-performance, privacy-focused productivity suite designed with a **Brutalist Aesthetic**. It consolidates essential developer and creator utilities into a single, lightning-fast interface.
+![Clef AI Integration](https://raw.githubusercontent.com/sah-rohit/clef/main/screenshots/ai_interface.png)
+*Secure, server-side AI logic via Groq Engine.*
+
+![Text Forge](https://raw.githubusercontent.com/sah-rohit/clef/main/screenshots/text_forge.png)
+*Distraction-free writing and text processing.*
+
+![Code Workbench](https://raw.githubusercontent.com/sah-rohit/clef/main/screenshots/code_workbench.png)
+*Real-time code execution and formatting.*
+
+---
+
+## 🛠️ THE ARCHITECTURE
+Clef is designed with a **Brutalist Aesthetic** to maximize focus and minimize bloat. It consolidates fragmented web tools into a single, lightning-fast platform.
 
 ### ⚡ CORE FEATURES
-
-- **UTILITY FORGE**: Text generators, UUID creators, JSON formatters, and markdown editors.
-- **COMMUNITY BOARD**: Real-time feedback and experiences shared globally.
-- **ACCOUNT CENTER**: Secure cloud-synced profiles, session management, and data export.
-- **GUEST MODE**: Full tool access without ever creating an account (Local Storage).
+- **UTILITY FORGE**: Real-time code execution, JSON formatting, markdown editing, and text generators.
+- **CLEF AI**: Advanced logic engines powered by Llama 3.1, secured via Convex backend actions.
+- **ACCOUNT CENTER**: Secure cloud-synced profiles and session management.
+- **GUEST MODE**: Full tool access without account creation (Local Storage persistence).
 
 ---
 
-## 🏗 TECH STACK
-
+## 🏗️ TECH STACK
 - **FRONTEND**: [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
 - **BACKEND**: [Convex](https://www.convex.dev/) (Serverless Real-time Database)
-- **AUTH**: [Convex Auth](https://labs.convex.dev/auth) (Secure Email/Password & Session Management)
-- **STYLING**: Vanilla CSS (Custom Brutalist Design System)
-- **ICONS**: [Lucide React](https://lucide.dev/)
+- **AUTH**: [Convex Auth](https://labs.convex.dev/auth)
+- **STYLING**: Vanilla CSS (Custom Design System)
 
 ---
 
-## 🚀 LOCAL SETUP (FOR DEVELOPERS)
+## 🚀 LOCAL SETUP
 
-### 1. CLONE THE FORGE
-
+### 1. CLONE THE REPO
 ```bash
-git clone https://github.com/your-username/clef.git
+git clone https://github.com/sah-rohit/clef.git
 cd clef
 ```
 
 ### 2. INSTALL DEPENDENCIES
-
 ```bash
 npm install
 ```
 
 ### 3. CONFIGURE ENVIRONMENT
+1. Copy the example environment file: `cp .env.example .env.local`
+2. Update `VITE_CONVEX_URL` with your Convex deployment URL.
+3. For AI features, set your Groq key in Convex: `npx convex env set GROQ_API_KEY your_key_here`
 
-1. Copy the example environment file:
-   ```bash
-   cp .env.example .env.local
-   ```
-2. Open `.env.local` and paste your **Convex Deployment URL**.
-3. To enable AI features locally, run:
-   ```bash
-   npx convex env set GROQ_API_KEY your_key_here
-   ```
-
-### 4. RUN DEV ENVIRONMENT
-
+### 4. RUN DEV
 ```bash
 npx convex dev
 # In a new terminal
@@ -68,22 +70,19 @@ npm run dev
 
 ---
 
-## 🛡 SECURITY & PRIVACY
-
-- **ZERO TRACKING**: No third-party trackers or analytics.
-- **YOUR DATA, YOUR CHOICE**: Export your entire user profile and history as JSON at any time.
-- **SECURE SESSIONS**: All sensitive logic (like AI API calls) is handled on the **Convex Backend** to ensure API keys never leak to the client.
+## 🛡️ SECURITY & PRIVACY
+- **ZERO TRACKING**: No third-party trackers or invasive analytics.
+- **SECURE API HANDOFF**: All sensitive AI logic is handled via Convex Actions on the server, ensuring API keys are never exposed to the client.
+- **DATA FREEDOM**: Export your entire profile data as JSON at any time.
 
 ---
 
 ## 🤖 DEVELOPMENT NOTE
-
 This project was developed with the assistance of advanced AI modeling to ensure logical consistency and rapid iteration, while maintaining a strictly human-led design philosophy and aesthetic vision.
 
 ---
 
 ## ⚖️ LICENSE
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
-This project is open-source and available under the **MIT License**. See the `/open-source` page on the website for more details.
-
-**Built with 🖤 by Rohit Sah**
+**Built with 🖤 by Rohit Sah for Sonata Interactive**
