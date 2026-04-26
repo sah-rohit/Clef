@@ -1,6 +1,8 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BackButton } from "@/components/BackButton";
+import { SectionHeader } from "@/components/SectionHeader";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Link } from "react-router";
 import {
   MousePointer, Search, Zap, Shield, Bot, Download,
@@ -136,24 +138,30 @@ const faqs = [
 ];
 
 export default function HowToUse() {
+  const heroRef    = useScrollReveal<HTMLDivElement>({ y: 40, duration: 0.7 });
+  const stepsRef   = useScrollReveal<HTMLDivElement>({ y: 30, duration: 0.6, delay: 0.1 });
+  const featRef    = useScrollReveal<HTMLDivElement>({ y: 30, stagger: 0.08, selector: ".feat-card", duration: 0.55 });
+  const kbRef      = useScrollReveal<HTMLDivElement>({ y: 30, duration: 0.6 });
+  const faqRef     = useScrollReveal<HTMLDivElement>({ y: 30, duration: 0.6 });
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      <div className="pt-24 pb-20">
+      <div className="page-top pb-20">
         {/* Header */}
-        <div className="px-6 md:px-12 lg:px-16 mb-16">
+        <div ref={heroRef} className="px-6 md:px-12 lg:px-16 mb-16">
           <BackButton />
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-4">
-            <div>
-              <span className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#00E5FF] block mb-4">
-                Getting Started
-              </span>
-              <h1 className="font-oswald text-5xl md:text-7xl font-bold uppercase tracking-[-0.03em] leading-[0.9]">
-                HOW TO USE<br />
-                CLEF.
-              </h1>
-            </div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-6">
+            <SectionHeader
+              eyebrow="Getting Started"
+              eyebrowColor="#00E5FF"
+              title="HOW TO USE CLEF."
+              accentLast
+              accentStyle="gradient-cyber"
+              size="xl"
+              mixWeights
+            />
             <p className="font-inter text-sm text-black/60 max-w-sm leading-relaxed md:text-right">
               Everything you need to know to get the most out of your daily workbench. No fluff, just the facts.
             </p>
@@ -168,7 +176,7 @@ export default function HowToUse() {
         </div>
 
         {/* Steps */}
-        <div className="px-6 md:px-12 lg:px-16 mb-24">
+        <div ref={stepsRef} className="px-6 md:px-12 lg:px-16 mb-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border-[3px] border-black">
             {steps.map((step, i) => (
               <div
@@ -219,13 +227,13 @@ export default function HowToUse() {
               EVERYTHING CLEF CAN DO.
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-[3px] border-black">
+          <div ref={featRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-[3px] border-black">
             {features.map((f, i) => {
               const Icon = f.icon;
               return (
                 <div
                   key={i}
-                  className="p-8 border-b-[3px] border-r-[3px] border-black last:border-r-0 group hover:bg-[#fafafa] transition-colors"
+                  className="feat-card p-8 border-b-[3px] border-r-[3px] border-black last:border-r-0 group hover:bg-[#fafafa] transition-colors hover-lift"
                 >
                   <div
                     className="w-10 h-10 border-[3px] border-black flex items-center justify-center mb-5"
@@ -242,7 +250,7 @@ export default function HowToUse() {
         </div>
 
         {/* Keyboard shortcuts */}
-        <div className="px-6 md:px-12 lg:px-16 mb-24">
+        <div ref={kbRef} className="px-6 md:px-12 lg:px-16 mb-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border-[3px] border-black">
             <div className="p-10 border-r-[3px] border-black bg-[#1a1a1a] text-white">
               <Keyboard size={32} className="mb-6" style={{ color: "#F9FF00" }} />
@@ -294,7 +302,7 @@ export default function HowToUse() {
         </div>
 
         {/* FAQ */}
-        <div className="px-6 md:px-12 lg:px-16 mb-24">
+        <div ref={faqRef} className="px-6 md:px-12 lg:px-16 mb-24">
           <div className="mb-10">
             <span className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#00FF87] block mb-2">
               FAQ

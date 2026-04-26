@@ -8,7 +8,7 @@ export default function Github() {
     <div className="min-h-screen bg-white flex flex-col">
       <Navigation />
       
-      <main className="flex-1 pt-32 pb-20 px-6 md:px-12 max-w-3xl mx-auto w-full animate-fade-in">
+      <main className="flex-1 page-top pb-20 px-6 md:px-12 max-w-3xl mx-auto w-full animate-fade-in">
         <BackButton />
         
         <div className="border-[4px] border-black p-8 md:p-12 shadow-[12px_12px_0px_rgba(0,0,0,1)] bg-white relative">

@@ -1,6 +1,8 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BackButton } from "@/components/BackButton";
+import { SectionHeader } from "@/components/SectionHeader";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Link } from "react-router";
 import { ArrowUpRight, Zap, Shield, Wrench, Plus, Bug, Sparkles } from "lucide-react";
 
@@ -32,15 +34,18 @@ const typeConfig: Record<ChangeType, { label: string; color: string; icon: React
 const releases: Release[] = [
   {
     version: "v1.5.0",
-    date: "April 26, 2026",
+    date: "April 2026",
     label: "LATEST",
     labelColor: "#00FF87",
     labelText: "text-black",
-    summary: "GSAP kinetic typography, Lenis smooth scroll, gradient shadow system, hide-on-scroll GitHub ribbon, page load bar, and 10 new tools.",
+    summary: "GSAP kinetic typography, Lenis smooth scroll, gradient shadow system, hide-on-scroll GitHub ribbon, page load bar, 10 new tools, page transition animations, SectionHeader component, and scroll reveals site-wide.",
     changes: [
       { type: "new",      text: "GSAP-powered kinetic typography entrance animation on Hero section" },
+      { type: "new",      text: "SectionHeader component — kinetic word-by-word scroll-triggered reveal for all section headings site-wide" },
+      { type: "new",      text: "PageTransition component — colored curtain sweep in/out on every route change (enter + exit)" },
       { type: "new",      text: "Lenis smooth scroll — butter-smooth 144fps-feeling scroll across all pages" },
       { type: "new",      text: "Page load bar — gradient loading indicator on every route change" },
+      { type: "new",      text: "useScrollReveal hook — reusable GSAP ScrollTrigger for all sections" },
       { type: "new",      text: "CSS Minifier / Beautifier tool with size savings indicator" },
       { type: "new",      text: "Diff Checker — side-by-side text comparison with LCS algorithm" },
       { type: "new",      text: "Timestamp Converter with live Unix clock and 7 output formats" },
@@ -50,21 +55,22 @@ const releases: Release[] = [
       { type: "new",      text: "Aspect Ratio Calculator with visual preview and scale calculator" },
       { type: "new",      text: "JWT Decoder — header/payload/signature with expiry status" },
       { type: "new",      text: "Cron Builder — visual 5-field editor with human-readable output" },
-      { type: "new",      text: "useScrollReveal hook — reusable GSAP ScrollTrigger for all sections" },
       { type: "improved", text: "GitHub ribbon now hides on scroll-down and reappears on scroll-up" },
       { type: "improved", text: "Nav slides with ribbon — no layout jump when ribbon hides" },
-      { type: "improved", text: "Gradient shadow system — Apple-style soft shadows on cards and buttons" },
-      { type: "improved", text: "Typography system — display, thin, italic, outline, gradient text utilities" },
+      { type: "improved", text: "Gradient shadow system — Apple-style soft shadows on cards and buttons site-wide" },
+      { type: "improved", text: "Typography system — display, thin, italic, outline, gradient text utilities applied everywhere" },
+      { type: "improved", text: "Mixed-weight kinetic typography on About, Pricing, HowToUse, Changelog, ToolsGrid, OurPromise, Roster" },
       { type: "improved", text: "Input focus ring — yellow glow on focus instead of plain outline" },
       { type: "improved", text: "Button hover — lift + shadow deepens on hover, compresses on click" },
       { type: "improved", text: "Hero stats updated to reflect 28 tools" },
-      { type: "improved", text: "Bottom banner updated to '28 FREE TOOLS'" },
-      { type: "fixed",    text: "Changelog dates corrected — all releases now show April 2026 accurately" },
+      { type: "improved", text: "Scroll reveal animations on all sections (not just Hero)" },
+      { type: "improved", text: "Exit/close animations added — page transitions animate out before navigating" },
+      { type: "fixed",    text: "Changelog dates corrected — all releases show Month Year only (no day)" },
     ],
   },
   {
     version: "v1.4.0",
-    date: "April 24, 2026",
+    date: "April 2026",
     label: "STABLE",
     labelColor: "#F9FF00",
     labelText: "text-black",
@@ -90,7 +96,7 @@ const releases: Release[] = [
   },
   {
     version: "v1.3.0",
-    date: "April 20, 2026",
+    date: "April 2026",
     label: "STABLE",
     labelColor: "#F9FF00",
     labelText: "text-black",
@@ -109,7 +115,7 @@ const releases: Release[] = [
   },
   {
     version: "v1.2.0",
-    date: "April 15, 2026",
+    date: "April 2026",
     label: "STABLE",
     labelColor: "#F9FF00",
     labelText: "text-black",
@@ -127,7 +133,7 @@ const releases: Release[] = [
   },
   {
     version: "v1.1.0",
-    date: "April 10, 2026",
+    date: "April 2026",
     label: "STABLE",
     labelColor: "#F9FF00",
     labelText: "text-black",
@@ -148,7 +154,7 @@ const releases: Release[] = [
   },
   {
     version: "v1.0.0",
-    date: "April 1, 2026",
+    date: "April 2026",
     label: "LAUNCH",
     labelColor: "#FF0004",
     labelText: "text-white",
@@ -176,23 +182,27 @@ const releases: Release[] = [
 ];
 
 export default function Changelog() {
+  const heroRef    = useScrollReveal<HTMLDivElement>({ y: 40, duration: 0.7 });
+  const legendRef  = useScrollReveal<HTMLDivElement>({ y: 20, duration: 0.5, delay: 0.1 });
+  const releasesRef = useScrollReveal<HTMLDivElement>({ y: 30, duration: 0.6, delay: 0.15 });
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      <div className="pt-24 pb-20">
+      <div className="page-top pb-20">
         {/* Header */}
-        <div className="px-6 md:px-12 lg:px-16 mb-16">
+        <div ref={heroRef} className="px-6 md:px-12 lg:px-16 mb-16">
           <BackButton />
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-4">
-            <div>
-              <span className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#7C3AED] block mb-4">
-                Version History
-              </span>
-              <h1 className="font-oswald text-5xl md:text-7xl font-bold uppercase tracking-[-0.03em] leading-[0.9]">
-                CHANGELOG.
-              </h1>
-            </div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-6">
+            <SectionHeader
+              eyebrow="Version History"
+              eyebrowColor="#7C3AED"
+              title="CHANGELOG."
+              accentLast
+              accentStyle="gradient-purple"
+              size="xl"
+            />
             <p className="font-inter text-sm text-black/60 max-w-sm leading-relaxed md:text-right">
               Every update, fix, and new feature — documented in full. No marketing speak, just what changed.
             </p>
@@ -200,7 +210,7 @@ export default function Changelog() {
         </div>
 
         {/* Legend */}
-        <div className="px-6 md:px-12 lg:px-16 mb-12">
+        <div ref={legendRef} className="px-6 md:px-12 lg:px-16 mb-12">
           <div className="flex flex-wrap gap-0 border-[3px] border-black w-fit">
             {Object.entries(typeConfig).map(([key, cfg]) => {
               const Icon = cfg.icon;
@@ -217,7 +227,7 @@ export default function Changelog() {
         </div>
 
         {/* Releases */}
-        <div className="px-6 md:px-12 lg:px-16">
+        <div ref={releasesRef} className="px-6 md:px-12 lg:px-16">
           <div className="space-y-0 border-[3px] border-black">
             {releases.map((release, ri) => (
               <div key={ri} className="border-b-[3px] border-black last:border-b-0">

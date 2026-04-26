@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
+import { SectionHeader } from "@/components/SectionHeader";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export function RosterSection() {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
+  const headerRef = useScrollReveal<HTMLDivElement>({ y: 30, duration: 0.6 });
+  const tableRef  = useScrollReveal<HTMLDivElement>({ y: 40, duration: 0.7, delay: 0.1 });
 
   const statusBg = (color: string) => {
     if (color === "yellow") return "bg-[#F9FF00] text-black";
@@ -71,23 +75,23 @@ export function RosterSection() {
 
   return (
     <section id="roster" className="py-16 md:py-24 border-b-[3px] border-black">
-      <div className="px-6 md:px-12 lg:px-16 mb-12">
+      <div ref={headerRef} className="px-6 md:px-12 lg:px-16 mb-12">
         <div className="flex items-end justify-between">
-          <div>
-            <span className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#FF0004] block mb-2">
-              HOW WE STACK UP
-            </span>
-            <h2 className="font-oswald text-4xl md:text-6xl font-bold uppercase tracking-[-0.03em]">
-              THE CLEF ROSTER.
-            </h2>
-          </div>
-          <span className="hidden md:block font-oswald text-sm uppercase tracking-widest">
+          <SectionHeader
+            eyebrow="HOW WE STACK UP"
+            eyebrowColor="#FF0004"
+            title="THE CLEF ROSTER."
+            accentLast
+            accentStyle="gradient-fire"
+            size="lg"
+          />
+          <span className="hidden md:block font-oswald text-sm uppercase tracking-widest text-black/40">
             {comparison.length} CORE ATTRIBUTES
           </span>
         </div>
       </div>
 
-      <div className="px-6 md:px-12 lg:px-16 overflow-x-auto md:overflow-visible">
+      <div ref={tableRef} className="px-6 md:px-12 lg:px-16 overflow-x-auto md:overflow-visible">
         {/* Mobile View - Cards */}
         <div className="md:hidden space-y-6">
           {comparison.map((item, i) => (
@@ -187,13 +191,13 @@ export function RosterSection() {
       </div>
 
       <div className="px-6 md:px-12 lg:px-16 mt-12">
-        <div className="p-8 border-[3px] border-black bg-white flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="p-8 border-[3px] border-black bg-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-apple hover-lift">
           <p className="font-inter text-xs font-bold uppercase tracking-wider text-black/60 max-w-lg">
             Unlike other platforms that sell your data or gatekeep simple tools
             behind paywalls, Clef is a personal manifest for productivity.
             Built to be fast, free, and completely yours.
           </p>
-          <div className="font-oswald text-4xl font-bold uppercase tracking-tighter text-[#FF0004]">
+          <div className="font-oswald text-4xl font-bold uppercase tracking-tighter text-gradient-fire">
             FREE FOREVER.
           </div>
         </div>

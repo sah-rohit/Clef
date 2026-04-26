@@ -97,7 +97,9 @@ export function HeroSection() {
       className="relative min-h-screen flex flex-col md:flex-row bg-white overflow-hidden"
     >
       {/* Left Column */}
-      <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 pt-36 pb-20 md:pt-44 md:pb-24 bg-white relative">
+      <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 pb-20 bg-white relative"
+        style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h) + 2rem)" }}
+      >
         {/* Subtle background grid */}
         <div
           className="absolute inset-0 opacity-[0.025] pointer-events-none"

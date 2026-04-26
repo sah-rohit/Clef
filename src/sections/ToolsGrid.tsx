@@ -2,11 +2,15 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { TOOLS, CATEGORIES, type ToolCategory } from "@/data/tools";
 import { ArrowUpRight, Search } from "lucide-react";
+import { SectionHeader } from "@/components/SectionHeader";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export function ToolsGrid() {
   const [filter, setFilter] = useState<ToolCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const headerRef = useScrollReveal<HTMLDivElement>({ y: 30, duration: 0.6 });
+  const gridRef   = useScrollReveal<HTMLDivElement>({ y: 40, duration: 0.7, delay: 0.1 });
 
   const filteredTools = TOOLS.filter((tool) => {
     const matchesFilter = filter === "all" || tool.category === filter;
@@ -18,16 +22,16 @@ export function ToolsGrid() {
 
   return (
     <section id="tools" className="py-16 md:py-24 scroll-mt-20">
-      <div className="px-6 md:px-12 lg:px-16 mb-12">
+      <div ref={headerRef} className="px-6 md:px-12 lg:px-16 mb-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div>
-            <span className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#FF0004] block mb-2">
-              Clef Workbench
-            </span>
-            <h2 className="font-oswald text-4xl md:text-6xl font-bold uppercase tracking-[-0.03em]">
-              MY DAILY TOOLS.
-            </h2>
-          </div>
+          <SectionHeader
+            eyebrow="Clef Workbench"
+            eyebrowColor="#FF0004"
+            title="MY DAILY TOOLS."
+            accentLast
+            accentStyle="gradient-fire"
+            size="lg"
+          />
           <div className="flex flex-col gap-4">
             <div className="relative">
               <Search
@@ -63,7 +67,7 @@ export function ToolsGrid() {
         </div>
       </div>
 
-      <div className="px-6 md:px-12 lg:px-16">
+      <div ref={gridRef} className="px-6 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-[3px] border-black">
           {filteredTools.map((tool, i) => {
             const Icon = tool.icon;

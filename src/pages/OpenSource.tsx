@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 export default function OpenSource() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="pt-32 pb-20 px-6">
+      <div className="page-top pb-20 px-6">
         <div className="max-w-[1000px] mx-auto">
           <BackButton />
           

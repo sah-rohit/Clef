@@ -111,7 +111,7 @@ export default function ToolsGuide() {
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      <div className="pt-24 pb-20">
+      <div className="page-top pb-20">
         {/* Header */}
         <div className="px-6 md:px-12 lg:px-16 mb-16">
           <BackButton />

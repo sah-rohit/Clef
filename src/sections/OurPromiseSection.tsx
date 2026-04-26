@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { SectionHeader } from "@/components/SectionHeader";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const features = [
   {
@@ -58,6 +60,7 @@ const features = [
 export function OurPromiseSection() {
   const [activeStep, setActiveStep] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const leftColRef = useScrollReveal<HTMLDivElement>({ x: -30, y: 0, duration: 0.7 });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -85,17 +88,18 @@ export function OurPromiseSection() {
     >
       <div className="grid grid-cols-1 md:grid-cols-12">
         {/* Sticky Left Column */}
-        <div className="md:col-span-4 lg:col-span-3 border-r-[3px] border-black md:sticky md:top-0 md:h-screen flex flex-col justify-center px-6 md:px-10 py-12 md:py-0 bg-white">
-          <span className="font-oswald text-xs font-bold uppercase tracking-[0.2em] text-[#FF0004] block mb-4">
-            Why Clef
-          </span>
-          <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase tracking-[-0.03em] leading-[0.95] mb-6">
-            OUR
-            <br />
-            PROMISE
-          </h2>
+        <div ref={leftColRef} className="md:col-span-4 lg:col-span-3 border-r-[3px] border-black md:sticky md:top-0 md:h-screen flex flex-col justify-center px-6 md:px-10 py-12 md:py-0 bg-white">
+          <SectionHeader
+            eyebrow="Why Clef"
+            eyebrowColor="#FF0004"
+            title="OUR PROMISE"
+            accentLast
+            accentStyle="gradient-fire"
+            size="sm"
+            className="mb-6"
+          />
           <p className="font-inter text-sm leading-relaxed text-[#1a1a1a]/70 mb-8">
-            Three core principles that drive everything we build.
+            Four core principles that drive everything we build.
             No compromises, no exceptions.
           </p>
           <div className="flex gap-2">

@@ -74,7 +74,7 @@ export default function Login() {
     <div className="min-h-screen bg-white flex flex-col">
       <Navigation />
       
-      <div className="flex-1 pt-24 pb-20 flex items-center justify-center px-6">
+      <div className="flex-1 page-top pb-20 flex items-center justify-center px-6">
         <div className="w-full max-w-[400px]">
           <div className="border-[4px] border-black shadow-[12px_12px_0px_rgba(0,0,0,1)] bg-white overflow-hidden">
             <div className="bg-[#1a1a1a] text-white p-6 border-b-[4px] border-black text-center">

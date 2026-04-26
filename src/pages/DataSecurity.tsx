@@ -8,7 +8,7 @@ export default function DataSecurity() {
     <div className="min-h-screen bg-white selection:bg-[#F9FF00] selection:text-black">
       <Navigation />
       
-      <main className="pt-32 pb-20 px-6">
+      <main className="page-top pb-20 px-6">
         <div className="max-w-4xl mx-auto">
           <BackButton />
           

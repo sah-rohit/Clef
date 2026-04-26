@@ -163,7 +163,7 @@ export default function AccountCenter() {
     <div className="min-h-screen bg-white selection:bg-[#F9FF00] selection:text-black flex flex-col">
       <Navigation />
       
-      <div className="pt-32 pb-20 px-6 md:px-12 lg:px-16 max-w-[1400px] mx-auto flex-1 w-full">
+      <div className="page-top pb-20 px-6 md:px-12 lg:px-16 max-w-[1400px] mx-auto flex-1 w-full">
         <BackButton />
         <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b-[4px] border-black pb-6">
           <div>

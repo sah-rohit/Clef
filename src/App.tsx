@@ -50,6 +50,8 @@ import { ClefAI } from "./components/ClefAI";
 import { WelcomePopup } from "./components/WelcomePopup";
 import PWAReloadPrompt from "./components/PWAReloadPrompt";
 import { PageLoader } from "./components/PageLoader";
+import { PageTransition } from "./components/PageTransition";
+import { FooterBar } from "./components/FooterBar";
 
 export default function App() {
   return (
@@ -57,7 +59,8 @@ export default function App() {
       <PageLoader />
       <CustomCursor />
       <ScrollToTop />
-      <Routes>
+      <PageTransition>
+        <Routes>
       <Route index element={<Home />} />
       <Route path="about" element={<About />} />
       <Route path="pricing" element={<Pricing />} />
@@ -108,8 +111,10 @@ export default function App() {
       {/* Fallback */}
       <Route path="*" element={<Home />} />
     </Routes>
+    </PageTransition>
     <WelcomePopup />
     <ClefAI />
+    <FooterBar />
     <PWAReloadPrompt />
     </div>
   );

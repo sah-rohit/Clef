@@ -8,7 +8,7 @@ export default function TermsAndConditions() {
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      <div className="pt-24 pb-20">
+      <div className="page-top pb-20">
         <div className="px-6 md:px-12 lg:px-16 max-w-4xl mx-auto">
           <div className="mb-12">
             <BackButton />
