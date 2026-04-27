@@ -32,9 +32,29 @@ const typeConfig: Record<ChangeType, { label: string; color: string; icon: React
 
 const releases: Release[] = [
   {
-    version: "v1.6.0",
+    version: "v1.7.0",
     date: "April 2026",
     label: "LATEST",
+    labelColor: "#F9FF00",
+    labelText: "text-black",
+    summary: "The 'Brutalist Kinetic' Overhaul. Standalone page architecture, Home Kinetic Portal, session-aware Welcome Popup, categorical Tools 2.0, and a hardened Clef AI foundation.",
+    changes: [
+      { type: "new",      text: "Page Architecture — Split 'Tools', 'Our Promise', 'Roster', and 'Inquiry' into distinct standalone pages for better navigation and deep-linking." },
+      { type: "new",      text: "Home Kinetic Portal — High-fidelity brutalist startup loader for the home page featuring typographic explosions and scanline effects." },
+      { type: "new",      text: "Welcome Popup — Redesigned session-aware modal with different aesthetics for new vs. returning users (Init vs. Back states)." },
+      { type: "improved", text: "Tools Page 2.0 — Categorical block design (Developer, Productivity, Utility) with color-coded sections, specific descriptions, and magnetic layout." },
+      { type: "improved", text: "Clef AI Stability — Streamlined input area by removing problematic formatting buttons; added support for HTML/Markdown/LaTeX rendering in user bubbles." },
+      { type: "improved", text: "Visual Hardening — Site-wide watermark system, custom startup loaders for every page, and layout failsafes to prevent 'blank screen' transition locks." },
+      { type: "improved", text: "Mobile Optimization — Hardened touch-to-focus on mobile AI, optimized z-indexes, and responsive scaling for all tool preview popups." },
+      { type: "improved", text: "Color Sync — Standardized dynamic colors across all pages (e.g., Yellow theme for Terms, Cyan for Privacy, Red for Pricing)." },
+      { type: "fixed",    text: "Tools Guide Rebuild — Re-written from scratch for 100% stability, replacing heavy GSAP logic with resilient React state." },
+      { type: "fixed",    text: "Layout Gaps — Resolved the 'white area below footer' issue by enforcing a flex-box shell and min-height constraints." },
+    ],
+  },
+  {
+    version: "v1.6.0",
+    date: "April 2026",
+    label: "STABLE",
     labelColor: "#00E5FF",
     labelText: "text-black",
     summary: "Vibrant color system site-wide, tool preview popup, redesigned Back button, legal/connect page overhauls, GitHub/Login/AccountCenter redesigns, improved toast & confirm dialogs, ToolsGuide fix.",
@@ -242,7 +262,7 @@ export default function Changelog() {
               </p>
             </div>
           </div>
-          <div className="absolute -bottom-4 -right-4 font-oswald text-[180px] font-bold text-white/[0.04] leading-none select-none pointer-events-none uppercase">v1.5</div>
+          <div className="absolute -bottom-4 -right-4 font-oswald text-[180px] font-bold text-white/[0.04] leading-none select-none pointer-events-none uppercase">v1.7</div>
         </div>
 
         {/* Legend */}

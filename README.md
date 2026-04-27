@@ -1,73 +1,59 @@
 # 🎹 CLEF
-> **By Sonata Interactive**
+> **The Brutalist Productivity Suite**
 
 ![Clef Dashboard](./screenshots/Screenshot%202026-04-26%20073638.png)
 
 ### [🚀 LIVE DEMO: GETCLEF.NETLIFY.APP](https://getclef.netlify.app/)
 
-**CLEF** is a high-fidelity, brutalist workbench designed for creators, developers, and power users who value speed and efficiency. It consolidates fragmented web utilities into a single, lightning-fast "Daily Workbench."
+**CLEF** is a high-fidelity, brutalist workbench designed for creators, developers, and power users who value speed and aesthetic intensity. It consolidates fragmented web utilities into a single, lightning-fast "Daily Workbench."
 
 ---
 
-## 🎯 THE MISSION
+## 🏗️ THE ARCHITECTURE
 
-### WHAT IS CLEF?
-Clef is a unified productivity hub that provides professional-grade tools for text manipulation, code execution, data formatting, and AI assistance. Everything is designed to be accessible within two clicks.
+Clef has evolved into a multi-page standalone suite, designed for maximum focus and deep-linking efficiency.
 
-### WHO IS IT FOR?
-- **Developers**: Who need a quick, distraction-free environment to format JSON, test CSS snippets, or generate UUIDs.
-- **Writers**: Who want a minimalist "Text Forge" for drafting without the clutter of traditional word processors.
-- **Power Users**: Who want an AI assistant that respects speed and provides clean, logical responses.
+### 🧰 TOOLS 2.0
+Our tools are now categorized into dedicated blocks:
+- **DEVELOPER**: JSON Formatter, Regex Tester, UUID Generator, Code IDE, etc.
+- **PRODUCTIVITY**: Markdown Editor, Text Forge, Word Counter, Pomodoro.
+- **UTILITY**: Unit Converter, QR Generator, Color Suite, Hash Engine.
+
+### 💎 THE VALUES
+- **OUR PROMISE**: A transparency-first Manifesto on privacy, speed, and open source.
+- **ROSTER**: A real-time display of the suite's status and the team behind the logic.
+- **INQUIRY**: A community-driven board where users suggest features and report bugs.
 
 ---
 
-## 🔒 PRIVACY & SECURITY
+## 🎨 DESIGN PHILOSOPHY: KINETIC BRUTALISM
 
-Clef is built with a **Privacy-First** mindset. 
+Clef is defined by its "Kinetic Brutalist" aesthetic — a blend of raw, heavy-border UI and fluid GSAP-powered motion.
 
-### TWO MODES, TWO TRUST LEVELS
-
-**Guest Mode (default)** — runs entirely in your browser. No accounts, no tracking, no data leaves your device. All tool state and AI chat history are stored in `localStorage` only.
-
-**Logged-In Mode** — unlocks cross-device sync via [Convex](https://www.convex.dev/). Your profile and chat history are stored in the cloud with AES-256 encryption. You opt into this explicitly by signing in.
-
-### 🔒 PROTOCOLS
-- **No Cookies/Analytics**: We use zero third-party tracking or invasive analytics.
-- **Local Storage Sovereignty**: Guest data is stored entirely on your device.
-- **Secure Cloud Sync**: Logged-in users benefit from AES-256 encrypted storage via Convex for their profiles and chat history.
-- **Clean Backend**: All AI requests are handled through our secure serverless worker, ensuring your interaction data remains ephemeral and safe.
+- **Kinetic Portal**: A high-impact startup animation that initializes the home experience.
+- **Vibrant Identity**: A multi-color theme system (Cyan, Yellow, Green, Purple, Red) that synchronizes across components.
+- **Typography First**: Heavy use of **Oswald** for impact and **Inter** for readability.
+- **Watermark System**: Integrated background typographic watermarks that define each section.
 
 ---
 
 ## 🤖 CLEF AI: THE LOGIC ENGINE
-![Clef AI Integration](./screenshots/Screenshot%202026-04-26%20073746.png)
 
-Clef features an integrated AI assistant powered by the **Llama 3.1** model. It is optimized for logical tasks, code debugging, and text synthesis.
+Clef features an integrated AI assistant powered by **Llama 3.1**. It is built for raw logic, code debugging, and high-density text synthesis.
 
-### 🌟 SMART FEATURES
-- **Saved History**: Access previous conversations via the **Local Chat Archive** (History button) or cloud sync.
-- **Compact UI**: Optimized, minimalist interface that puts logic first.
-- **One-Click Retry**: Instantly regenerate responses with the "Retry" button.
-
----
-
-## 🧰 THE TOOLSET
-
-### ✍️ TEXT FORGE
-![Text Forge](./screenshots/Screenshot%202026-04-26%20073701.png)
-A distraction-free writing environment with real-time word/character counting and instant local downloads.
-
-### 💻 CODE WORKBENCH
-![Code Workbench](./screenshots/Screenshot%202026-04-26%20073728.png)
-Run and format JavaScript, HTML, CSS, JSON, and SQL directly in the browser. Perfect for testing logic before implementation.
+### 🌟 FEATURES
+- **Inside-Out Overhaul**: A hardened chat foundation with full support for Markdown, LaTeX, and rehype-raw formatting.
+- **Session Aware**: Redesigned Welcome Popups that recognize new vs. returning users.
+- **Secure Sync**: Cross-device history sync via [Convex](https://www.convex.dev/) for signed-in users.
+- **Ephemeral Logic**: Guest data stays on-device; Cloud data is AES-256 encrypted.
 
 ---
 
 ## 🏗️ TECH STACK
-- **FRONTEND**: [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **FRONTEND**: [React 19](https://react.dev/) + [Vite](https://vitejs.dev/) + [GSAP](https://gsap.com/)
 - **BACKEND**: [Convex](https://www.convex.dev/) (Serverless Real-time Database)
+- **MOTION**: [GSAP](https://gsap.com/) + [Lenis](https://lenis.darkroom.engineering/) (Smooth Scroll)
 - **AUTH**: [Convex Auth](https://labs.convex.dev/auth)
-- **PWA**: [vite-plugin-pwa](https://vite-pwa-org.netlify.app/)
 - **AI**: Llama 3.1 via Groq
 
 ---
