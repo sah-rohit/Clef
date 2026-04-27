@@ -112,7 +112,7 @@ export default function Pricing() {
                     className="group bg-[#1a1a1a] text-white border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm flex items-center gap-3 px-10 py-4 hover:bg-[#F9FF00] hover:text-black transition-all duration-200 shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5">
                     START FOR FREE <Star size={16} className="text-[#F9FF00] group-hover:text-black transition-colors" />
                   </Link>
-                  <Link to="/features"
+                  <Link to="/tools"
                     className="group border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm flex items-center gap-3 px-10 py-4 hover:bg-[#1a1a1a] hover:text-white transition-all duration-200">
                     BROWSE TOOLS <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </Link>

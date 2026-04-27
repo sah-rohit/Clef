@@ -74,7 +74,7 @@ export default function Contact() {
                 <p className="font-inter text-sm text-white/50 leading-relaxed">Post feedback, share experiences, or ask questions publicly.</p>
               </div>
             </div>
-            <a href="/features#inquiry"
+            <a href="/inquiry"
               className="group bg-[#7C3AED] border-[3px] border-[#7C3AED] text-white font-oswald font-bold uppercase tracking-widest text-sm flex items-center gap-3 px-7 py-3 hover:bg-white hover:text-black hover:border-white transition-all duration-200 whitespace-nowrap">
               OPEN BOARD <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>

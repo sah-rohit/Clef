@@ -147,11 +147,10 @@ export function FooterBar() {
             </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
               {[
-                { label: "Features",    path: "/features" },
-                { label: "Tools",       path: "/features#tools" },
-                { label: "Our Promise", path: "/features#promise" },
-                { label: "Roster",      path: "/features#roster" },
-                { label: "Pricing",     path: "/pricing" },
+                { label: "Tools",       path: "/tools" },
+                { label: "Our Promise", path: "/promise" },
+                { label: "Roster",      path: "/roster" },
+                { label: "Inquiry",     path: "/inquiry" },
                 { label: "How To Use",  path: "/how-to-use" },
                 { label: "Changelog",   path: "/changelog" },
                 { label: "About",       path: "/about" },

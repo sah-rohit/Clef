@@ -43,12 +43,13 @@ export function Navigation() {
   }, [location.pathname]);
 
   const navItems = [
-    { label: "FEATURES",    path: "/features",         color: "#00E5FF" },
-    { label: "TOOLS",       path: "/features#tools",   color: "#F9FF00" },
-    { label: "OUR PROMISE", path: "/features#promise", color: "#00FF87" },
-    { label: "HOW TO USE",  path: "/how-to-use",       color: "#7C3AED" },
+    { label: "HOME",        path: "/",                 color: "#FF0004" },
+    { label: "TOOLS",       path: "/tools",            color: "#F9FF00" },
+    { label: "OUR PROMISE", path: "/promise",          color: "#00FF87" },
+    { label: "ROSTER",      path: "/roster",           color: "#00E5FF" },
+    { label: "INQUIRY",     path: "/inquiry",          color: "#7C3AED" },
     { label: "PRICING",     path: "/pricing",          color: "#FF0004" },
-    { label: "ABOUT",       path: "/about",            color: "#00E5FF" },
+    { label: "ABOUT",       path: "/about",            color: "#7C3AED" },
   ];
 
   const ClefLogo = () => (

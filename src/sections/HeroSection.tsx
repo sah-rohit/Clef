@@ -246,7 +246,7 @@ export function HeroSection() {
 
   const [activeSlide, setActiveSlide] = useState(0);
 
-  const scrollToTools = () => navigate("/features#tools");
+  const scrollToTools = () => navigate("/tools");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -672,7 +672,7 @@ export function HeroSection() {
             ))}
           </div>
           <div className="mt-8 flex justify-center">
-            <Link to="/features"
+            <Link to="/tools"
               className="group inline-flex items-center gap-3 border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm px-8 py-4 hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5">
               SEE FULL GUIDE <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
@@ -734,7 +734,7 @@ export function HeroSection() {
               <p className="font-inter text-sm text-black/65 leading-relaxed max-w-sm mb-8">
                 From JSON formatting to QR codes, from regex testing to color palettes — every tool is purpose-built, distraction-free, and permanently free.
               </p>
-              <Link to="/features"
+              <Link to="/tools"
                 className="group inline-flex items-center gap-3 bg-black text-[#00E5FF] border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm px-7 py-3 hover:bg-white hover:text-black transition-all duration-200 shadow-[4px_4px_0px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 w-fit">
                 BROWSE ALL TOOLS <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -778,7 +778,7 @@ export function HeroSection() {
                 EVERY TOOL.<br /><span className="text-gradient-cyber">RIGHT HERE.</span>
               </h2>
             </div>
-            <Link to="/features"
+            <Link to="/tools"
               className="inline-flex items-center gap-2 bg-[#F9FF00] border-[3px] border-[#F9FF00] px-6 py-3 font-oswald text-[10px] font-bold uppercase tracking-widest text-black hover:bg-white transition-all duration-200 w-fit shadow-[4px_4px_0px_rgba(249,255,0,0.3)]">
               OPEN WORKBENCH <ArrowUpRight size={12} />
             </Link>
@@ -1313,7 +1313,7 @@ function FinalSection() {
           No signups, no credit cards, no barriers. 28 tools ready to go — just click and start.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <Link to="/features" className="group bg-[#F9FF00] border-[4px] border-[#F9FF00] font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-white hover:border-white transition-all duration-200 shadow-[0_0_40px_rgba(249,255,0,0.3)] hover:shadow-[0_0_60px_rgba(249,255,0,0.5)] hover:-translate-y-1 flex items-center gap-3 text-black">
+          <Link to="/tools" className="group bg-[#F9FF00] border-[4px] border-[#F9FF00] font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-white hover:border-white transition-all duration-200 shadow-[0_0_40px_rgba(249,255,0,0.3)] hover:shadow-[0_0_60px_rgba(249,255,0,0.5)] hover:-translate-y-1 flex items-center gap-3 text-black">
             OPEN THE WORKBENCH
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </Link>

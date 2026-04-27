@@ -284,7 +284,7 @@ export default function ToolsGuide() {
       {/* Bottom nav */}
       <div className="px-6 md:px-12 lg:px-16 py-0 border-t-[3px] border-black">
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <Link to="/features"
+          <Link to="/tools"
             className="p-10 border-b-[3px] md:border-b-0 md:border-r-[3px] border-black flex items-center justify-between group hover:bg-[#F9FF00] transition-colors">
             <div>
               <h3 className="font-oswald text-xl font-bold uppercase mb-1">BROWSE ALL TOOLS</h3>

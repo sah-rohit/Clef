@@ -259,7 +259,7 @@ export default function HowToUse() {
               </p>
             </div>
             <div className="flex flex-col gap-3">
-              <Link to="/features"
+              <Link to="/tools"
                 className="group bg-[#F9FF00] border-[3px] border-[#F9FF00] text-black font-oswald font-bold uppercase tracking-widest text-sm flex items-center gap-3 px-8 py-4 hover:bg-white transition-all duration-200 shadow-[0_0_30px_rgba(249,255,0,0.3)] hover:-translate-y-0.5">
                 EXPLORE ALL TOOLS <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>

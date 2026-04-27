@@ -15,7 +15,10 @@ import HowToUse from "./pages/HowToUse";
 import Changelog from "./pages/Changelog";
 import ToolsGuide from "./pages/ToolsGuide";
 
-import Features from "./pages/Features";
+import PromisePage from "./pages/Promise";
+import RosterPage from "./pages/Roster";
+import InquiryPage from "./pages/Inquiry";
+import ToolsPage from "./pages/Tools";
 
 // Tool Pages
 import TextFileMaker from "./pages/tools/TextFileMaker";
@@ -86,7 +89,9 @@ export default function App() {
       <PageTransition>
         <Routes>
       <Route index element={<Home />} />
-      <Route path="features" element={<Features />} />
+      <Route path="promise" element={<PromisePage />} />
+      <Route path="roster" element={<RosterPage />} />
+      <Route path="inquiry" element={<InquiryPage />} />
       <Route path="about" element={<About />} />
       <Route path="pricing" element={<Pricing />} />
       <Route path="privacy" element={<PrivacyPolicy />} />
@@ -104,6 +109,7 @@ export default function App() {
       
       {/* Tools Routes */}
       <Route path="tools">
+        <Route index element={<ToolsPage />} />
         <Route path="text-file-maker" element={<TextFileMaker />} />
         <Route path="code-editor" element={<CodeEditor />} />
         <Route path="markdown-editor" element={<MarkdownEditor />} />
