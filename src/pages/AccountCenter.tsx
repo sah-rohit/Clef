@@ -193,8 +193,8 @@ export default function AccountCenter() {
 
         {/* ── LEFT SIDEBAR ── */}
         <div
-          className="lg:w-72 xl:w-80 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col shrink-0 overflow-y-auto lg:sticky transition-colors duration-500 scrollbar-none"
-          style={{ background: sidebarColor.bg, top: "calc(var(--ribbon-h) + var(--nav-h))", height: "calc(100vh - var(--ribbon-h) - var(--nav-h))" }}>
+          className="lg:w-72 xl:w-80 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col shrink-0 overflow-y-auto lg:sticky transition-colors duration-500 scrollbar-none h-auto lg:h-[calc(100vh-var(--ribbon-h)-var(--nav-h))]"
+          style={{ background: sidebarColor.bg, top: "calc(var(--ribbon-h) + var(--nav-h))" }}>
 
           {/* Geometric background pattern — contrasting */}
           <div className="absolute inset-0 pointer-events-none"
@@ -208,6 +208,7 @@ export default function AccountCenter() {
                   style={{ width: size, height: size, top: -size/2, right: -size/2, borderColor: sidebarColor.pattern, animationDelay: `${i * 0.6}s`, animationDuration: "4s" }} />
               ))}
             </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-oswald text-[180px] font-bold text-black/[0.03] leading-none select-none pointer-events-none uppercase">USER</div>
           </div>
 
           {/* Profile card */}

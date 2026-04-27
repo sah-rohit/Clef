@@ -77,10 +77,19 @@ export function PageTransition({ children }: Props) {
     if (p === "/roster")         return "#00E5FF";
     if (p === "/inquiry")        return "#7C3AED";
     if (p === "/about")          return "#F9FF00";
-    if (p === "/pricing")        return "#FF0004"; // Red for pricing
+    if (p === "/pricing")        return "#FF0004";
     if (p === "/how-to-use")     return "#00E5FF";
     if (p === "/changelog")      return "#7C3AED";
     if (p === "/tools-guide")    return "#FF0004";
+    if (p === "/account")        return "#F9FF00";
+    if (p === "/login")          return "#7C3AED";
+    if (p === "/dashboard")      return "#00E5FF";
+    if (p === "/contact")        return "#7C3AED";
+    if (p === "/privacy")        return "#00E5FF";
+    if (p === "/terms")          return "#FF0004";
+    if (p === "/cookies")        return "#00FF87";
+    if (p === "/agreement")      return "#FF0004";
+    if (p === "/security")       return "#00E5FF";
     return "#1a1a1a";
   })();
 

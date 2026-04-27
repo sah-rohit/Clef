@@ -107,8 +107,10 @@ export default function Dashboard() {
         <div className="absolute -bottom-6 -right-6 font-oswald text-[200px] font-bold text-black/[0.03] leading-none select-none pointer-events-none uppercase">USER</div>
       </div>
 
+      <div className="px-6 md:px-12 lg:px-16 py-12 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-oswald text-[240px] font-bold text-black/[0.01] leading-none select-none pointer-events-none uppercase">STATS</div>
         {/* Stats Bar */}
-        <div className="px-6 md:px-12 lg:px-16 mb-8">
+        <div className="relative z-10 mb-8">
           <div className="grid grid-cols-3 border-[3px] border-black">
             <div className="border-r-[3px] border-black px-6 py-5">
               <div className="font-oswald text-3xl font-bold">{activeCount}</div>

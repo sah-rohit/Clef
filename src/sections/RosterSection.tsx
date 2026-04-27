@@ -77,12 +77,12 @@ export function RosterSection({ showBackButton = false }: { showBackButton?: boo
     <section id="roster" className="border-b-[3px] border-black">
       {/* Header — cyan bg */}
       <div className="bg-[#00E5FF] border-b-[3px] border-black relative overflow-hidden">
-        {showBackButton && (
-          <div className="absolute top-28 left-6 md:top-36 md:left-10 z-20">
-            <BackButton />
-          </div>
-        )}
         <div ref={headerRef} className="px-6 md:px-12 lg:px-16 pt-28 pb-24 md:pt-36 md:pb-32 relative z-10">
+          {showBackButton && (
+            <div className="mb-10">
+              <BackButton />
+            </div>
+          )}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">HOW WE STACK UP</span>
@@ -95,6 +95,7 @@ export function RosterSection({ showBackButton = false }: { showBackButton?: boo
             </div>
           </div>
         </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-oswald text-[240px] font-bold text-black/[0.02] leading-none select-none pointer-events-none uppercase">CLEF</div>
         <div className="absolute -bottom-6 -right-6 font-oswald text-[200px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">ROSTER</div>
       </div>
 

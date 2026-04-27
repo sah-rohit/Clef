@@ -100,13 +100,13 @@ export function OurPromiseSection({ showBackButton = false }: { showBackButton?:
           className="md:col-span-4 lg:col-span-3 border-r-[3px] border-black md:sticky md:top-0 md:h-screen flex flex-col justify-center px-6 md:px-10 py-12 md:py-0 transition-colors duration-500 z-10"
           style={{ backgroundColor: activeColor }}
         >
-          {showBackButton && (
-            <div className="absolute top-28 left-6 md:top-36 md:left-10">
-              <BackButton />
-            </div>
-          )}
-          
-          <div className="relative z-10">
+          <div className="relative z-10 pt-28 md:pt-0">
+            {showBackButton && (
+              <div className="mb-10">
+                <BackButton />
+              </div>
+            )}
+            
             <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">WHY CLEF</span>
             <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black mb-6">
               OUR<br /><span className="text-outline-black">PROMISE.</span>
@@ -135,7 +135,10 @@ export function OurPromiseSection({ showBackButton = false }: { showBackButton?:
         </div>
 
         {/* Right Column - Features */}
-        <div className="md:col-span-8 lg:col-span-9">
+        <div className="md:col-span-8 lg:col-span-9 relative">
+          {/* Section Watermark */}
+          <div className="absolute top-20 right-10 font-oswald text-[180px] font-bold text-black/[0.02] leading-none select-none pointer-events-none uppercase">VALUES</div>
+          
           {features.map((feature, i) => {
             const sectionBg =
               feature.color === "yellow" ? "#F9FF00"
@@ -148,10 +151,12 @@ export function OurPromiseSection({ showBackButton = false }: { showBackButton?:
               <div
                 key={i}
                 data-step={i}
-                className="border-b-[3px] border-black px-6 md:px-12 py-16 md:py-20 min-h-[60vh] flex flex-col justify-center transition-colors duration-500"
+                className="border-b-[3px] border-black px-6 md:px-12 py-16 md:py-20 min-h-[60vh] flex flex-col justify-center transition-colors duration-500 relative overflow-hidden"
                 style={{ background: i % 2 === 0 ? "white" : "#fafafa" }}
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                <div className="absolute -bottom-4 -left-4 font-oswald text-[100px] font-bold text-black/[0.03] leading-none select-none pointer-events-none uppercase">{feature.status}</div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 relative z-10">
                   <div>
                     <div className="flex items-center gap-4 mb-6">
                       <span className="font-oswald text-7xl md:text-9xl font-bold text-black/[0.06] leading-none select-none">
@@ -178,12 +183,19 @@ export function OurPromiseSection({ showBackButton = false }: { showBackButton?:
                       {feature.details.map((detail, j) => (
                         <div
                           key={j}
-                          className="flex items-center gap-4 px-4 py-3.5 border-b-[3px] border-black last:border-b-0 group hover:text-black transition-colors"
+                          className="flex items-center gap-4 px-4 py-3.5 border-b-[3px] border-black last:border-b-0 group transition-colors"
                           style={{ ["--hover-bg" as string]: sectionBg }}
-                          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = sectionBg; }}
-                          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = ""; }}
+                          onMouseEnter={(e) => { 
+                            (e.currentTarget as HTMLElement).style.background = sectionBg;
+                            (e.currentTarget as HTMLElement).style.color = isLight ? "black" : "white";
+                          }}
+                          onMouseLeave={(e) => { 
+                            (e.currentTarget as HTMLElement).style.background = "";
+                            (e.currentTarget as HTMLElement).style.color = "";
+                          }}
                         >
-                          <span className="font-oswald text-xs font-bold" style={{ color: sectionBg === "#F9FF00" ? "#1a1a1a" : sectionBg }}>
+                          <span className={`font-oswald text-xs font-bold transition-colors ${isLight ? "text-black" : ""}`} 
+                            style={{ color: !isLight ? sectionBg : undefined }}>
                             {feature.num}.{j + 1}
                           </span>
                           <span className="font-inter text-sm font-medium uppercase tracking-wide">

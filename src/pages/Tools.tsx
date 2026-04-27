@@ -57,11 +57,11 @@ export default function ToolsPage() {
                 "#00FF87" 
               }}
             >
-              <div className="absolute top-28 left-6 md:top-36 md:left-10">
-                <BackButton />
-              </div>
-
-              <div className="relative z-10">
+              <div className="relative z-10 pt-28 md:pt-0">
+                <div className="mb-10">
+                  <BackButton />
+                </div>
+                
                 <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">THE ARSENAL</span>
                 <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black mb-6">
                   OUR<br /><span className="text-outline-black">WORKBENCH.</span>
@@ -94,7 +94,8 @@ export default function ToolsPage() {
             </div>
 
             {/* Right Column - Tool Categories */}
-            <div className="md:col-span-8 lg:col-span-9 bg-[#fafafa]">
+            <div className="md:col-span-8 lg:col-span-9 bg-[#fafafa] relative">
+              <div className="absolute top-20 right-10 font-oswald text-[200px] font-bold text-black/[0.01] leading-none select-none pointer-events-none uppercase">TOOLS</div>
               {activeCategories.map((cat, i) => {
                 const categoryTools = TOOLS.filter(t => t.category === cat.value);
                 const sectionBg = 
@@ -103,21 +104,22 @@ export default function ToolsPage() {
                 : "white";
 
                 return (
-                  <div
-                    key={i}
-                    data-step={i}
-                    className="border-b-[3px] border-black last:border-b-0 px-6 md:px-12 py-16 md:py-24 min-h-screen"
-                    style={{ background: sectionBg }}
-                  >
-                    <div className="mb-12">
-                      <div className="flex items-center gap-4 mb-4">
-                        <span className="font-oswald text-6xl md:text-8xl font-bold text-black/[0.06] leading-none select-none">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <h3 className="font-oswald text-4xl md:text-5xl font-bold uppercase tracking-[-0.02em] text-black">
-                          {cat.label}
-                        </h3>
-                      </div>
+                    <div
+                      key={i}
+                      data-step={i}
+                      className="border-b-[3px] border-black last:border-b-0 px-6 md:px-12 py-16 md:py-24 min-h-screen relative overflow-hidden"
+                      style={{ background: sectionBg }}
+                    >
+                      <div className="absolute -bottom-6 -right-6 font-oswald text-[180px] font-bold text-black/[0.02] leading-none select-none pointer-events-none uppercase">{cat.label.split(" ")[0]}</div>
+                      <div className="mb-12 relative z-10">
+                        <div className="flex items-center gap-4 mb-4">
+                          <span className="font-oswald text-6xl md:text-8xl font-bold text-black/[0.06] leading-none select-none">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <h3 className="font-oswald text-4xl md:text-5xl font-bold uppercase tracking-[-0.02em] text-black">
+                            {cat.label}
+                          </h3>
+                        </div>
                       <p className="font-inter text-sm text-black/60 max-w-2xl">
                         {cat.value === "developer" ? "Code formatters, regex testers, JWT decoders, and everything else a developer needs to build faster." :
                          cat.value === "productivity" ? "Text manipulators, markdown editors, and focus tools to keep your writing and planning sharp." :

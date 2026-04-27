@@ -61,8 +61,9 @@ export default function About() {
       </div>
 
       {/* ── Vision Grid — white bg ── */}
-      <div className="bg-white border-b-[3px] border-black">
-        <div ref={gridRef} className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
+      <div className="bg-white border-b-[3px] border-black relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-oswald text-[240px] font-bold text-black/[0.01] leading-none select-none pointer-events-none uppercase">VALUES</div>
+        <div ref={gridRef} className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
           <div className="mb-16 text-center">
             <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF0004] block mb-4">CORE PRINCIPLES</span>
             <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em]">
@@ -91,8 +92,9 @@ export default function About() {
       </div>
 
       {/* ── How I Operate — cyan bg ── */}
-      <div className="bg-[#00E5FF] border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
+      <div className="bg-[#00E5FF] border-b-[3px] border-black relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-oswald text-[240px] font-bold text-black/[0.02] leading-none select-none pointer-events-none uppercase">CODE</div>
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
             <div className="lg:border-r-[3px] lg:border-black lg:pr-16 pb-12 lg:pb-0">
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">PROCESS</span>
@@ -125,8 +127,9 @@ export default function About() {
       </div>
 
       {/* ── Built By One — dark bg ── */}
-      <div className="bg-[#1a1a1a] border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
+      <div className="bg-[#1a1a1a] border-b-[3px] border-black relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-oswald text-[240px] font-bold text-white/[0.01] leading-none select-none pointer-events-none uppercase">MAKER</div>
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
           <div ref={darkRef} className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
             <div className="lg:border-r-[3px] lg:border-white/10 lg:pr-16 pb-12 lg:pb-0">
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#7C3AED] block mb-4">THE MAKER</span>

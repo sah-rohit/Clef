@@ -124,13 +124,14 @@ export default function Pricing() {
       </div>
 
       {/* ── Value cards — 3 vibrant bg sections ── */}
-      <div ref={valsRef} className="grid grid-cols-1 md:grid-cols-3 border-b-[3px] border-black">
+      <div ref={valsRef} className="grid grid-cols-1 md:grid-cols-3 border-b-[3px] border-black relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-oswald text-[240px] font-bold text-black/[0.01] leading-none select-none pointer-events-none uppercase">PROMISE</div>
         {[
           { Icon: Shield,   color: "#00E5FF", bg: "#00E5FF", title: "MY GUARANTEE", desc: "I will never sell your data or compromise your privacy. This is my reputation on the line." },
           { Icon: Clock,    color: "#F9FF00", bg: "#F9FF00", title: "INSTANT START",  desc: "No onboarding, no verification, no friction. Just use the tools when you need them." },
           { Icon: Infinity, color: "#00FF87", bg: "#00FF87", title: "UNLIMITED",      desc: "Because the tools run on your device, there are no bandwidth costs for me to limit." },
         ].map(({ Icon, bg, title, desc }, i) => (
-          <div key={i} className="val-card border-r-[3px] border-black last:border-r-0 p-12 md:p-16 group hover:brightness-95 transition-all duration-200" style={{ background: bg }}>
+          <div key={i} className="val-card border-r-[3px] border-black last:border-r-0 p-12 md:p-16 group hover:brightness-95 transition-all duration-200 relative z-10" style={{ background: bg }}>
             <div className="w-14 h-14 border-[3px] border-black flex items-center justify-center mb-6 bg-black group-hover:scale-110 transition-transform duration-300">
               <Icon size={24} style={{ color: bg }} />
             </div>
@@ -141,8 +142,9 @@ export default function Pricing() {
       </div>
 
       {/* ── Comparison — dark bg ── */}
-      <div className="bg-[#1a1a1a] border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-24">
+      <div className="bg-[#1a1a1a] border-b-[3px] border-black relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-oswald text-[240px] font-bold text-white/[0.01] leading-none select-none pointer-events-none uppercase">VS</div>
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-24 relative z-10">
           <div className="mb-14 text-center">
             <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF0004] block mb-4">VS THE REST</span>
             <h2 className="font-oswald text-5xl md:text-6xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">

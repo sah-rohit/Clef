@@ -127,12 +127,12 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
     <section id="inquiry" className="border-t-[4px] border-black overflow-hidden">
       {/* Header — purple bg */}
       <div className="bg-[#7C3AED] border-b-[3px] border-black relative overflow-hidden">
-        {showBackButton && (
-          <div className="absolute top-28 left-6 md:top-36 md:left-10 z-20">
-            <BackButton />
-          </div>
-        )}
         <div className="px-6 md:px-12 lg:px-16 pt-28 pb-24 md:pt-36 md:pb-32 relative z-10">
+          {showBackButton && (
+            <div className="mb-10">
+              <BackButton />
+            </div>
+          )}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 block mb-4">COMMUNITY TALK</span>
@@ -145,6 +145,7 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
             </div>
           </div>
         </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-oswald text-[240px] font-bold text-white/[0.02] leading-none select-none pointer-events-none uppercase">BOARD</div>
         <div className="absolute -bottom-6 -right-6 font-oswald text-[200px] font-bold text-white/[0.04] leading-none select-none pointer-events-none uppercase">INQUIRY</div>
       </div>
 

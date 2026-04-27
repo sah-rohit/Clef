@@ -246,8 +246,9 @@ export default function Changelog() {
         </div>
 
         {/* Legend */}
-        <div ref={legendRef} className="px-6 md:px-12 lg:px-16 py-8 bg-white border-b-[3px] border-black">
-          <div className="flex flex-wrap gap-0 border-[3px] border-black w-fit">
+        <div ref={legendRef} className="px-6 md:px-12 lg:px-16 py-8 bg-white border-b-[3px] border-black relative overflow-hidden">
+          <div className="absolute top-1/2 right-10 -translate-y-1/2 font-oswald text-[120px] font-bold text-black/[0.02] leading-none select-none pointer-events-none uppercase">TYPE</div>
+          <div className="flex flex-wrap gap-0 border-[3px] border-black w-fit relative z-10">
             {Object.entries(typeConfig).map(([key, cfg]) => {
               const Icon = cfg.icon;
               return (
@@ -263,8 +264,9 @@ export default function Changelog() {
         </div>
 
         {/* Releases */}
-        <div ref={releasesRef} className="px-6 md:px-12 lg:px-16 py-12 bg-white">
-          <div className="space-y-8">
+        <div ref={releasesRef} className="px-6 md:px-12 lg:px-16 py-12 bg-white relative overflow-hidden">
+          <div className="absolute top-40 left-1/2 -translate-x-1/2 font-oswald text-[240px] font-bold text-black/[0.01] leading-none select-none pointer-events-none uppercase">HISTORY</div>
+          <div className="space-y-8 relative z-10">
             {releases.map((release, ri) => (
               <div key={ri} className="border-[3px] border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
                 {/* Release header — colored by label */}
