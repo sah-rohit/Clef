@@ -32,6 +32,41 @@ const typeConfig: Record<ChangeType, { label: string; color: string; icon: React
 
 const releases: Release[] = [
   {
+    version: "v1.6.0",
+    date: "April 2026",
+    label: "LATEST",
+    labelColor: "#00E5FF",
+    labelText: "text-black",
+    summary: "Vibrant color system site-wide, tool preview popup, redesigned Back button, legal/connect page overhauls, GitHub/Login/AccountCenter redesigns, improved toast & confirm dialogs, ToolsGuide fix.",
+    changes: [
+      { type: "new",      text: "Tool Preview Popup — magazine-style popup with vibrant left panel, illustrated right panel, how-to steps, and tags before opening any tool" },
+      { type: "new",      text: "BackButton redesigned — two-part pill (black arrow badge + white label) that reads on any background color" },
+      { type: "improved", text: "Landing page sections: vibrant color backgrounds (yellow, cyan, green, purple, red) replacing all-dark sections" },
+      { type: "improved", text: "Features page: ToolsGrid header dark bg, OurPromise sticky sidebar yellow, RosterSection cyan header, InquirySection purple header" },
+      { type: "improved", text: "About page: yellow hero, cyan 'How I Operate' section, dark stats grid, green CTA" },
+      { type: "improved", text: "How To Use page: dark hero, alternating step backgrounds, purple keyboard shortcuts panel, yellow FAQ section" },
+      { type: "improved", text: "Pricing page: red hero, white pricing card, three vibrant value panels (cyan/yellow/green), dark comparison table" },
+      { type: "improved", text: "Privacy Policy: cyan hero, 4-color pillar grid, green promise section" },
+      { type: "improved", text: "Terms & Conditions: yellow hero, dark TL;DR, 4-color section grid, red liability section" },
+      { type: "improved", text: "Cookie Policy: green hero, dark content table" },
+      { type: "improved", text: "User Agreement: red hero, white content with colored left-column backgrounds" },
+      { type: "improved", text: "Contact page: purple hero, yellow/green contact cards, dark community CTA" },
+      { type: "improved", text: "Open Source page: green hero, white pillar cards, dark repository section" },
+      { type: "improved", text: "GitHub page: dark hero, green repo card, 3 vibrant quick-link panels, dark profile CTA" },
+      { type: "improved", text: "Login page: yellow left panel with feature list, right panel form — split layout" },
+      { type: "improved", text: "Account Center: yellow header strip, dark profile card, cleaner sidebar navigation" },
+      { type: "improved", text: "Changelog page: purple hero replacing plain white header" },
+      { type: "improved", text: "ToolsGuide: dark hero, vibrant category headers, fixed blank screen crash" },
+      { type: "improved", text: "Toast notifications: vibrant color bars (green/red/yellow/cyan), brutalist border style, shadow" },
+      { type: "improved", text: "Confirm dialogs: vibrant headers, heavier border, shadow treatment" },
+      { type: "improved", text: "Tool illustration panel: reduced pattern opacity, solid dark icon backdrop for clarity" },
+      { type: "fixed",    text: "ToolsGuide blank screen — categoryMeta lookup was failing silently, now guarded with null check" },
+      { type: "fixed",    text: "Contact, OpenSource, TermsAndConditions, CookiePolicy, UserAgreement — leftover old function bodies removed" },
+      { type: "fixed",    text: "Custom scrollbar: Cursor-style dark track, dark thumb, yellow on hover, red on active" },
+      { type: "fixed",    text: "AI chat scroll: added min-h-0 to messages container to fix flex overflow" },
+    ],
+  },
+  {
     version: "v1.5.0",
     date: "April 2026",
     label: "LATEST",
@@ -229,50 +264,44 @@ export default function Changelog() {
 
         {/* Releases */}
         <div ref={releasesRef} className="px-6 md:px-12 lg:px-16 py-12 bg-white">
-          <div className="space-y-0 border-[3px] border-black">
+          <div className="space-y-8">
             {releases.map((release, ri) => (
-              <div key={ri} className="border-b-[3px] border-black last:border-b-0">
-                {/* Release header */}
-                <div className="grid grid-cols-1 md:grid-cols-12 border-b-[3px] border-black">
-                  <div className="md:col-span-3 lg:col-span-2 px-6 py-6 border-b-[3px] md:border-b-0 md:border-r-[3px] border-black flex flex-col justify-center gap-3 bg-[#fafafa]">
+              <div key={ri} className="border-[3px] border-black shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+                {/* Release header — colored by label */}
+                <div className="grid grid-cols-1 md:grid-cols-12 border-b-[3px] border-black"
+                  style={{ background: release.labelColor }}>
+                  <div className="md:col-span-3 lg:col-span-2 px-6 py-5 border-b-[3px] md:border-b-0 md:border-r-[3px] border-black flex flex-col justify-center gap-2">
                     <div className="flex items-center gap-3">
-                      <span className="font-oswald text-3xl font-bold">{release.version}</span>
-                      <span
-                        className={`px-2 py-0.5 font-oswald text-[9px] font-bold uppercase tracking-widest border-[2px] border-black ${release.labelText}`}
-                        style={{ background: release.labelColor }}
-                      >
+                      <span className="font-oswald text-3xl font-bold text-black">{release.version}</span>
+                      <span className={`px-2 py-0.5 font-oswald text-[9px] font-bold uppercase tracking-widest border-[2px] border-black bg-black ${release.labelText}`}
+                        style={{ color: release.labelColor }}>
                         {release.label}
                       </span>
                     </div>
-                    <span className="font-inter text-xs text-black/50 uppercase tracking-widest">{release.date}</span>
+                    <span className="font-inter text-xs text-black/60 uppercase tracking-widest font-bold">{release.date}</span>
                   </div>
-                  <div className="md:col-span-9 lg:col-span-10 px-6 py-6 flex items-center">
-                    <p className="font-inter text-sm text-black/70 leading-relaxed">{release.summary}</p>
+                  <div className="md:col-span-9 lg:col-span-10 px-6 py-5 flex items-center">
+                    <p className="font-inter text-sm text-black/75 leading-relaxed font-medium">{release.summary}</p>
                   </div>
                 </div>
 
                 {/* Changes list */}
-                <div className="divide-y-[3px] divide-black">
+                <div className="bg-white divide-y-[2px] divide-black/10">
                   {release.changes.map((change, ci) => {
                     const cfg = typeConfig[change.type];
                     const Icon = cfg.icon;
                     return (
                       <div key={ci} className="grid grid-cols-1 md:grid-cols-12 hover:bg-[#fafafa] transition-colors">
-                        <div className="md:col-span-3 lg:col-span-2 px-6 py-3 border-b-[3px] md:border-b-0 md:border-r-[3px] border-black flex items-center">
+                        <div className="md:col-span-3 lg:col-span-2 px-6 py-3 border-b-[2px] md:border-b-0 md:border-r-[2px] border-black/10 flex items-center">
                           <div className="flex items-center gap-2">
-                            <div
-                              className="w-5 h-5 flex items-center justify-center flex-shrink-0"
-                              style={{ background: cfg.color }}
-                            >
+                            <div className="w-5 h-5 flex items-center justify-center flex-shrink-0" style={{ background: cfg.color }}>
                               <Icon size={11} className="text-black" />
                             </div>
-                            <span className="font-oswald text-[10px] font-bold uppercase tracking-wider">
-                              {cfg.label}
-                            </span>
+                            <span className="font-oswald text-[10px] font-bold uppercase tracking-wider">{cfg.label}</span>
                           </div>
                         </div>
                         <div className="md:col-span-9 lg:col-span-10 px-6 py-3 flex items-center">
-                          <span className="font-inter text-sm text-black/80">{change.text}</span>
+                          <span className="font-inter text-sm text-black/75">{change.text}</span>
                         </div>
                       </div>
                     );

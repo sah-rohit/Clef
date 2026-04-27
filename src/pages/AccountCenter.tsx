@@ -163,68 +163,64 @@ export default function AccountCenter() {
     <div className="min-h-screen bg-white selection:bg-[#F9FF00] selection:text-black flex flex-col">
       <Navigation />
       
-      <div className="page-top pb-20 px-6 md:px-12 lg:px-16 max-w-[1400px] mx-auto flex-1 w-full">
-        <BackButton />
-        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b-[4px] border-black pb-6">
+      <div className="pb-20 px-6 md:px-12 lg:px-16 max-w-[1400px] mx-auto flex-1 w-full"
+        style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h) + 2rem)" }}>
+        <div className="mb-6"><BackButton /></div>
+
+        {/* Header — yellow bg strip */}
+        <div className="bg-[#F9FF00] border-[3px] border-black mb-8 px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
           <div>
-            <span className="inline-block bg-black text-[#F9FF00] px-3 py-1 font-oswald text-[10px] font-bold uppercase tracking-widest mb-3">
-              CONTROL PANEL v3.1
-            </span>
-            <h1 className="font-oswald text-5xl md:text-6xl font-black uppercase tracking-tight leading-none text-black">
+            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-1">CONTROL PANEL v3.1</span>
+            <h1 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.9] tracking-[-0.03em] text-black">
               COMMAND CENTER
             </h1>
           </div>
-          <div className="font-mono text-xs font-bold text-black/50">
+          <div className="font-mono text-xs font-bold text-black/50 border-[2px] border-black px-3 py-1.5 bg-white">
             SYS.TIME: {currentTime.toLocaleTimeString()}
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-10">
+        <div className="flex flex-col lg:flex-row gap-8">
           
           {/* Sidebar Navigation */}
-          <div className="lg:w-1/4 flex flex-col gap-8">
+          <div className="lg:w-1/4 flex flex-col gap-5">
             
-            {/* Quick Profile Card */}
-            <div className="border-[4px] border-black p-6 bg-[#F9FF00] shadow-[8px_8px_0px_rgba(0,0,0,1)] relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-black opacity-5 rounded-full -mr-10 -mt-10 pointer-events-none group-hover:scale-150 transition-transform duration-500" />
+            {/* Quick Profile Card — dark bg */}
+            <div className="border-[3px] border-black bg-[#1a1a1a] p-6 relative overflow-hidden">
               <div className="flex items-center gap-4 relative z-10">
-                <div className="w-16 h-16 border-[3px] border-black bg-white overflow-hidden shrink-0">
+                <div className="w-14 h-14 border-[3px] border-white/20 bg-white/10 overflow-hidden shrink-0">
                   {user.avatar ? (
                     <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-black text-white">
-                      <User size={32} />
+                    <div className="w-full h-full flex items-center justify-center">
+                      <User size={28} className="text-white/50" />
                     </div>
                   )}
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="font-oswald text-xl font-black uppercase truncate">{user.name}</h2>
-                  <p className="font-inter text-[10px] font-bold tracking-widest text-black/60 truncate uppercase">@{user.username}</p>
+                  <h2 className="font-oswald text-lg font-bold uppercase truncate text-white">{user.name}</h2>
+                  <p className="font-inter text-[10px] font-bold tracking-widest text-[#F9FF00]/70 truncate uppercase">@{user.username}</p>
                 </div>
               </div>
             </div>
 
             {/* Navigation Menu */}
-            <nav className="flex flex-col border-[4px] border-black bg-white shadow-[8px_8px_0px_rgba(0,0,0,1)]">
-              {TABS.map((tab, idx) => {
+            <nav className="flex flex-col border-[3px] border-black bg-white shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+              {TABS.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
                 const notifCount = tab.id === "NOTIFICATIONS" ? notifications.filter(n => !n.read).length : 0;
-                
                 return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center justify-between p-5 text-left transition-colors border-b-[4px] border-black last:border-b-0 ${
-                      isActive ? "bg-black text-white" : "bg-white text-black hover:bg-[#F9FF00]"
-                    }`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <Icon size={20} className={isActive ? "text-[#F9FF00]" : ""} />
-                      <span className="font-oswald text-lg font-bold uppercase tracking-wider">{tab.label}</span>
+                  <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+                    className={`w-full flex items-center justify-between px-5 py-4 text-left transition-all border-b-[3px] border-black last:border-b-0 ${
+                      isActive ? "bg-[#F9FF00] text-black" : "bg-white text-black hover:bg-[#F9FF00]/20"
+                    }`}>
+                    <div className="flex items-center gap-3">
+                      <Icon size={16} />
+                      <span className="font-oswald text-sm font-bold uppercase tracking-wider">{tab.label}</span>
                     </div>
                     {notifCount > 0 && (
-                      <span className={`px-2 py-0.5 text-xs font-black border-[2px] ${isActive ? 'bg-[#FF0004] border-[#FF0004] text-white' : 'bg-[#FF0004] border-black text-white'}`}>
+                      <span className="px-2 py-0.5 text-[10px] font-black bg-[#FF0004] text-white border-[2px] border-black">
                         {notifCount}
                       </span>
                     )}
@@ -234,15 +230,16 @@ export default function AccountCenter() {
             </nav>
 
             {/* Quick Actions */}
-            <div className="flex flex-col gap-3">
-              <button onClick={handleExport} className="w-full btn-brutal bg-white border-[3px] py-4 text-sm flex items-center justify-center gap-3">
-                <Download size={18} /> EXPORT DATA
+            <div className="flex flex-col gap-2">
+              <button onClick={handleExport}
+                className="w-full border-[3px] border-black bg-white font-oswald font-bold uppercase tracking-widest text-xs py-3 flex items-center justify-center gap-2 hover:bg-[#00E5FF] transition-colors">
+                <Download size={14} /> EXPORT DATA
               </button>
-              <button onClick={handleLogout} className="w-full btn-brutal btn-brutal-black py-4 text-sm flex items-center justify-center gap-3">
-                <LogOut size={18} /> TERMINATE SESSION
+              <button onClick={handleLogout}
+                className="w-full border-[3px] border-black bg-[#1a1a1a] text-white font-oswald font-bold uppercase tracking-widest text-xs py-3 flex items-center justify-center gap-2 hover:bg-[#FF0004] transition-colors">
+                <LogOut size={14} /> TERMINATE SESSION
               </button>
             </div>
-
           </div>
 
           {/* Main Content Area */}

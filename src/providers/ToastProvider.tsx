@@ -29,18 +29,11 @@ const TOAST_ICONS = {
   info: Info,
 };
 
-const TOAST_COLORS = {
-  success: "bg-green-50 border-green-600 text-green-900",
-  error: "bg-red-50 border-[#FF0004] text-red-900",
-  warning: "bg-[#F9FF00] border-black text-[#1a1a1a]",
-  info: "bg-blue-50 border-blue-600 text-blue-900",
-};
-
-const ICON_COLORS = {
-  success: "text-green-600",
-  error: "text-[#FF0004]",
-  warning: "text-[#1a1a1a]",
-  info: "text-blue-600",
+const TOAST_STYLES: Record<ToastType, { bar: string; bg: string; border: string; text: string; iconColor: string }> = {
+  success: { bar: "#00FF87", bg: "#ffffff", border: "#1a1a1a", text: "#1a1a1a", iconColor: "#00FF87" },
+  error:   { bar: "#FF0004", bg: "#ffffff", border: "#1a1a1a", text: "#1a1a1a", iconColor: "#FF0004" },
+  warning: { bar: "#F9FF00", bg: "#F9FF00", border: "#1a1a1a", text: "#1a1a1a", iconColor: "#1a1a1a" },
+  info:    { bar: "#00E5FF", bg: "#ffffff", border: "#1a1a1a", text: "#1a1a1a", iconColor: "#00E5FF" },
 };
 
 export function ToastProvider({ children }: { children: ReactNode }) {
@@ -68,18 +61,26 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       <div className="fixed top-4 right-4 z-[9999] flex flex-col gap-2 max-w-sm w-full pointer-events-none">
         {toasts.map(toast => {
           const Icon = TOAST_ICONS[toast.type];
+          const s = TOAST_STYLES[toast.type];
           return (
-            <div
-              key={toast.id}
-              className={`pointer-events-auto flex items-start gap-3 px-4 py-3 border-[3px] ${TOAST_COLORS[toast.type]} shadow-lg animate-slide-in`}
-            >
-              <Icon size={18} className={`flex-shrink-0 mt-0.5 ${ICON_COLORS[toast.type]}`} />
-              <p className="font-inter text-sm flex-1">{toast.message}</p>
-              <button
-                onClick={() => removeToast(toast.id)}
-                className="flex-shrink-0 hover:opacity-70 transition-opacity"
-              >
-                <X size={16} />
+            <div key={toast.id}
+              className="pointer-events-auto flex overflow-hidden border-[3px] animate-slide-left shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+              style={{ borderColor: s.border, background: s.bg }}>
+              {/* Color bar */}
+              <div className="w-1.5 shrink-0" style={{ background: s.bar }} />
+              {/* Icon */}
+              <div className="flex items-center justify-center px-3 py-3 shrink-0">
+                <Icon size={16} style={{ color: s.iconColor }} />
+              </div>
+              {/* Message */}
+              <div className="flex-1 px-2 py-3 flex items-center">
+                <p className="font-inter text-xs font-semibold leading-snug" style={{ color: s.text }}>{toast.message}</p>
+              </div>
+              {/* Close */}
+              <button onClick={() => removeToast(toast.id)}
+                className="flex items-center justify-center px-3 py-3 shrink-0 hover:opacity-60 transition-opacity border-l-[2px]"
+                style={{ borderColor: s.border + "30" }}>
+                <X size={13} style={{ color: s.text }} />
               </button>
             </div>
           );

@@ -1,3 +1,4 @@
+// ToolPreviewPopup — magazine-style tool preview with vibrant left panel + illustrated right panel
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { X, ArrowRight, ExternalLink, Zap, Shield, WifiOff } from "lucide-react";
@@ -60,8 +61,8 @@ function ToolIllustration({ tool, meta }: { tool: ToolDef; meta: typeof DEFAULT_
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden select-none"
       style={{ background: bg }}>
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-[0.06]">
+      {/* Background pattern — very subtle */}
+      <div className="absolute inset-0 opacity-[0.04]">
         {meta.illustrationPattern === "grid" && (
           <div style={{ backgroundImage: `linear-gradient(${accent} 1px, transparent 1px), linear-gradient(90deg, ${accent} 1px, transparent 1px)`, backgroundSize: "48px 48px", width: "100%", height: "100%" }} />
         )}
@@ -85,7 +86,7 @@ function ToolIllustration({ tool, meta }: { tool: ToolDef; meta: typeof DEFAULT_
       {/* Ghost tool name — large background text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <span className="font-oswald font-bold uppercase leading-none text-center px-4"
-          style={{ fontSize: "clamp(3rem, 8vw, 7rem)", color: accent + "12", letterSpacing: "-0.04em", lineHeight: 0.85 }}>
+          style={{ fontSize: "clamp(3rem, 8vw, 7rem)", color: accent + "08", letterSpacing: "-0.04em", lineHeight: 0.85 }}>
           {tool.name.split(" ").map((w, i) => <span key={i} className="block">{w}</span>)}
         </span>
       </div>
@@ -102,12 +103,12 @@ function ToolIllustration({ tool, meta }: { tool: ToolDef; meta: typeof DEFAULT_
         <div className="relative flex items-center justify-center">
           <div className="absolute w-40 h-40 border-[2px] rounded-full opacity-20 animate-spin" style={{ borderColor: accent, animationDuration: "12s" }} />
           <div className="absolute w-28 h-28 border-[2px] rounded-full opacity-30 animate-spin" style={{ borderColor: accent, animationDuration: "8s", animationDirection: "reverse" }} />
-          {/* Icon box */}
-          <div className="relative w-20 h-20 flex items-center justify-center border-[3px]"
-            style={{ borderColor: accent, background: accent + "18" }}>
+          {/* Icon box — solid bg so it reads clearly */}
+          <div className="relative w-20 h-20 flex items-center justify-center border-[3px] bg-[#1a1a1a]"
+            style={{ borderColor: accent }}>
             <Icon size={36} style={{ color: accent }} />
             {/* Scan line */}
-            <div className="absolute inset-x-0 h-[2px] opacity-60 animate-pulse" style={{ background: accent, top: "50%" }} />
+            <div className="absolute inset-x-0 h-[2px] opacity-40 animate-pulse" style={{ background: accent, top: "50%" }} />
           </div>
         </div>
 
