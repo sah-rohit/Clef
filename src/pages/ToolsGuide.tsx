@@ -160,7 +160,7 @@ export default function ToolsGuide() {
 
       {/* Per-category tool listings */}
       <div className="pb-20">
-        {grouped.map((cat, catIdx) => {
+        {grouped.map((cat) => {
           const meta = categoryMeta[cat.value];
           if (!meta) return null;
           const Icon = meta.icon;
@@ -169,72 +169,72 @@ export default function ToolsGuide() {
               {/* Category header — vibrant bg */}
               <div className="flex items-center gap-4 px-6 md:px-12 lg:px-16 py-6 border-b-[3px] border-black"
                 style={{ background: meta.bg }}>
-                <div className="w-10 h-10 bg-black border-[2px] border-black flex items-center justify-center">
+                <div className="w-10 h-10 bg-black border-[2px] border-black flex items-center justify-center shrink-0">
                   <Icon size={18} style={{ color: meta.color }} />
                 </div>
-                <h2 className="font-oswald text-3xl font-bold uppercase tracking-tight text-black">{cat.label} TOOLS</h2>
-                <span className="ml-auto font-oswald text-xs font-bold uppercase tracking-widest text-black/50">
-                  {meta.tools.length} MODULES
+                <h2 className="font-oswald text-2xl md:text-3xl font-bold uppercase tracking-tight text-black">{cat.label} TOOLS</h2>
+                <span className="ml-auto font-oswald text-xs font-bold uppercase tracking-widest text-black/50 shrink-0">
+                  {meta.tools.length} TOOLS
                 </span>
               </div>
 
-              {/* Tools */}
-              <div className="px-6 md:px-12 lg:px-16 py-0 bg-white">
-                <div className="border-[3px] border-black border-t-0">
-                  {cat.tools.map((tool) => {
-                    const ToolIcon = tool.icon;
-                    const details = toolDetails[tool.id];
-                    return (
-                      <div key={tool.id}
-                        className="border-b-[3px] border-black last:border-b-0 grid grid-cols-1 lg:grid-cols-12">
-                        {/* Tool identity */}
-                        <div className="lg:col-span-3 px-6 py-6 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col justify-between gap-4"
-                          style={{ background: meta.bg + "18" }}>
-                          <div>
-                            <div className="w-10 h-10 border-[3px] border-black flex items-center justify-center mb-4"
-                              style={{ background: meta.bg }}>
-                              <ToolIcon size={18} className="text-black" />
-                            </div>
-                            <h3 className="font-oswald text-lg font-bold uppercase leading-tight mb-2">{tool.name}</h3>
-                            <p className="font-inter text-xs text-black/60 leading-relaxed">{tool.shortDesc}</p>
+              {/* Tools list */}
+              <div className="bg-white">
+                {cat.tools.map((tool, ti) => {
+                  const ToolIcon = tool.icon;
+                  const details = toolDetails[tool.id];
+                  return (
+                    <div key={tool.id}
+                      className={`grid grid-cols-1 lg:grid-cols-12 ${ti < cat.tools.length - 1 ? "border-b-[3px] border-black" : ""}`}>
+                      {/* Tool identity */}
+                      <div className="lg:col-span-3 px-6 py-6 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col justify-between gap-4"
+                        style={{ background: meta.bg + "22" }}>
+                        <div>
+                          <div className="w-10 h-10 border-[3px] border-black flex items-center justify-center mb-4"
+                            style={{ background: meta.bg }}>
+                            <ToolIcon size={18} className="text-black" />
                           </div>
-                          <Link to={tool.path}
-                            className="inline-flex items-center gap-2 font-oswald text-[10px] font-bold uppercase tracking-widest border-[2px] border-black px-3 py-2 hover:bg-black hover:text-white transition-colors w-fit">
-                            OPEN TOOL <ArrowUpRight size={12} />
-                          </Link>
+                          <h3 className="font-oswald text-base font-bold uppercase leading-tight mb-2">{tool.name}</h3>
+                          <p className="font-inter text-xs text-black/60 leading-relaxed">{tool.shortDesc}</p>
                         </div>
-
-                        {/* How to use */}
-                        <div className="lg:col-span-4 px-6 py-6 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black">
-                          <h4 className="font-oswald text-[10px] font-bold uppercase tracking-widest mb-4 text-black/40">HOW TO USE</h4>
-                          <ol className="space-y-2">
-                            {(details?.howTo ?? ["Open the tool and follow the on-screen instructions."]).map((step, si) => (
-                              <li key={si} className="flex gap-3">
-                                <span className="font-oswald text-[10px] font-bold w-4 flex-shrink-0 mt-0.5" style={{ color: meta.color === "#F9FF00" ? "#1a1a1a" : meta.color }}>
-                                  {si + 1}.
-                                </span>
-                                <span className="font-inter text-xs text-black/70 leading-relaxed">{step}</span>
-                              </li>
-                            ))}
-                          </ol>
-                        </div>
-
-                        {/* Use cases */}
-                        <div className="lg:col-span-5 px-6 py-6">
-                          <h4 className="font-oswald text-[10px] font-bold uppercase tracking-widest mb-4 text-black/40">WHEN TO USE IT</h4>
-                          <ul className="space-y-2">
-                            {(details?.useCases ?? ["General purpose utility."]).map((uc, ui) => (
-                              <li key={ui} className="flex gap-3">
-                                <div className="w-1.5 h-1.5 mt-1.5 flex-shrink-0 rotate-45" style={{ background: meta.color === "#F9FF00" ? "#1a1a1a" : meta.color }} />
-                                <span className="font-inter text-xs text-black/70 leading-relaxed">{uc}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                        <Link to={tool.path}
+                          className="inline-flex items-center gap-2 font-oswald text-[10px] font-bold uppercase tracking-widest border-[2px] border-black px-3 py-2 hover:bg-black hover:text-white transition-colors w-fit">
+                          OPEN TOOL <ArrowUpRight size={12} />
+                        </Link>
                       </div>
-                    );
-                  })}
-                </div>
+
+                      {/* How to use */}
+                      <div className="lg:col-span-4 px-6 py-6 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black">
+                        <h4 className="font-oswald text-[10px] font-bold uppercase tracking-widest mb-4 text-black/40">HOW TO USE</h4>
+                        <ol className="space-y-2">
+                          {(details?.howTo ?? ["Open the tool and follow the on-screen instructions."]).map((step, si) => (
+                            <li key={si} className="flex gap-3">
+                              <span className="font-oswald text-[10px] font-bold w-4 flex-shrink-0 mt-0.5"
+                                style={{ color: meta.color === "#F9FF00" ? "#1a1a1a" : meta.color }}>
+                                {si + 1}.
+                              </span>
+                              <span className="font-inter text-xs text-black/70 leading-relaxed">{step}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+
+                      {/* Use cases */}
+                      <div className="lg:col-span-5 px-6 py-6">
+                        <h4 className="font-oswald text-[10px] font-bold uppercase tracking-widest mb-4 text-black/40">WHEN TO USE IT</h4>
+                        <ul className="space-y-2">
+                          {(details?.useCases ?? ["General purpose utility."]).map((uc, ui) => (
+                            <li key={ui} className="flex gap-3">
+                              <div className="w-1.5 h-1.5 mt-1.5 flex-shrink-0 rotate-45"
+                                style={{ background: meta.color === "#F9FF00" ? "#1a1a1a" : meta.color }} />
+                              <span className="font-inter text-xs text-black/70 leading-relaxed">{uc}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           );

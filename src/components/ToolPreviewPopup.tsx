@@ -58,28 +58,33 @@ function ToolIllustration({ tool, meta }: { tool: ToolDef; meta: typeof DEFAULT_
   const accent = meta.illustrationAccent;
   const bg = meta.illustrationBg;
 
+  // Pattern color: always contrasting against the bg, not the accent
+  // Dark bg → light pattern; light bg → dark pattern
+  const isDarkBg = bg === "#1a1a1a" || bg.startsWith("#0") || bg === "#166534" || bg === "#059669" || bg === "#DC2626" || bg === "#E11D48" || bg === "#9333EA" || bg === "#7C3AED" || bg === "#4F46E5" || bg === "#2563EB" || bg === "#0284C7" || bg === "#0891B2" || bg === "#8B5CF6";
+  const patternColor = isDarkBg ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)";
+
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden select-none"
       style={{ background: bg }}>
-      {/* Background pattern — very subtle */}
-      <div className="absolute inset-0 opacity-[0.04]">
+      {/* Background pattern — contrasting color, clearly visible */}
+      <div className="absolute inset-0 pointer-events-none">
         {meta.illustrationPattern === "grid" && (
-          <div style={{ backgroundImage: `linear-gradient(${accent} 1px, transparent 1px), linear-gradient(90deg, ${accent} 1px, transparent 1px)`, backgroundSize: "48px 48px", width: "100%", height: "100%" }} />
+          <div style={{ backgroundImage: `linear-gradient(${patternColor} 1px, transparent 1px), linear-gradient(90deg, ${patternColor} 1px, transparent 1px)`, backgroundSize: "48px 48px", width: "100%", height: "100%" }} />
         )}
         {meta.illustrationPattern === "dots" && (
-          <div style={{ backgroundImage: `radial-gradient(${accent} 1.5px, transparent 0)`, backgroundSize: "32px 32px", width: "100%", height: "100%" }} />
+          <div style={{ backgroundImage: `radial-gradient(${patternColor} 1.5px, transparent 0)`, backgroundSize: "32px 32px", width: "100%", height: "100%" }} />
         )}
         {meta.illustrationPattern === "diagonal" && (
-          <div style={{ backgroundImage: `repeating-linear-gradient(45deg, ${accent} 0, ${accent} 1px, transparent 0, transparent 50%)`, backgroundSize: "20px 20px", width: "100%", height: "100%" }} />
+          <div style={{ backgroundImage: `repeating-linear-gradient(45deg, ${patternColor} 0, ${patternColor} 1px, transparent 0, transparent 50%)`, backgroundSize: "20px 20px", width: "100%", height: "100%" }} />
         )}
         {meta.illustrationPattern === "circuit" && (
-          <div style={{ backgroundImage: `linear-gradient(${accent} 1px, transparent 1px), linear-gradient(90deg, ${accent} 1px, transparent 1px)`, backgroundSize: "64px 64px", width: "100%", height: "100%" }} />
+          <div style={{ backgroundImage: `linear-gradient(${patternColor} 1px, transparent 1px), linear-gradient(90deg, ${patternColor} 1px, transparent 1px)`, backgroundSize: "64px 64px", width: "100%", height: "100%" }} />
         )}
         {meta.illustrationPattern === "hex" && (
-          <div style={{ backgroundImage: `radial-gradient(${accent} 2px, transparent 0)`, backgroundSize: "28px 28px", width: "100%", height: "100%" }} />
+          <div style={{ backgroundImage: `radial-gradient(${patternColor} 2px, transparent 0)`, backgroundSize: "28px 28px", width: "100%", height: "100%" }} />
         )}
         {meta.illustrationPattern === "noise" && (
-          <div style={{ backgroundImage: `repeating-linear-gradient(0deg, ${accent} 0, ${accent} 1px, transparent 0, transparent 6px), repeating-linear-gradient(90deg, ${accent} 0, ${accent} 1px, transparent 0, transparent 6px)`, width: "100%", height: "100%" }} />
+          <div style={{ backgroundImage: `repeating-linear-gradient(0deg, ${patternColor} 0, ${patternColor} 1px, transparent 0, transparent 6px), repeating-linear-gradient(90deg, ${patternColor} 0, ${patternColor} 1px, transparent 0, transparent 6px)`, width: "100%", height: "100%" }} />
         )}
       </div>
 

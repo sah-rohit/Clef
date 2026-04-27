@@ -162,95 +162,99 @@ export default function AccountCenter() {
   return (
     <div className="min-h-screen bg-white selection:bg-[#F9FF00] selection:text-black flex flex-col">
       <Navigation />
-      
-      <div className="pb-20 px-6 md:px-12 lg:px-16 max-w-[1400px] mx-auto flex-1 w-full"
-        style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h) + 2rem)" }}>
-        <div className="mb-6"><BackButton /></div>
 
-        {/* Header — yellow bg strip */}
-        <div className="bg-[#F9FF00] border-[3px] border-black mb-8 px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-          <div>
-            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-1">CONTROL PANEL v3.1</span>
-            <h1 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.9] tracking-[-0.03em] text-black">
-              COMMAND CENTER
-            </h1>
-          </div>
-          <div className="font-mono text-xs font-bold text-black/50 border-[2px] border-black px-3 py-1.5 bg-white">
-            SYS.TIME: {currentTime.toLocaleTimeString()}
-          </div>
-        </div>
+      {/* ── Full-bleed layout: vibrant left sidebar + white content ── */}
+      <div className="flex-1 flex flex-col lg:flex-row" style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          
-          {/* Sidebar Navigation */}
-          <div className="lg:w-1/4 flex flex-col gap-5">
-            
-            {/* Quick Profile Card — dark bg */}
-            <div className="border-[3px] border-black bg-[#1a1a1a] p-6 relative overflow-hidden">
-              <div className="flex items-center gap-4 relative z-10">
-                <div className="w-14 h-14 border-[3px] border-white/20 bg-white/10 overflow-hidden shrink-0">
-                  {user.avatar ? (
-                    <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <User size={28} className="text-white/50" />
-                    </div>
-                  )}
-                </div>
-                <div className="overflow-hidden">
-                  <h2 className="font-oswald text-lg font-bold uppercase truncate text-white">{user.name}</h2>
-                  <p className="font-inter text-[10px] font-bold tracking-widest text-[#F9FF00]/70 truncate uppercase">@{user.username}</p>
+        {/* ── LEFT SIDEBAR — vibrant yellow panel with geometric pattern ── */}
+        <div className="lg:w-72 xl:w-80 bg-[#F9FF00] border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col shrink-0 relative overflow-hidden">
+
+          {/* Geometric background pattern */}
+          <div className="absolute inset-0 pointer-events-none"
+            style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+
+          {/* Animated concentric rings — decorative */}
+          <div className="absolute -bottom-20 -right-20 pointer-events-none">
+            {[160, 120, 80, 40].map((size, i) => (
+              <div key={i} className="absolute rounded-full border-[2px] border-black/10 animate-ping"
+                style={{ width: size, height: size, top: -size/2, right: -size/2, animationDelay: `${i * 0.6}s`, animationDuration: "4s" }} />
+            ))}
+          </div>
+
+          {/* Profile card */}
+          <div className="px-6 py-8 border-b-[3px] border-black relative overflow-hidden">
+            <div className="absolute -bottom-4 -right-4 font-oswald text-[100px] font-bold text-black/[0.05] leading-none select-none pointer-events-none uppercase">
+              {user.name?.charAt(0) || "U"}
+            </div>
+            <div className="mb-4"><BackButton /></div>
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="w-14 h-14 border-[3px] border-black bg-black overflow-hidden shrink-0">
+                {user.avatar ? (
+                  <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <User size={24} className="text-[#F9FF00]" />
+                  </div>
+                )}
+              </div>
+              <div className="overflow-hidden min-w-0">
+                <h2 className="font-oswald text-lg font-bold uppercase truncate text-black leading-tight">{user.name}</h2>
+                <p className="font-inter text-[10px] font-bold tracking-widest text-black/50 truncate uppercase">@{user.username}</p>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#00FF87]" />
+                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest text-black/50">ACTIVE</span>
                 </div>
               </div>
             </div>
-
-            {/* Navigation Menu */}
-            <nav className="flex flex-col border-[3px] border-black bg-white shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-              {TABS.map((tab) => {
-                const Icon = tab.icon;
-                const isActive = activeTab === tab.id;
-                const notifCount = tab.id === "NOTIFICATIONS" ? notifications.filter(n => !n.read).length : 0;
-                return (
-                  <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center justify-between px-5 py-4 text-left transition-all border-b-[3px] border-black last:border-b-0 ${
-                      isActive ? "bg-[#F9FF00] text-black" : "bg-white text-black hover:bg-[#F9FF00]/20"
-                    }`}>
-                    <div className="flex items-center gap-3">
-                      <Icon size={16} />
-                      <span className="font-oswald text-sm font-bold uppercase tracking-wider">{tab.label}</span>
-                    </div>
-                    {notifCount > 0 && (
-                      <span className="px-2 py-0.5 text-[10px] font-black bg-[#FF0004] text-white border-[2px] border-black">
-                        {notifCount}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </nav>
-
-            {/* Quick Actions */}
-            <div className="flex flex-col gap-2">
-              <button onClick={handleExport}
-                className="w-full border-[3px] border-black bg-white font-oswald font-bold uppercase tracking-widest text-xs py-3 flex items-center justify-center gap-2 hover:bg-[#00E5FF] transition-colors">
-                <Download size={14} /> EXPORT DATA
-              </button>
-              <button onClick={handleLogout}
-                className="w-full border-[3px] border-black bg-[#1a1a1a] text-white font-oswald font-bold uppercase tracking-widest text-xs py-3 flex items-center justify-center gap-2 hover:bg-[#FF0004] transition-colors">
-                <LogOut size={14} /> TERMINATE SESSION
-              </button>
-            </div>
           </div>
 
+          {/* Nav tabs */}
+          <nav className="flex flex-col flex-1">
+            {TABS.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              const notifCount = tab.id === "NOTIFICATIONS" ? notifications.filter(n => !n.read).length : 0;
+              return (
+                <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-all border-b-[2px] border-black/15 last:border-b-0 ${
+                    isActive
+                      ? "bg-black text-[#F9FF00]"
+                      : "text-black hover:bg-black/8"
+                  }`}>
+                  <div className="flex items-center gap-3">
+                    <Icon size={15} className={isActive ? "text-[#F9FF00]" : "text-black/60"} />
+                    <span className="font-oswald text-sm font-bold uppercase tracking-wider">{tab.label}</span>
+                  </div>
+                  {notifCount > 0 && (
+                    <span className="px-1.5 py-0.5 text-[9px] font-black bg-[#FF0004] text-white border-[2px] border-black">
+                      {notifCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Quick actions */}
+          <div className="p-4 border-t-[3px] border-black flex flex-col gap-2">
+            <div className="font-mono text-[9px] font-bold text-black/40 uppercase tracking-widest text-center mb-1">
+              {currentTime.toLocaleTimeString()}
+            </div>
+            <button onClick={handleExport}
+              className="w-full border-[3px] border-black bg-white font-oswald font-bold uppercase tracking-widest text-[10px] py-2.5 flex items-center justify-center gap-2 hover:bg-[#00E5FF] transition-colors">
+              <Download size={13} /> EXPORT DATA
+            </button>
+            <button onClick={handleLogout}
+              className="w-full border-[3px] border-black bg-black text-[#F9FF00] font-oswald font-bold uppercase tracking-widest text-[10px] py-2.5 flex items-center justify-center gap-2 hover:bg-[#FF0004] hover:border-[#FF0004] hover:text-white transition-colors">
+              <LogOut size={13} /> SIGN OUT
+            </button>
+          </div>
+        </div>
+
           {/* Main Content Area */}
-          <div className="lg:w-3/4">
-            <div className="border-[4px] border-black p-6 md:p-10 bg-white min-h-[700px] shadow-[8px_8px_0px_rgba(0,0,0,1)] relative">
-              
-              {/* Corner Accents */}
-              <div className="absolute top-0 left-0 w-4 h-4 border-b-[4px] border-r-[4px] border-black pointer-events-none" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-b-[4px] border-l-[4px] border-black pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-t-[4px] border-r-[4px] border-black pointer-events-none" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-t-[4px] border-l-[4px] border-black pointer-events-none" />
+          <div className="flex-1 min-w-0">
+            <div className="p-6 md:p-8 lg:p-10 min-h-[600px]">
+              <div className="relative">
 
               {/* OVERVIEW TAB */}
               {activeTab === "OVERVIEW" && (
@@ -643,8 +647,8 @@ export default function AccountCenter() {
 
             </div>
           </div>
-
         </div>
+
       </div>
 
       <Footer />

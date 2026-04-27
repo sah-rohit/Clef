@@ -100,9 +100,15 @@ export function FooterBar() {
       {/* Expanded panel — full footer content, grows upward */}
       <div
         ref={panelRef}
-        className="overflow-hidden bg-[#1a1a1a] border-t-[3px] border-black"
-        style={{ height: 0, opacity: 0 }}
+        className="overflow-hidden border-t-[3px] border-black"
+        style={{ height: 0, opacity: 0, background: "#1a1a1a" }}
       >
+        {/* Color accent strip at top of panel */}
+        <div className="flex h-1.5">
+          {["#F9FF00","#FF0004","#00E5FF","#00FF87","#7C3AED"].map(c => (
+            <div key={c} className="flex-1" style={{ background: c }} />
+          ))}
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 max-h-[65vh] overflow-y-auto">
           {/* Brand */}
           <div className="sm:col-span-2 md:col-span-4 border-b-[3px] sm:border-b-0 md:border-r-[3px] border-white/10 px-5 md:px-8 py-6">
@@ -192,22 +198,31 @@ export function FooterBar() {
         </div>
       </div>
 
-      {/* Copyright ribbon — the always-visible bar */}
+      {/* Copyright ribbon — vibrant bottom bar */}
       <button
         onClick={() => setExpanded(e => !e)}
-        className="w-full bg-[#1a1a1a] border-t-[3px] border-black flex items-center justify-between px-4 md:px-8 group hover:bg-[#111] transition-colors"
-        style={{ height: RIBBON_H }}
+        className="w-full border-t-[3px] border-black flex items-center justify-between px-4 md:px-8 group transition-colors"
+        style={{ height: RIBBON_H, background: expanded ? "#F9FF00" : "#1a1a1a" }}
         aria-label={expanded ? "Collapse footer" : "Expand footer"}
       >
-        <span className="font-inter text-[10px] text-white/40 uppercase tracking-widest font-bold truncate mr-4">
-          &copy; 2026 CLEF BY SONATA INTERACTIVE — ALL RIGHTS RESERVED.
-        </span>
-        <div className="flex items-center gap-3 shrink-0">
-          <span className="font-inter text-[10px] text-white/25 uppercase tracking-widest font-bold hidden lg:block">
-            BUILT FOR CREATORS • POWERED BY CLEF
+        <div className="flex items-center gap-3">
+          {/* Vibrant color dots */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            {["#F9FF00","#FF0004","#00E5FF","#00FF87","#7C3AED"].map(c => (
+              <div key={c} className="w-1.5 h-1.5 rotate-45 transition-transform group-hover:scale-125"
+                style={{ background: c }} />
+            ))}
+          </div>
+          <span className={`font-inter text-[10px] uppercase tracking-widest font-bold truncate transition-colors ${expanded ? "text-black/60" : "text-white/40"}`}>
+            &copy; 2026 CLEF BY SONATA INTERACTIVE
           </span>
-          <div className="w-5 h-5 border border-white/20 flex items-center justify-center group-hover:border-[#F9FF00] group-hover:text-[#F9FF00] transition-colors text-white/40 shrink-0">
-            {expanded ? <ChevronDown size={11} /> : <ChevronUp size={11} />}
+        </div>
+        <div className="flex items-center gap-3 shrink-0">
+          <span className={`font-oswald text-[10px] font-bold uppercase tracking-widest hidden lg:block transition-colors ${expanded ? "text-black/50" : "text-white/25"}`}>
+            BUILT FOR CREATORS
+          </span>
+          <div className={`w-6 h-6 border-[2px] flex items-center justify-center transition-all ${expanded ? "border-black/30 text-black/60 bg-black/10" : "border-white/20 text-white/40 group-hover:border-[#F9FF00] group-hover:text-[#F9FF00]"}`}>
+            {expanded ? <ChevronDown size={12} /> : <ChevronUp size={12} />}
           </div>
         </div>
       </button>
