@@ -1,5 +1,4 @@
-import { Link } from "react-router";
-import { ArrowLeft } from "lucide-react";
+import { BackButton } from "@/components/BackButton";
 
 export default function NotFound() {
   return (
@@ -14,13 +13,9 @@ export default function NotFound() {
         <p className="font-inter text-sm text-[#1a1a1a]/60 mb-8 max-w-md mx-auto">
           The page you are looking for does not exist or has been moved.
         </p>
-        <Link
-          to="/"
-          className="btn-brutal btn-brutal-yellow inline-flex items-center gap-2"
-        >
-          <ArrowLeft size={16} />
-          BACK TO STUDIO
-        </Link>
+        <div className="flex justify-center mb-8">
+          <BackButton />
+        </div>
 
         {/* Decorative */}
         <div className="flex justify-center gap-0 mt-12">

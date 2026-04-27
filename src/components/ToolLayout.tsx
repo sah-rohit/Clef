@@ -1,6 +1,7 @@
 import { type ReactNode, useEffect } from "react";
 import { Link, useLocation } from "react-router";
-import { ArrowLeft, Sparkles, Shield, Info } from "lucide-react";
+import { Sparkles, Shield, Info } from "lucide-react";
+import { BackButton } from "@/components/BackButton";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { TOOLS } from "@/data/tools";
@@ -30,13 +31,9 @@ export function ToolLayout({ toolId, children }: ToolLayoutProps) {
         <div className="border-b-[4px] border-black bg-white">
           <div className="px-6 md:px-12 lg:px-20 py-10 md:py-16">
             <div className="max-w-[1400px] mx-auto">
-              <Link
-                to="/#tools"
-                className="inline-flex items-center gap-3 font-oswald text-[10px] font-bold uppercase tracking-[0.3em] hover:text-[#FF0004] transition-all mb-8 group"
-              >
-                <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-                BACK TO HOME
-              </Link>
+              <div className="mb-8">
+                <BackButton />
+              </div>
               
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
                 <div className="flex-1">

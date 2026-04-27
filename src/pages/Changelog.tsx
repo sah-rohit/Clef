@@ -228,7 +228,7 @@ export default function Changelog() {
         {/* Header — purple bg */}
         <div className="bg-[#7C3AED] border-b-[3px] border-black relative overflow-hidden"
           style={{ marginTop: "calc(-1 * (var(--ribbon-h) + var(--nav-h)))", paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
-          <div ref={heroRef} className="px-6 md:px-12 lg:px-16 py-16 md:py-24 relative z-10">
+          <div ref={heroRef} className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
             <div className="mb-6"><BackButton /></div>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>

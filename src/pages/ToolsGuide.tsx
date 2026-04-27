@@ -154,7 +154,7 @@ export default function ToolsGuide() {
       {/* Hero — dark bg */}
       <div className="bg-[#1a1a1a] border-b-[3px] border-black relative overflow-hidden"
         style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-24 relative z-10 hero-animate">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10 hero-animate">
           <div className="mb-6"><BackButton /></div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>

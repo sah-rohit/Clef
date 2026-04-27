@@ -2,8 +2,8 @@ import { useParams, Link } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { trpc } from "@/providers/trpc";
 import { Navigation } from "@/components/Navigation";
+import { BackButton } from "@/components/BackButton";
 import {
-  ArrowLeft,
   Clock,
   Calendar,
   DollarSign,
@@ -133,13 +133,7 @@ export default function CommissionDetail() {
       <div className="pt-20 pb-16 px-6 md:px-12 lg:px-16">
         {/* Breadcrumb */}
         <div className="flex items-center gap-4 mb-8">
-          <Link
-            to="/dashboard"
-            className="flex items-center gap-2 font-oswald text-sm uppercase tracking-wider hover:text-[#FF0004] transition-colors"
-          >
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
+          <BackButton />
           <span className="text-[#1a1a1a]/30">/</span>
           <span className="font-oswald text-sm uppercase tracking-wider">
             Commission #{commission.id}

@@ -11,7 +11,7 @@ export default function Github() {
       {/* Hero — dark bg */}
       <div className="bg-[#1a1a1a] border-b-[3px] border-black relative overflow-hidden"
         style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-24 relative z-10">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
           <div className="mb-6"><BackButton /></div>
           <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-4">OPEN SOURCE</span>
           <h1 className="font-oswald text-6xl md:text-8xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white mb-6">

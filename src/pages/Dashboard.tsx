@@ -3,8 +3,8 @@ import { useNavigate, Link } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { trpc } from "@/providers/trpc";
 import { Navigation } from "@/components/Navigation";
+import { BackButton } from "@/components/BackButton";
 import {
-  ArrowLeft,
   FileText,
   Clock,
   CheckCircle2,
@@ -87,13 +87,7 @@ export default function Dashboard() {
         {/* Header */}
         <div className="px-6 md:px-12 lg:px-16 mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <Link
-              to="/"
-              className="flex items-center gap-2 font-oswald text-sm uppercase tracking-wider hover:text-[#FF0004] transition-colors"
-            >
-              <ArrowLeft size={16} />
-              Back to Studio
-            </Link>
+            <BackButton />
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
