@@ -188,7 +188,7 @@ export function ToolPreviewPopup({ tool, onClose, onOpen }: ToolPreviewPopupProp
 
   const handleOpen = () => {
     document.body.style.overflow = ""; // ensure scroll is restored
-    onClose();
+    onOpen(); // Call the parent's onOpen handler
     navigate(tool.path);
   };
 

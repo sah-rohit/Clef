@@ -42,37 +42,54 @@ export default function ToolsPage() {
       <Navigation />
       
       <div style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
-        <div className="px-6 md:px-12 lg:px-16 pt-8 pb-8 bg-white relative z-20 border-b-[3px] border-black">
-          <BackButton />
-        </div>
-
         <section
           ref={sectionRef}
           className="border-b-[3px] border-black bg-white relative"
         >
           <div className="grid grid-cols-1 md:grid-cols-12">
             {/* Sticky Left Column */}
-            <div ref={leftColRef} className="md:col-span-4 lg:col-span-3 border-b-[3px] md:border-b-0 md:border-r-[3px] border-black md:sticky md:top-0 md:h-screen flex flex-col justify-center px-6 md:px-10 py-12 md:py-0 bg-[#00E5FF] z-10">
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">THE ARSENAL</span>
-              <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black mb-6">
-                OUR<br /><span className="text-outline-black">WORKBENCH.</span>
-              </h2>
-              <p className="font-inter text-sm leading-relaxed text-black/65 mb-8">
-                Explore 28+ utilities separated into three major categories. All instant. All free.
-              </p>
-              <div className="flex flex-col gap-3">
-                {activeCategories.map((cat, i) => (
-                  <div
-                    key={i}
-                    className={`px-4 py-3 border-[3px] border-black font-oswald text-sm font-bold uppercase tracking-widest transition-all duration-300 ${
-                      i === activeStep
-                        ? "bg-black text-[#00E5FF] translate-x-2"
-                        : "bg-white/50 text-black hover:bg-white"
-                    }`}
-                  >
-                    {String(i + 1).padStart(2, "0")} — {cat.label}
-                  </div>
-                ))}
+            <div 
+              ref={leftColRef} 
+              className="md:col-span-4 lg:col-span-3 border-b-[3px] md:border-b-0 md:border-r-[3px] border-black md:sticky md:top-0 md:h-screen flex flex-col justify-center px-6 md:px-10 py-12 md:py-0 transition-colors duration-500 z-10"
+              style={{ backgroundColor: 
+                activeStep === 0 ? "#00E5FF" : 
+                activeStep === 1 ? "#F9FF00" : 
+                "#00FF87" 
+              }}
+            >
+              <div className="absolute top-12 left-6 md:left-10">
+                <BackButton />
+              </div>
+
+              <div className="relative z-10">
+                <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">THE ARSENAL</span>
+                <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black mb-6">
+                  OUR<br /><span className="text-outline-black">WORKBENCH.</span>
+                </h2>
+                <p className="font-inter text-sm leading-relaxed text-black/65 mb-8">
+                  {activeStep === 0 ? "28+ developer utilities for code formatting, regex testing, and data transformation." :
+                   activeStep === 1 ? "Essential tools for text manipulation, markdown editing, and focus-driven productivity." :
+                   "Everyday utilities like calculators, converters, and password generators for rapid daily tasks."}
+                </p>
+                <div className="flex flex-col gap-3">
+                  {activeCategories.map((cat, i) => (
+                    <div
+                      key={i}
+                      className={`px-4 py-3 border-[3px] border-black font-oswald text-sm font-bold uppercase tracking-widest transition-all duration-300 ${
+                        i === activeStep
+                          ? "bg-black text-white translate-x-2"
+                          : "bg-white/50 text-black hover:bg-white"
+                      }`}
+                    >
+                      {String(i + 1).padStart(2, "0")} — {cat.label}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Faded Background Text */}
+              <div className="absolute bottom-10 right-4 font-oswald text-[120px] font-bold text-black/[0.05] leading-none select-none pointer-events-none uppercase">
+                {activeCategories[activeStep]?.label.split(" ")[0]}
               </div>
             </div>
 

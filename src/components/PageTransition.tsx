@@ -8,13 +8,14 @@ export function PageTransition({ children }: Props) {
   const location   = useLocation();
   const wrapRef    = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
-  // Track the previous pathname so we only animate on real page changes
+  const textRef    = useRef<HTMLDivElement>(null);
   const prevPath   = useRef<string | null>(null);
 
   useEffect(() => {
     const wrap    = wrapRef.current;
     const curtain = curtainRef.current;
-    if (!wrap || !curtain) return;
+    const text    = textRef.current;
+    if (!wrap || !curtain || !text) return;
 
     const currentPath = location.pathname;
     const isFirstLoad = prevPath.current === null;
@@ -22,52 +23,43 @@ export function PageTransition({ children }: Props) {
 
     prevPath.current = currentPath;
 
-    // Skip transition for:
-    // 1. Hash-only navigation on the same page (/#tools → /#roster)
-    // 2. First load gets a lighter entrance (no curtain)
     if (isSamePage) {
-      // Same pathname, just a hash change — no transition at all
-      gsap.set(wrap, { opacity: 1, y: 0, filter: "blur(0px)" });
+      gsap.set(wrap, { opacity: 1, y: 0 });
       gsap.set(curtain, { scaleY: 0 });
       return;
     }
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
       if (isFirstLoad) {
-        // First load: simple fade-in, no curtain sweep
         gsap.set(curtain, { scaleY: 0 });
         tl.fromTo(
           wrap,
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.55, ease: "power2.out", force3D: true }
-        )
-        // Clear residual transform so position:fixed children (GSAP pin) work correctly
-        .set(wrap, { clearProps: "transform" });
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+        ).set(wrap, { clearProps: "transform" });
       } else {
-        // Real page change: curtain sweeps in from top, then retracts
+        // Sweep up + fade content
         tl.set(curtain, { scaleY: 1, transformOrigin: "top center" })
+          .fromTo(text, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 })
           .to(curtain, {
             scaleY: 0,
             transformOrigin: "top center",
-            duration: 0.6,        // was 0.45 — slightly slower
-            ease: "power2.inOut", // was power3 — gentler curve
-            force3D: true,
-          })
+            duration: 0.8,
+            ease: "expo.inOut",
+          }, "+=0.1")
+          .to(text, { opacity: 0, y: -20, duration: 0.3 }, "-=0.7")
           .fromTo(
             wrap,
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", force3D: true },
-            "-=0.2"
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+            "-=0.4"
           )
-          // Clear residual styles so children (GSAP pin, opacity triggers) work correctly
           .set(wrap, { clearProps: "all" })
           .add(() => {
-            // Force ScrollTrigger to recalculate everything after the page transition finishes
             import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
               ScrollTrigger.refresh(true);
-              // Second refresh to catch any layout shifts after the main one
               setTimeout(() => ScrollTrigger.refresh(true), 250);
             });
           });
@@ -75,9 +67,6 @@ export function PageTransition({ children }: Props) {
     });
 
     return () => ctx.revert();
-  // Re-run when pathname OR key changes — but the isSamePage guard
-  // prevents the animation when only the hash changed
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, location.key]);
 
   const curtainColor = (() => {
@@ -88,20 +77,40 @@ export function PageTransition({ children }: Props) {
     if (p === "/roster")         return "#00E5FF";
     if (p === "/inquiry")        return "#7C3AED";
     if (p === "/about")          return "#F9FF00";
-    if (p === "/pricing")        return "#00FF87";
+    if (p === "/pricing")        return "#FF0004"; // Red for pricing
     if (p === "/how-to-use")     return "#00E5FF";
     if (p === "/changelog")      return "#7C3AED";
     if (p === "/tools-guide")    return "#FF0004";
     return "#1a1a1a";
   })();
 
+  const pageTitle = (() => {
+    const p = location.pathname;
+    if (p.startsWith("/tools/")) return "LOADING TOOL...";
+    if (p === "/tools")          return "FETCHING WORKBENCH...";
+    if (p === "/promise")        return "INITIALIZING VALUES...";
+    if (p === "/roster")         return "ASSEMBLING TEAM...";
+    if (p === "/inquiry")        return "LOADING BOARD...";
+    if (p === "/about")          return "OUR STORY...";
+    if (p === "/pricing")        return "ZERO COST...";
+    if (p === "/how-to-use")     return "GUIDE...";
+    if (p === "/changelog")      return "HISTORY...";
+    return "CLEF...";
+  })();
+
   return (
     <>
       <div
         ref={curtainRef}
-        className="fixed inset-0 z-[9990] pointer-events-none"
+        className="fixed inset-0 z-[9990] flex items-center justify-center pointer-events-none"
         style={{ background: curtainColor, transformOrigin: "top center", scaleY: 1 }}
-      />
+      >
+        <div ref={textRef} className="opacity-0">
+          <span className={`font-oswald text-4xl md:text-6xl font-black uppercase tracking-tighter ${curtainColor === "#1a1a1a" || curtainColor === "#7C3AED" || curtainColor === "#FF0004" ? "text-white" : "text-black"}`}>
+            {pageTitle}
+          </span>
+        </div>
+      </div>
       <div ref={wrapRef} style={{ opacity: 0 }}>
         {children}
       </div>

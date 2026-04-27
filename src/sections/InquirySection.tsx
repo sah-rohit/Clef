@@ -4,6 +4,7 @@ import { useToast } from "@/providers/ToastProvider";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
+import { BackButton } from "@/components/BackButton";
 
 type TabId = "FEEDBACK" | "EXPERIENCES" | "CONTACT";
 
@@ -24,7 +25,7 @@ interface Post {
   replies?: Reply[];
 }
 
-export function InquirySection() {
+export function InquirySection({ showBackButton = false }: { showBackButton?: boolean }) {
   const [activeTab, setActiveTab] = useState<TabId>("FEEDBACK");
   const posts = useQuery(api.posts.get, { type: activeTab === "CONTACT" ? undefined : activeTab }) || [];
   
@@ -41,7 +42,6 @@ export function InquirySection() {
   
   const { showToast } = useToast();
 
-  // Local storage for spam prevention is still fine
   const checkDailyLimit = () => {
     const today = new Date().toISOString().split("T")[0];
     const dailyPosts = JSON.parse(localStorage.getItem(`clef_posts_${today}`) || "0");
@@ -126,13 +126,26 @@ export function InquirySection() {
   return (
     <section id="inquiry" className="border-t-[4px] border-black overflow-hidden">
       {/* Header — purple bg */}
-      <div className="bg-[#7C3AED] border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
-          <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 block mb-4">COMMUNITY TALK</span>
-          <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
-            INQUIRY.<br /><span className="text-outline-white">SPEAK UP.</span>
-          </h2>
+      <div className="bg-[#7C3AED] border-b-[3px] border-black relative overflow-hidden">
+        {showBackButton && (
+          <div className="absolute top-12 left-6 md:left-10 z-20">
+            <BackButton />
+          </div>
+        )}
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 block mb-4">COMMUNITY TALK</span>
+              <h2 className="font-oswald text-5xl md:text-8xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+                INQUIRY.<br /><span className="text-outline-white">SPEAK UP.</span>
+              </h2>
+            </div>
+            <div className="text-right">
+              <span className="font-oswald text-[120px] md:text-[160px] font-bold leading-none text-white/10 select-none pointer-events-none uppercase">TALK</span>
+            </div>
+          </div>
         </div>
+        <div className="absolute -bottom-6 -right-6 font-oswald text-[200px] font-bold text-white/[0.04] leading-none select-none pointer-events-none uppercase">INQUIRY</div>
       </div>
 
       <div className="max-w-[1300px] mx-auto">

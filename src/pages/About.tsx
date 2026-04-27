@@ -20,8 +20,8 @@ export default function About() {
         className="bg-[#F9FF00] border-b-[3px] border-black relative overflow-hidden"
         style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}
       >
-        <div ref={heroRef} className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
-          <div className="mb-6">
+        <div ref={heroRef} className="px-6 md:px-12 lg:px-16 pt-24 pb-20 md:pt-32 md:pb-28 relative z-10">
+          <div className="mb-8">
             <BackButton />
           </div>
           <div className="max-w-4xl">

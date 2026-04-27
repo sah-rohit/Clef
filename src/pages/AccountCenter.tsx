@@ -191,9 +191,9 @@ export default function AccountCenter() {
       {/* ── Full-bleed layout: vibrant left sidebar + white content ── */}
       <div className="flex-1 flex flex-col lg:flex-row relative" style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
 
-        {/* ── LEFT SIDEBAR — sticky to avoid infinite growth ── */}
+        {/* ── LEFT SIDEBAR ── */}
         <div
-          className="lg:w-72 xl:w-80 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col shrink-0 overflow-y-auto lg:sticky transition-colors duration-500"
+          className="lg:w-72 xl:w-80 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col shrink-0 overflow-y-auto lg:sticky transition-colors duration-500 scrollbar-none"
           style={{ background: sidebarColor.bg, top: "calc(var(--ribbon-h) + var(--nav-h))", height: "calc(100vh - var(--ribbon-h) - var(--nav-h))" }}>
 
           {/* Geometric background pattern — contrasting */}
@@ -216,7 +216,7 @@ export default function AccountCenter() {
               style={{ color: sidebarColor.isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)" }}>
               {user.name?.charAt(0) || "U"}
             </div>
-            <div className="mb-4"><BackButton /></div>
+            <div className="mb-10"><BackButton /></div>
             <div className="flex items-center gap-4 relative z-10">
               <div className="w-14 h-14 border-[3px] overflow-hidden shrink-0"
                 style={{ borderColor: sidebarColor.isLight ? "rgba(0,0,0,0.25)" : "rgba(255,255,255,0.3)", background: sidebarColor.isLight ? "#1a1a1a" : "rgba(255,255,255,0.15)" }}>
@@ -287,7 +287,7 @@ export default function AccountCenter() {
         </div>
 
           {/* Main Content Area */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 overflow-x-hidden">
             <div className="p-6 md:p-8 lg:p-12 h-full">
               <div className="relative animate-slide-up-content max-w-5xl mx-auto">
 

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { BackButton } from "@/components/BackButton";
 
 const features = [
   {
@@ -56,7 +57,7 @@ const features = [
   },
 ];
 
-export function OurPromiseSection() {
+export function OurPromiseSection({ showBackButton = false }: { showBackButton?: boolean }) {
   const [activeStep, setActiveStep] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
   const leftColRef = useScrollReveal<HTMLDivElement>({ x: -30, y: 0, duration: 0.7 });
@@ -79,6 +80,13 @@ export function OurPromiseSection() {
     return () => observer.disconnect();
   }, []);
 
+  const activeColor = 
+    features[activeStep].color === "yellow" ? "#F9FF00" :
+    features[activeStep].color === "red" ? "#FF0004" :
+    features[activeStep].color === "cyan" ? "#00E5FF" :
+    features[activeStep].color === "green" ? "#00FF87" :
+    "#7C3AED";
+
   return (
     <section
       id="promise"
@@ -86,30 +94,43 @@ export function OurPromiseSection() {
       className="border-b-[3px] border-black bg-white"
     >
       <div className="grid grid-cols-1 md:grid-cols-12">
-        {/* Sticky Left Column — yellow bg */}
-        <div ref={leftColRef} className="md:col-span-4 lg:col-span-3 border-r-[3px] border-black md:sticky md:top-0 md:h-screen flex flex-col justify-center px-6 md:px-10 py-12 md:py-0 bg-[#F9FF00]">
-          <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">WHY CLEF</span>
-          <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black mb-6">
-            OUR<br /><span className="text-outline-black">PROMISE.</span>
-          </h2>
-          <p className="font-inter text-sm leading-relaxed text-black/65 mb-8">
-            Four core principles that drive everything we build. No compromises, no exceptions.
-          </p>
-          <div className="flex gap-2">
-            {features.map((f, i) => (
-              <div
-                key={i}
-                className={`h-3 flex-1 border-[3px] border-black transition-all duration-300 ${
-                  i === activeStep
-                    ? f.color === "yellow" ? "bg-[#1a1a1a]"
-                      : f.color === "red"  ? "bg-[#FF0004]"
-                      : f.color === "cyan" ? "bg-[#00E5FF]"
-                      : f.color === "green"? "bg-[#00FF87]"
-                      : "bg-[#7C3AED]"
-                    : "bg-black/10"
-                }`}
-              />
-            ))}
+        {/* Sticky Left Column */}
+        <div 
+          ref={leftColRef} 
+          className="md:col-span-4 lg:col-span-3 border-r-[3px] border-black md:sticky md:top-0 md:h-screen flex flex-col justify-center px-6 md:px-10 py-12 md:py-0 transition-colors duration-500 z-10"
+          style={{ backgroundColor: activeColor }}
+        >
+          {showBackButton && (
+            <div className="absolute top-12 left-6 md:left-10">
+              <BackButton />
+            </div>
+          )}
+          
+          <div className="relative z-10">
+            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">WHY CLEF</span>
+            <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black mb-6">
+              OUR<br /><span className="text-outline-black">PROMISE.</span>
+            </h2>
+            <p className="font-inter text-sm leading-relaxed text-black/65 mb-8">
+              {features[activeStep].desc}
+            </p>
+            <div className="flex gap-2">
+              {features.map((f, i) => (
+                <div
+                  key={i}
+                  className={`h-3 flex-1 border-[3px] border-black transition-all duration-300 ${
+                    i === activeStep
+                      ? "bg-black"
+                      : "bg-black/10"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Faded Background Text */}
+          <div className="absolute bottom-10 right-4 font-oswald text-[120px] font-bold text-black/[0.05] leading-none select-none pointer-events-none uppercase">
+            {features[activeStep].title.split(" ")[0]}
           </div>
         </div>
 

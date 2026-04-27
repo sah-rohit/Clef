@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { BackButton } from "@/components/BackButton";
 
-export function RosterSection() {
+export function RosterSection({ showBackButton = false }: { showBackButton?: boolean }) {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const headerRef = useScrollReveal<HTMLDivElement>({ y: 30, duration: 0.6 });
   const tableRef  = useScrollReveal<HTMLDivElement>({ y: 40, duration: 0.7, delay: 0.1 });
@@ -75,20 +76,26 @@ export function RosterSection() {
   return (
     <section id="roster" className="border-b-[3px] border-black">
       {/* Header — cyan bg */}
-      <div className="bg-[#00E5FF] border-b-[3px] border-black">
-        <div ref={headerRef} className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
-          <div className="flex items-end justify-between">
+      <div className="bg-[#00E5FF] border-b-[3px] border-black relative overflow-hidden">
+        {showBackButton && (
+          <div className="absolute top-12 left-6 md:left-10 z-20">
+            <BackButton />
+          </div>
+        )}
+        <div ref={headerRef} className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">HOW WE STACK UP</span>
-              <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black">
+              <h2 className="font-oswald text-5xl md:text-8xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black">
                 THE CLEF<br /><span className="text-outline-black">ROSTER.</span>
               </h2>
             </div>
-            <span className="hidden md:block font-oswald text-sm uppercase tracking-widest text-black/40">
-              {comparison.length} CORE ATTRIBUTES
-            </span>
+            <div className="text-right">
+              <span className="font-oswald text-[120px] md:text-[160px] font-bold leading-none text-black/10 select-none pointer-events-none uppercase">TEAM</span>
+            </div>
           </div>
         </div>
+        <div className="absolute -bottom-6 -right-6 font-oswald text-[200px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">ROSTER</div>
       </div>
 
       <div ref={tableRef} className="px-6 md:px-12 lg:px-16 py-12 overflow-x-auto md:overflow-visible bg-white">
