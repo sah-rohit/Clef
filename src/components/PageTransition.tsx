@@ -1,4 +1,4 @@
-import { useEffect, useRef, ReactNode } from "react";
+import { useLayoutEffect, useRef, ReactNode } from "react";
 import { useLocation } from "react-router";
 import gsap from "gsap";
 
@@ -11,7 +11,10 @@ export function PageTransition({ children }: Props) {
   const textRef    = useRef<HTMLDivElement>(null);
   const prevPath   = useRef<string | null>(null);
 
-  useEffect(() => {
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const isTransitioningRef = useRef(false);
+
+  useLayoutEffect(() => {
     const wrap    = wrapRef.current;
     const curtain = curtainRef.current;
     const text    = textRef.current;
@@ -23,30 +26,50 @@ export function PageTransition({ children }: Props) {
 
     prevPath.current = currentPath;
 
+    // Failsafe: Reset state immediately if same page or interrupted
+    const resetToVisible = () => {
+      gsap.killTweensOf([curtain, wrap, text]);
+      gsap.set(curtain, { scaleY: 0, opacity: 0, pointerEvents: "none" });
+      gsap.set(wrap, { opacity: 1, y: 0, clearProps: "transform" });
+      isTransitioningRef.current = false;
+    };
+
     if (isSamePage) {
-      gsap.set(wrap, { opacity: 1, y: 0 });
-      gsap.set(curtain, { scaleY: 0, opacity: 0 });
+      resetToVisible();
       return;
     }
 
+    // Kill any existing timeline to prevent overlapping transitions
+    if (timelineRef.current) {
+      timelineRef.current.kill();
+    }
+
+    isTransitioningRef.current = true;
+
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
+      const tl = gsap.timeline({ 
+        defaults: { ease: "power3.inOut" },
+        onComplete: () => {
+          isTransitioningRef.current = false;
+          gsap.set(curtain, { pointerEvents: "none" });
+        }
+      });
+      timelineRef.current = tl;
 
       if (isFirstLoad) {
-        gsap.set(curtain, { scaleY: 0, opacity: 0 });
+        gsap.set(curtain, { scaleY: 0, opacity: 0, pointerEvents: "none" });
         tl.fromTo(
           wrap,
           { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
         ).set(wrap, { clearProps: "transform" });
       } else {
         // Sweep up + fade content
-        tl.set(curtain, { scaleY: 1, opacity: 1, transformOrigin: "top center" })
+        tl.set(curtain, { scaleY: 1, opacity: 1, pointerEvents: "auto", transformOrigin: "top center" })
           .fromTo(text, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 });
 
         // Special kinetic animation for Home
         if (currentPath === "/") {
-          // Brutalist Kinetic Portal Animation
           tl.to(curtain, { background: "#F9FF00", duration: 0.1 })
             .to(text, { scale: 1.2, duration: 0.1, repeat: 3, yoyo: true })
             .to(text, { 
@@ -82,24 +105,28 @@ export function PageTransition({ children }: Props) {
             "-=0.4"
           )
           .set(wrap, { clearProps: "all" })
-          .set(curtain, { opacity: 0 }) // Failsafe
+          .set(curtain, { opacity: 0, pointerEvents: "none" })
           .add(() => {
-            window.scrollTo(0, 0); // Reset scroll on route change
+            window.scrollTo(0, 0);
+            if ((window as any).__lenis__) (window as any).__lenis__.scrollTo(0, { immediate: true });
+            
             import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
               ScrollTrigger.refresh(true);
-              setTimeout(() => ScrollTrigger.refresh(true), 250);
             });
           });
       }
     });
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      if (timelineRef.current) timelineRef.current.kill();
+    };
   }, [location.pathname, location.key]);
 
   const curtainColor = (() => {
     const p = location.pathname;
     if (p.startsWith("/tools/")) return "#1a1a1a";
-    if (p === "/")               return "#1a1a1a"; // Special Home color
+    if (p === "/")               return "#1a1a1a";
     if (p === "/tools")          return "#F9FF00";
     if (p === "/promise")        return "#00FF87";
     if (p === "/roster")         return "#00E5FF";
@@ -155,7 +182,7 @@ export function PageTransition({ children }: Props) {
       <div
         ref={curtainRef}
         className="fixed inset-0 z-[9990] flex items-center justify-center pointer-events-none overflow-hidden"
-        style={{ background: curtainColor, transformOrigin: "top center", scaleY: 1 }}
+        style={{ background: curtainColor, transformOrigin: "top center", scaleY: 0, opacity: 0 }}
       >
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 opacity-20 pointer-events-none">
           {[...Array(6)].map((_, i) => (
@@ -168,9 +195,10 @@ export function PageTransition({ children }: Props) {
           </span>
         </div>
       </div>
-      <div ref={wrapRef} style={{ opacity: 0 }}>
+      <div ref={wrapRef} className="flex-1 min-h-screen flex flex-col relative" style={{ opacity: 0 }}>
         {children}
       </div>
     </>
   );
 }
+

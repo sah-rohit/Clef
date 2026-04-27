@@ -72,7 +72,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    /* No padding-bottom — FooterBar is fixed and floats over content */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   /* Hide system cursor on desktop browsers */

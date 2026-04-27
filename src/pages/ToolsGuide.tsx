@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BackButton } from "@/components/BackButton";
@@ -7,8 +7,6 @@ import { TOOLS, CATEGORIES } from "@/data/tools";
 import { ArrowUpRight, Code, Layers, Wrench } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const categoryMeta: Record<string, { color: string; bg: string; icon: React.ElementType; desc: string }> = {
   developer: {
@@ -109,13 +107,14 @@ const toolDetails: Record<string, { howTo: string[]; useCases: string[] }> = {
 export default function ToolsGuide() {
   const containerRef = useRef<HTMLDivElement>(null);
   
-  const grouped = CATEGORIES.filter(c => c.value !== "all").map(cat => ({
+  const grouped = (CATEGORIES || []).filter(c => c && c.value !== "all").map(cat => ({
     ...cat,
-    tools: TOOLS.filter(t => t.category === cat.value),
+    tools: (TOOLS || []).filter(t => t && t.category === cat.value),
   }));
 
-  useEffect(() => {
-    // Apple-style entrance with brutalist snapping
+  useLayoutEffect(() => {
+    if (!containerRef.current) return;
+
     const ctx = gsap.context(() => {
       // Hero fade up
       gsap.fromTo(".hero-animate > *", 
@@ -129,22 +128,27 @@ export default function ToolsGuide() {
         { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out", delay: 0.3 }
       );
 
-      // Tool rows scroll animation with snap/hold magnetic effect
-      gsap.utils.toArray(".tool-row").forEach((row: any) => {
-        ScrollTrigger.create({
-          trigger: row,
-          start: "top 90%",
-          end: "bottom 80%",
-          animation: gsap.fromTo(row, 
-            { y: 40, opacity: 0, scale: 0.98 }, 
-            { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.2)" }
-          ),
-          toggleActions: "play none none reverse",
+      // Tool rows scroll animation
+      const rows = gsap.utils.toArray(".tool-row");
+      if (rows.length > 0) {
+        rows.forEach((row: any) => {
+          ScrollTrigger.create({
+            trigger: row,
+            start: "top 95%",
+            animation: gsap.fromTo(row, 
+              { y: 40, opacity: 0, scale: 0.98 }, 
+              { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.2)" }
+            ),
+            toggleActions: "play none none reverse",
+          });
         });
-      });
+      }
     }, containerRef);
     
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
   }, []);
 
   return (
