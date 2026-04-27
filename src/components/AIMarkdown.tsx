@@ -1,7 +1,10 @@
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import remarkBreaks from "remark-breaks";
 import rehypeKatex from "rehype-katex";
 import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 import "katex/dist/katex.min.css";
 
 interface Props {
@@ -21,8 +24,8 @@ export function AIMarkdown({ content }: Props) {
   return (
     <div className="ai-markdown font-inter text-[11px] leading-relaxed">
       <ReactMarkdown
-        remarkPlugins={[remarkMath]}
-        rehypePlugins={[rehypeKatex, rehypeHighlight]}
+        remarkPlugins={[remarkGfm, remarkMath, remarkBreaks]}
+        rehypePlugins={[rehypeRaw, rehypeKatex, rehypeHighlight]}
         components={{
           // Headings
           h1: ({ children }) => (

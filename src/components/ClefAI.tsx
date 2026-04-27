@@ -262,8 +262,8 @@ export function ClefAI() {
   // Normal: fixed bottom-right panel
   const panelPositionClass = isFullscreen
     ? "fixed inset-0 z-[200]"
-    : "fixed inset-0 md:inset-auto md:right-6 z-[100] md:z-[57] w-full h-full md:w-[440px] md:h-[620px]";
-  const panelBottomStyle = isFullscreen ? {} : { bottom: "calc(40px + 12px)" };
+    : "fixed inset-x-0 bottom-0 md:inset-auto md:right-6 md:bottom-14 z-[100] md:z-[57] w-full h-[85vh] md:w-[440px] md:h-[620px]";
+  const panelBottomStyle = isFullscreen ? {} : {};
 
   const COLORS = ["#FF0004", "#F9FF00", "#00E5FF", "#00FF87", "#7C3AED", "#FF6B00", "#1a1a1a"];
 
@@ -286,7 +286,8 @@ export function ClefAI() {
       {/* ── Chat panel ── */}
       {isOpen && (
         <div
-          className={`${panelPositionClass} flex flex-col border-[4px] border-black bg-white overflow-hidden shadow-[16px_16px_0px_rgba(0,0,0,1)] ai-panel-animate`}
+          data-lenis-prevent
+          className={`${panelPositionClass} flex flex-col border-[4px] border-black bg-white overflow-hidden shadow-[16px_16px_0px_rgba(0,0,0,1)] ai-panel-animate pointer-events-auto`}
           style={panelBottomStyle}
         >
 
@@ -393,13 +394,14 @@ export function ClefAI() {
           {/* ── Messages area ── */}
           <div
             ref={messagesRef}
-            className={`flex-1 min-h-0 overflow-y-auto ai-scroll bg-white relative ${isFullscreen ? "flex flex-col" : ""}`}
+            data-lenis-prevent
+            className="flex-1 min-h-0 overflow-y-auto ai-scroll bg-white relative scroll-smooth"
           >
             {/* Subtle background texture */}
             <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
               style={{ backgroundImage: `radial-gradient(#000 1.5px, transparent 0)`, backgroundSize: "24px 24px" }} />
               
-            <div className={`p-4 md:p-6 space-y-6 relative z-10 ${isFullscreen ? "max-w-4xl mx-auto w-full flex-1" : ""}`}>
+            <div className={`p-4 md:p-6 space-y-6 relative z-10 ${isFullscreen ? "max-w-4xl mx-auto w-full" : "w-full"}`}>
               {pairs.length === 0 && (
                 <div className="flex flex-col items-center justify-center min-h-[300px] opacity-30 select-none">
                   <Bot size={28} />
@@ -417,9 +419,9 @@ export function ClefAI() {
                   {/* User bubble - Apple-like rounded corners on one side but brutalist borders */}
                   <div className="flex justify-end group">
                     <div className="bg-[#00E5FF] border-[3px] border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] max-w-[85%] rounded-[24px] rounded-tr-[4px] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
-                      <p className="font-inter text-sm font-semibold whitespace-pre-wrap break-words leading-relaxed text-black">
-                        {pair.user.versions[pair.user.currentIdx].content}
-                      </p>
+                      <div className="prose prose-sm max-w-none text-black">
+                        <AIMarkdown content={pair.user.versions[pair.user.currentIdx].content} />
+                      </div>
                     </div>
                   </div>
 
@@ -528,11 +530,23 @@ export function ClefAI() {
               <div className="flex gap-3">
                 <textarea
                   ref={textareaRef}
-                  className="flex-1 border-[4px] border-black p-3.5 font-inter text-sm font-medium outline-none resize-none focus:bg-[#fafafa] min-h-[56px] max-h-[140px] placeholder:text-black/30 ai-scroll transition-colors rounded-xl"
+                  className="flex-1 border-[4px] border-black p-3.5 font-inter text-sm font-medium outline-none resize-none focus:bg-[#fafafa] min-h-[60px] max-h-[140px] placeholder:text-black/30 ai-scroll transition-colors rounded-xl touch-manipulation"
                   placeholder="Ask anything… Markdown, LaTeX, code supported"
                   value={input}
+                  rows={1}
                   onChange={e => setInput(e.target.value)}
-                  onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+                  onKeyDown={e => { 
+                    if (e.key === "Enter" && !e.shiftKey) { 
+                      e.preventDefault(); 
+                      handleSend(); 
+                    } 
+                  }}
+                  onFocus={() => {
+                    // Mobile keyboard adjustment
+                    if (window.innerWidth < 768) {
+                      setTimeout(scrollToBottom, 300);
+                    }
+                  }}
                 />
                 <button
                   onClick={() => isTyping ? handleStop() : handleSend()}

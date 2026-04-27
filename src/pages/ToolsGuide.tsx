@@ -221,8 +221,9 @@ export default function ToolsGuide() {
               {/* Tools list */}
               <div className="bg-white">
                 {cat.tools.map((tool, ti) => {
-                  const ToolIcon = tool.icon;
-                  const details = toolDetails[tool.id];
+                  if (!tool) return null;
+                  const ToolIcon = tool.icon || Wrench;
+                  const details = toolDetails[tool.id] || { howTo: ["Open the tool and follow the instructions."], useCases: ["General purpose utility."] };
                   return (
                     <div key={tool.id}
                       className={`tool-row grid grid-cols-1 lg:grid-cols-12 ${ti < cat.tools.length - 1 ? "border-b-[3px] border-black" : ""}`}>
