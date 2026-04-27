@@ -112,22 +112,39 @@ export function FooterBar() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 max-h-[65vh] overflow-y-auto">
           {/* Brand */}
           <div className="sm:col-span-2 md:col-span-4 border-b-[3px] sm:border-b-0 md:border-r-[3px] border-white/10 px-5 md:px-8 py-6">
-            <div className="flex items-center gap-3 mb-3">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-[#F9FF00] shrink-0">
-                <path d="M12 2L2 12L12 22L22 12L12 2Z" stroke="currentColor" strokeWidth="3" strokeLinecap="square" strokeLinejoin="miter" />
-                <rect x="9" y="9" width="6" height="6" fill="currentColor" />
-              </svg>
-              <span className="font-oswald text-lg font-bold uppercase text-white">CLEF</span>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 bg-[#F9FF00] border-[2px] border-[#F9FF00] flex items-center justify-center shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-black">
+                  <path d="M12 2L2 12L12 22L22 12L12 2Z" stroke="currentColor" strokeWidth="3" strokeLinecap="square" strokeLinejoin="miter" />
+                  <rect x="9" y="9" width="6" height="6" fill="currentColor" />
+                </svg>
+              </div>
+              <span className="font-oswald text-xl font-bold uppercase text-white tracking-tight">CLEF</span>
             </div>
-            <p className="font-inter text-xs text-white/50 leading-relaxed">
+            <p className="font-inter text-xs text-white/50 leading-relaxed mb-4">
               A personal suite of productivity tools, developer utilities, and daily essentials.
               Private, fast, and always free.
             </p>
+            <div className="flex gap-1.5">
+              {[
+                { color: "#F9FF00", label: "FREE" },
+                { color: "#00FF87", label: "PRIVATE" },
+                { color: "#00E5FF", label: "OPEN" },
+              ].map(({ color, label }) => (
+                <span key={label} className="font-oswald text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 border"
+                  style={{ borderColor: color + "40", color }}>
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
 
           {/* Navigate */}
           <div className="md:col-span-3 border-b-[3px] md:border-b-0 md:border-r-[3px] border-white/10 px-5 md:px-8 py-6">
-            <h4 className="font-oswald text-[10px] font-bold uppercase tracking-[0.2em] text-[#00E5FF] mb-3">Navigate</h4>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-1.5 h-4 bg-[#00E5FF]" />
+              <h4 className="font-oswald text-[10px] font-bold uppercase tracking-[0.2em] text-[#00E5FF]">Navigate</h4>
+            </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
               {[
                 { label: "Features",    path: "/features" },
@@ -140,12 +157,8 @@ export function FooterBar() {
                 { label: "About",       path: "/about" },
                 { label: "Account",     path: "/account" },
               ].map(item => (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  onClick={() => setExpanded(false)}
-                  className="font-inter text-xs text-white/60 hover:text-[#F9FF00] transition-colors py-0.5"
-                >
+                <Link key={item.label} to={item.path} onClick={() => setExpanded(false)}
+                  className="font-inter text-xs text-white/55 hover:text-[#00E5FF] transition-colors py-0.5">
                   {item.label}
                 </Link>
               ))}
@@ -154,7 +167,10 @@ export function FooterBar() {
 
           {/* Legal */}
           <div className="md:col-span-3 border-b-[3px] md:border-b-0 md:border-r-[3px] border-white/10 px-5 md:px-8 py-6">
-            <h4 className="font-oswald text-[10px] font-bold uppercase tracking-[0.2em] text-[#00FF87] mb-3">Legal & More</h4>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-1.5 h-4 bg-[#00FF87]" />
+              <h4 className="font-oswald text-[10px] font-bold uppercase tracking-[0.2em] text-[#00FF87]">Legal & More</h4>
+            </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
               {[
                 { label: "Privacy",     path: "/privacy" },
@@ -166,12 +182,8 @@ export function FooterBar() {
                 { label: "GitHub",      path: "/github" },
                 { label: "Contact",     path: "/contact" },
               ].map(item => (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  onClick={() => setExpanded(false)}
-                  className="font-inter text-xs text-white/60 hover:text-[#F9FF00] transition-colors py-0.5"
-                >
+                <Link key={item.label} to={item.path} onClick={() => setExpanded(false)}
+                  className="font-inter text-xs text-white/55 hover:text-[#00FF87] transition-colors py-0.5">
                   {item.label}
                 </Link>
               ))}
@@ -180,18 +192,16 @@ export function FooterBar() {
 
           {/* Status */}
           <div className="md:col-span-2 px-5 md:px-8 py-6 flex flex-col gap-4">
-            <div>
-              <h4 className="font-oswald text-[10px] font-bold uppercase tracking-[0.2em] text-[#7C3AED] mb-2">Status</h4>
-              <p className="font-inter text-[10px] text-[#FF0004]/80 leading-relaxed uppercase tracking-wide">
-                Early access. Features may change.
-              </p>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-1.5 h-4 bg-[#7C3AED]" />
+              <h4 className="font-oswald text-[10px] font-bold uppercase tracking-[0.2em] text-[#7C3AED]">Status</h4>
             </div>
-            <a
-              href="https://github.com/sah-rohit/Clef"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border-[2px] border-white/20 px-3 py-1.5 font-oswald text-[9px] font-bold uppercase tracking-widest text-white hover:bg-[#F9FF00] hover:text-black hover:border-[#F9FF00] transition-all w-fit"
-            >
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#FF0004] animate-pulse" />
+              <p className="font-inter text-[10px] text-[#FF0004]/80 uppercase tracking-wide">Early access</p>
+            </div>
+            <a href="https://github.com/sah-rohit/Clef" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border-[2px] border-[#00FF87]/30 px-3 py-1.5 font-oswald text-[9px] font-bold uppercase tracking-widest text-[#00FF87] hover:bg-[#00FF87] hover:text-black hover:border-[#00FF87] transition-all w-fit">
               VIEW ON GITHUB
             </a>
           </div>

@@ -169,28 +169,37 @@ export function Navigation() {
 
                   {notifOpen && (
                     <div className="absolute right-0 top-full mt-2 w-80 bg-white border-[3px] border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] max-h-96 overflow-y-auto z-50 animate-scale-in">
-                      <div className="bg-[#1a1a1a] text-white px-4 py-2 flex items-center justify-between">
-                        <span className="font-oswald text-xs font-bold uppercase tracking-wider">Notifications</span>
-                        <span className="font-inter text-[10px] text-white/50">{unreadCount} unread</span>
+                      {/* Notification header — vibrant */}
+                      <div className="border-b-[3px] border-black">
+                        <div className="flex h-1">
+                          {["#F9FF00","#FF0004","#00E5FF","#00FF87","#7C3AED"].map(c => (
+                            <div key={c} className="flex-1" style={{ background: c }} />
+                          ))}
+                        </div>
+                        <div className="bg-[#1a1a1a] px-4 py-2.5 flex items-center justify-between">
+                          <span className="font-oswald text-xs font-bold uppercase tracking-wider text-white">Notifications</span>
+                          <span className="font-oswald text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 border border-[#FF0004]/40 text-[#FF0004]">{unreadCount} UNREAD</span>
+                        </div>
                       </div>
                       {notifications.length === 0 ? (
-                        <div className="px-4 py-6 text-center">
-                          <p className="font-inter text-xs text-black/40">No notifications yet</p>
+                        <div className="px-4 py-8 text-center">
+                          <div className="w-8 h-8 bg-[#F9FF00] border-[2px] border-black flex items-center justify-center mx-auto mb-3">
+                            <Bell size={14} className="text-black" />
+                          </div>
+                          <p className="font-oswald text-xs font-bold uppercase text-black/40">No notifications yet</p>
                         </div>
                       ) : (
                         notifications.slice(0, 10).map(notif => (
-                          <button
-                            key={notif.id}
-                            onClick={() => markNotificationRead(notif.id)}
-                            className={`w-full text-left px-4 py-3 border-b-[2px] border-black/10 last:border-b-0 hover:bg-[#F9FF00]/20 transition-colors ${
-                              !notif.read ? "bg-[#F9FF00]/10" : ""
-                            }`}
-                          >
-                            <p className="font-oswald text-xs font-bold uppercase">{notif.title}</p>
-                            <p className="font-inter text-[11px] text-black/60 mt-1 leading-relaxed">{notif.message}</p>
-                            <span className="font-inter text-[9px] text-black/30 mt-1 block">
-                              {new Date(notif.timestamp).toLocaleString()}
-                            </span>
+                          <button key={notif.id} onClick={() => markNotificationRead(notif.id)}
+                            className={`w-full text-left px-4 py-3 border-b-[2px] border-black/10 last:border-b-0 hover:bg-[#F9FF00]/15 transition-colors ${!notif.read ? "bg-[#F9FF00]/8" : ""}`}>
+                            <div className="flex items-start gap-2">
+                              {!notif.read && <div className="w-1.5 h-1.5 bg-[#FF0004] rounded-full shrink-0 mt-1.5" />}
+                              <div className="flex-1 min-w-0">
+                                <p className="font-oswald text-xs font-bold uppercase">{notif.title}</p>
+                                <p className="font-inter text-[11px] text-black/60 mt-0.5 leading-relaxed">{notif.message}</p>
+                                <span className="font-inter text-[9px] text-black/30 mt-1 block">{new Date(notif.timestamp).toLocaleString()}</span>
+                              </div>
+                            </div>
                           </button>
                         ))
                       )}
@@ -246,22 +255,25 @@ export function Navigation() {
 
           {menuOpen && (
             <div className="md:hidden bg-white border-t-[3px] border-black">
+              {/* Color strip at top of mobile menu */}
+              <div className="flex h-1">
+                {["#F9FF00","#FF0004","#00E5FF","#00FF87","#7C3AED"].map(c => (
+                  <div key={c} className="flex-1" style={{ background: c }} />
+                ))}
+              </div>
               {navItems.map((item, i) => (
-                <Link
-                  key={i}
-                  to={item.path}
-                  className="w-full block text-left px-6 py-4 border-b-[2px] border-black/10 font-oswald text-base font-bold uppercase hover:bg-[#F9FF00] transition-colors"
-                >
+                <Link key={i} to={item.path}
+                  className="w-full block text-left px-6 py-4 border-b-[2px] border-black/10 font-oswald text-base font-bold uppercase hover:bg-[#F9FF00] transition-colors">
                   {item.label}
                 </Link>
               ))}
-              <div className="px-6 py-4 border-t-[3px] border-black">
+              <div className="px-6 py-4 border-t-[3px] border-black bg-[#fafafa]">
                 {isAuthenticated ? (
-                  <Link to="/account" className="font-oswald text-base font-bold uppercase flex items-center gap-2">
+                  <Link to="/account" className="font-oswald text-base font-bold uppercase flex items-center gap-2 hover:text-[#FF0004] transition-colors">
                     <User size={16} /> MY ACCOUNT
                   </Link>
                 ) : (
-                  <Link to="/login" className="bg-[#F9FF00] border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm py-3 block text-center hover:bg-black hover:text-[#F9FF00] transition-colors">
+                  <Link to="/login" className="bg-[#F9FF00] border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm py-3 block text-center hover:bg-black hover:text-[#F9FF00] transition-colors shadow-[3px_3px_0px_rgba(0,0,0,1)]">
                     LOG IN
                   </Link>
                 )}

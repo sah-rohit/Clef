@@ -150,8 +150,20 @@ export default function AccountCenter() {
     showToast("LOCAL CACHE CLEARED.", "success");
   };
 
+  // Sidebar color changes per active tab
+  const SIDEBAR_COLORS: Record<typeof activeTab, { bg: string; pattern: string; isLight: boolean }> = {
+    OVERVIEW:      { bg: "#F9FF00", pattern: "rgba(0,0,0,0.1)",   isLight: true  },
+    PROFILE:       { bg: "#00E5FF", pattern: "rgba(0,0,0,0.1)",   isLight: true  },
+    PREFERENCES:   { bg: "#00FF87", pattern: "rgba(0,0,0,0.1)",   isLight: true  },
+    SECURITY:      { bg: "#FF0004", pattern: "rgba(255,255,255,0.12)", isLight: false },
+    ACTIVITY:      { bg: "#7C3AED", pattern: "rgba(255,255,255,0.12)", isLight: false },
+    NOTIFICATIONS: { bg: "#1a1a1a", pattern: "rgba(255,255,255,0.08)", isLight: false },
+  };
+  const sidebarColor = SIDEBAR_COLORS[activeTab];
+  const sidebarTextColor = sidebarColor.isLight ? "#1a1a1a" : "#ffffff";
+  const sidebarSubColor = sidebarColor.isLight ? "rgba(26,26,26,0.55)" : "rgba(255,255,255,0.6)";
+
   const TABS: { id: Tab; label: string; icon: any }[] = [
-    { id: "OVERVIEW", label: "DASHBOARD", icon: LayoutDashboard },
     { id: "PROFILE", label: "IDENTITY", icon: User },
     { id: "PREFERENCES", label: "PREFERENCES", icon: Sliders },
     { id: "SECURITY", label: "SECURITY", icon: Shield },
@@ -166,43 +178,47 @@ export default function AccountCenter() {
       {/* ── Full-bleed layout: vibrant left sidebar + white content ── */}
       <div className="flex-1 flex flex-col lg:flex-row" style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
 
-        {/* ── LEFT SIDEBAR — vibrant yellow panel with geometric pattern ── */}
-        <div className="lg:w-72 xl:w-80 bg-[#F9FF00] border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col shrink-0 relative overflow-hidden">
+        {/* ── LEFT SIDEBAR — color changes per active tab ── */}
+        <div
+          className="lg:w-72 xl:w-80 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col shrink-0 relative overflow-hidden transition-colors duration-500"
+          style={{ background: sidebarColor.bg }}>
 
-          {/* Geometric background pattern */}
+          {/* Geometric background pattern — contrasting */}
           <div className="absolute inset-0 pointer-events-none"
-            style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+            style={{ backgroundImage: `linear-gradient(${sidebarColor.pattern} 1px, transparent 1px), linear-gradient(90deg, ${sidebarColor.pattern} 1px, transparent 1px)`, backgroundSize: "40px 40px" }} />
 
-          {/* Animated concentric rings — decorative */}
+          {/* Animated concentric rings */}
           <div className="absolute -bottom-20 -right-20 pointer-events-none">
             {[160, 120, 80, 40].map((size, i) => (
-              <div key={i} className="absolute rounded-full border-[2px] border-black/10 animate-ping"
-                style={{ width: size, height: size, top: -size/2, right: -size/2, animationDelay: `${i * 0.6}s`, animationDuration: "4s" }} />
+              <div key={i} className="absolute rounded-full border-[2px] animate-ping"
+                style={{ width: size, height: size, top: -size/2, right: -size/2, borderColor: sidebarColor.pattern, animationDelay: `${i * 0.6}s`, animationDuration: "4s" }} />
             ))}
           </div>
 
           {/* Profile card */}
           <div className="px-6 py-8 border-b-[3px] border-black relative overflow-hidden">
-            <div className="absolute -bottom-4 -right-4 font-oswald text-[100px] font-bold text-black/[0.05] leading-none select-none pointer-events-none uppercase">
+            <div className="absolute -bottom-4 -right-4 font-oswald text-[100px] font-bold leading-none select-none pointer-events-none uppercase"
+              style={{ color: sidebarColor.isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)" }}>
               {user.name?.charAt(0) || "U"}
             </div>
             <div className="mb-4"><BackButton /></div>
             <div className="flex items-center gap-4 relative z-10">
-              <div className="w-14 h-14 border-[3px] border-black bg-black overflow-hidden shrink-0">
+              <div className="w-14 h-14 border-[3px] overflow-hidden shrink-0"
+                style={{ borderColor: sidebarColor.isLight ? "rgba(0,0,0,0.25)" : "rgba(255,255,255,0.3)", background: sidebarColor.isLight ? "#1a1a1a" : "rgba(255,255,255,0.15)" }}>
                 {user.avatar ? (
                   <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <User size={24} className="text-[#F9FF00]" />
+                    <User size={24} style={{ color: sidebarColor.isLight ? sidebarColor.bg : "#ffffff" }} />
                   </div>
                 )}
               </div>
               <div className="overflow-hidden min-w-0">
-                <h2 className="font-oswald text-lg font-bold uppercase truncate text-black leading-tight">{user.name}</h2>
-                <p className="font-inter text-[10px] font-bold tracking-widest text-black/50 truncate uppercase">@{user.username}</p>
+                <h2 className="font-oswald text-lg font-bold uppercase truncate leading-tight" style={{ color: sidebarTextColor }}>{user.name}</h2>
+                <p className="font-inter text-[10px] font-bold tracking-widest truncate uppercase" style={{ color: sidebarSubColor }}>@{user.username}</p>
                 <div className="flex items-center gap-1.5 mt-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#00FF87]" />
-                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest text-black/50">ACTIVE</span>
+                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest" style={{ color: sidebarSubColor }}>ACTIVE</span>
                 </div>
               </div>
             </div>
@@ -216,14 +232,17 @@ export default function AccountCenter() {
               const notifCount = tab.id === "NOTIFICATIONS" ? notifications.filter(n => !n.read).length : 0;
               return (
                 <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-all border-b-[2px] border-black/15 last:border-b-0 ${
-                    isActive
-                      ? "bg-black text-[#F9FF00]"
-                      : "text-black hover:bg-black/8"
-                  }`}>
+                  className="w-full flex items-center justify-between px-6 py-4 text-left transition-all border-b-[2px] last:border-b-0"
+                  style={{
+                    borderColor: sidebarColor.isLight ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.12)",
+                    background: isActive ? (sidebarColor.isLight ? "#1a1a1a" : "rgba(255,255,255,0.15)") : "transparent",
+                  }}>
                   <div className="flex items-center gap-3">
-                    <Icon size={15} className={isActive ? "text-[#F9FF00]" : "text-black/60"} />
-                    <span className="font-oswald text-sm font-bold uppercase tracking-wider">{tab.label}</span>
+                    <Icon size={15} style={{ color: isActive ? sidebarColor.bg : (sidebarColor.isLight ? "rgba(0,0,0,0.55)" : "rgba(255,255,255,0.55)") }} />
+                    <span className="font-oswald text-sm font-bold uppercase tracking-wider"
+                      style={{ color: isActive ? sidebarColor.bg : sidebarTextColor }}>
+                      {tab.label}
+                    </span>
                   </div>
                   {notifCount > 0 && (
                     <span className="px-1.5 py-0.5 text-[9px] font-black bg-[#FF0004] text-white border-[2px] border-black">
@@ -237,15 +256,16 @@ export default function AccountCenter() {
 
           {/* Quick actions */}
           <div className="p-4 border-t-[3px] border-black flex flex-col gap-2">
-            <div className="font-mono text-[9px] font-bold text-black/40 uppercase tracking-widest text-center mb-1">
+            <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-center mb-1" style={{ color: sidebarSubColor }}>
               {currentTime.toLocaleTimeString()}
             </div>
             <button onClick={handleExport}
-              className="w-full border-[3px] border-black bg-white font-oswald font-bold uppercase tracking-widest text-[10px] py-2.5 flex items-center justify-center gap-2 hover:bg-[#00E5FF] transition-colors">
+              className="w-full border-[3px] border-black bg-white font-oswald font-bold uppercase tracking-widest text-[10px] py-2.5 flex items-center justify-center gap-2 hover:bg-[#00E5FF] hover:text-black transition-colors">
               <Download size={13} /> EXPORT DATA
             </button>
             <button onClick={handleLogout}
-              className="w-full border-[3px] border-black bg-black text-[#F9FF00] font-oswald font-bold uppercase tracking-widest text-[10px] py-2.5 flex items-center justify-center gap-2 hover:bg-[#FF0004] hover:border-[#FF0004] hover:text-white transition-colors">
+              className="w-full border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-[10px] py-2.5 flex items-center justify-center gap-2 transition-colors hover:opacity-80"
+              style={{ background: sidebarColor.isLight ? "#1a1a1a" : "rgba(255,255,255,0.9)", color: sidebarColor.isLight ? sidebarColor.bg : "#1a1a1a" }}>
               <LogOut size={13} /> SIGN OUT
             </button>
           </div>
