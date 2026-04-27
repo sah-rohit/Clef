@@ -358,35 +358,86 @@ export function HeroSection() {
           scrollTrigger: { trigger: ".hero-tool-pill", start: "top 90%", toggleActions: "play none none none" } }
       );
 
-      // ── Magnetic scroll: one slide at a time ─────────────────────────────
+      // ── Horizontal Scroll for SLIDES ──
       const wrap = magneticWrap.current;
       if (wrap) {
-        const totalSlides = SLIDES.length;
-        const slideHeight = window.innerHeight;
+        const slides = wrap.querySelectorAll(".horizontal-slide");
+        const totalSlides = slides.length;
+        
+        gsap.to(slides, {
+          xPercent: -100 * (totalSlides - 1),
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrap,
+            pin: true,
+            scrub: 1,
+            snap: 1 / (totalSlides - 1),
+            start: "top top",
+            end: () => `+=${wrap.offsetWidth * (totalSlides - 1)}`,
+          }
+        });
 
-        // Pin the wrapper and drive a progress value
+        // Active index update for progress dots
         ScrollTrigger.create({
           trigger: wrap,
           start: "top top",
-          end: () => `+=${(totalSlides - 1) * slideHeight}`,
-          pin: true,
-          anticipatePin: 1,
-          scrub: false,
-          snap: {
-            snapTo: (progress) => {
-              const step = 1 / (totalSlides - 1);
-              return Math.round(progress / step) * step;
-            },
-            duration: { min: 0.3, max: 0.6 },
-            ease: "power2.inOut",
-          },
+          end: () => `+=${wrap.offsetWidth * (totalSlides - 1)}`,
           onUpdate: (self) => {
             const idx = Math.round(self.progress * (totalSlides - 1));
             setActiveSlide(idx);
-          },
+          }
         });
       }
-    }, sectionRef);
+
+        // ── Zoom Section Animation ──
+        const zoomSection = document.querySelector(".zoom-section");
+        if (zoomSection) {
+          const zoomLayers = zoomSection.querySelectorAll(".zoom-layer");
+          const zoomTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: zoomSection,
+              start: "top top",
+              end: "+=400%",
+              pin: true,
+              scrub: 1,
+            }
+          });
+
+          // Layer 0: CLEF background - zooms past
+          zoomTl.fromTo(zoomLayers[0], 
+            { scale: 1, opacity: 1 },
+            { scale: 8, opacity: 0, duration: 1.5, ease: "power2.in" }
+          );
+
+          // Layer 1: BEYOND LIMITS - zooms in, then past
+          zoomTl.fromTo(zoomLayers[1],
+            { scale: 0.1, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 1, ease: "power2.out" },
+            "-=0.8"
+          ).to(zoomLayers[1],
+            { scale: 6, opacity: 0, duration: 1.5, ease: "power2.in" },
+            "+=0.2"
+          );
+
+          // Layer 2: FRONT CONTENT - final focus
+          zoomTl.fromTo(zoomLayers[2],
+            { scale: 0.05, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 1, ease: "power2.out" },
+            "-=0.8"
+          );
+        }
+
+        // Robust refresh strategy:
+        // 1. Immediate refresh
+        ScrollTrigger.refresh();
+        
+        // 2. Delayed refreshes to catch layout shifts after transition & images load
+        [100, 500, 1000, 2000].forEach(ms => {
+          setTimeout(() => {
+            ScrollTrigger.refresh();
+          }, ms);
+        });
+      }, sectionRef);
 
     return () => ctx.revert();
   }, []);
@@ -928,51 +979,44 @@ export function HeroSection() {
           <div className="mb-12">
             <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#F9FF00] block mb-3">COMMUNITY</span>
             <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase text-white leading-[0.9]">
-              BUILT FOR REAL PEOPLE.<br /><span className="text-outline-white">USED BY REAL PEOPLE.</span>
+              ENGINEERED FOR UTILITY.<br /><span className="text-outline-white">BUILT FOR PRECISION.</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-[3px] border-white/10">
             {[
               {
-                quote: "I use the JSON formatter and diff checker every single day. No ads, no popups, just the tool. Refreshing.",
-                name: "ALEX K.",
-                role: "Backend Engineer",
+                title: "RADICAL PRIVACY",
+                desc: "We don't just 'value' privacy; we architect for it. No data ever leaves your device because there are no servers to receive it.",
+                tag: "SECURITY",
                 color: "#F9FF00",
-                stars: 5,
+                Icon: Shield,
               },
               {
-                quote: "The Pomodoro timer + word counter combo is my entire writing workflow now. Brutalist design is actually perfect for focus.",
-                name: "SARAH M.",
-                role: "Technical Writer",
+                title: "BLISTERING SPEED",
+                desc: "Tools should be extensions of your mind. We optimize for sub-100ms load times, ensuring your workflow remains uninterrupted.",
+                tag: "PERFORMANCE",
                 color: "#00E5FF",
-                stars: 5,
+                Icon: Zap,
               },
               {
-                quote: "Open source, MIT licensed, and actually works offline. This is how developer tools should be built.",
-                name: "JAMES T.",
-                role: "Full-Stack Dev",
+                title: "RADICAL OPENNESS",
+                desc: "Transparency is the bedrock of trust. Every line of Clef's source code is public, auditable, and open for contribution.",
+                tag: "TRANSPARENCY",
                 color: "#00FF87",
-                stars: 5,
+                Icon: Globe,
               },
-            ].map((t, i) => (
+            ].map((p, i) => (
               <div key={i}
                 className="hero-testimonial p-8 border-b-[3px] md:border-b-0 md:border-r-[3px] border-white/10 last:border-0 group hover:bg-white/5 transition-colors duration-200">
-                <div className="flex gap-0.5 mb-6">
-                  {Array.from({ length: t.stars }).map((_, j) => (
-                    <Star key={j} size={12} fill={t.color} style={{ color: t.color }} />
-                  ))}
-                </div>
-                <p className="font-inter text-sm text-white/70 leading-relaxed mb-6 italic">"{t.quote}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 border-[2px] flex items-center justify-center font-oswald text-xs font-bold"
-                    style={{ borderColor: t.color, color: t.color }}>
-                    {t.name[0]}
+                <div className="flex items-start justify-between mb-6">
+                  <div className="w-10 h-10 border-[2px] flex items-center justify-center" style={{ borderColor: p.color + "40" }}>
+                    <p.Icon size={18} style={{ color: p.color }} />
                   </div>
-                  <div>
-                    <div className="font-oswald text-xs font-bold uppercase tracking-wider text-white">{t.name}</div>
-                    <div className="font-inter text-[9px] uppercase tracking-widest text-white/30">{t.role}</div>
-                  </div>
+                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 border border-white/10 text-white/30">{p.tag}</span>
                 </div>
+                <h3 className="font-oswald text-xl font-bold uppercase text-white mb-4 tracking-tight">{p.title}</h3>
+                <p className="font-inter text-sm text-white/50 leading-relaxed mb-6">{p.desc}</p>
+                <div className="w-8 h-1" style={{ background: p.color }} />
               </div>
             ))}
           </div>
@@ -1101,144 +1145,199 @@ export function HeroSection() {
         <div className="absolute -bottom-8 -left-8 font-oswald text-[200px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">GO</div>
       </div>
 
-      {/* ── MAGNETIC SCROLL SHOWCASE — one slide at a time ── */}
-      <div
-        ref={magneticWrap}
-        className="relative overflow-hidden"
-        style={{ height: "100vh", background: slide.bg, transition: "background 0.6s cubic-bezier(0.4,0,0.2,1)" }}
-      >
-        {/* Background pattern */}
-        <div className="absolute inset-0 pointer-events-none" style={{ opacity: 0.05 }}>
-          {slide.pattern === "dots" && (
-            <div style={{ backgroundImage: `radial-gradient(${slide.accent} 1px, transparent 0)`, backgroundSize: "40px 40px", width: "100%", height: "100%" }} />
-          )}
-          {slide.pattern === "grid" && (
-            <div style={{ backgroundImage: `linear-gradient(${slide.accent} 1px, transparent 1px), linear-gradient(90deg, ${slide.accent} 1px, transparent 1px)`, backgroundSize: "60px 60px", width: "100%", height: "100%" }} />
-          )}
-          {slide.pattern === "diagonal" && (
-            <div style={{ backgroundImage: `repeating-linear-gradient(45deg, ${slide.accent} 0, ${slide.accent} 1px, transparent 0, transparent 50%)`, backgroundSize: "24px 24px", width: "100%", height: "100%" }} />
-          )}
-          {slide.pattern === "hex" && (
-            <div style={{ backgroundImage: `radial-gradient(${slide.accent} 1.5px, transparent 0)`, backgroundSize: "32px 32px", width: "100%", height: "100%" }} />
-          )}
-          {slide.pattern === "noise" && (
-            <div style={{ backgroundImage: `repeating-linear-gradient(0deg, ${slide.accent} 0, ${slide.accent} 1px, transparent 0, transparent 8px), repeating-linear-gradient(90deg, ${slide.accent} 0, ${slide.accent} 1px, transparent 0, transparent 8px)`, width: "100%", height: "100%" }} />
-          )}
-          {slide.pattern === "circuit" && (
-            <div style={{ backgroundImage: `linear-gradient(${slide.accent} 1px, transparent 1px), linear-gradient(90deg, ${slide.accent} 1px, transparent 1px)`, backgroundSize: "80px 80px", width: "100%", height: "100%" }} />
-          )}
-        </div>
+      <HorizontalSlides magneticWrap={magneticWrap} activeSlide={activeSlide} slide={slide} />
+      
+      <ZoomSection />
+      
+      <FinalSection />
 
-        {/* Top label */}
-        <div className="absolute top-8 left-8 z-20 pointer-events-none">
-          <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: "rgba(255,255,255,0.3)" }}>
-            SCROLL TO EXPLORE
-          </span>
-          <div className="mt-1 w-8 h-px" style={{ background: "rgba(255,255,255,0.2)" }} />
-        </div>
+    </section>
+  );
+}
 
-        {/* Slide counter */}
-        <div className="absolute top-8 right-8 z-20 pointer-events-none flex items-center gap-3">
-          <span className="font-oswald text-[10px] font-bold uppercase tracking-widest" style={{ color: slide.accent + "80" }}>
-            {String(activeSlide + 1).padStart(2, "0")} / {String(SLIDES.length).padStart(2, "0")}
-          </span>
-        </div>
+// ── NEW COMPONENT: Horizontal Slides Container ──
+function HorizontalSlides({ 
+  magneticWrap, 
+  activeSlide, 
+  slide 
+}: { 
+  magneticWrap: React.RefObject<HTMLDivElement | null>; 
+  activeSlide: number;
+  slide: typeof SLIDES[0];
+}) {
+  return (
+    <div
+      ref={magneticWrap}
+      className="relative overflow-hidden flex"
+      style={{ height: "100vh", width: "100%", background: "#0a0a0a" }}
+    >
+      {SLIDES.map((s, idx) => (
+        <div
+          key={s.id}
+          className="horizontal-slide relative flex-shrink-0 w-full h-full flex items-center px-8 md:px-16 lg:px-24"
+          style={{ background: s.bg }}
+        >
+          {/* Background pattern */}
+          <div className="absolute inset-0 pointer-events-none" style={{ opacity: 0.05 }}>
+            {s.pattern === "dots" && (
+              <div style={{ backgroundImage: `radial-gradient(${s.accent} 1px, transparent 0)`, backgroundSize: "40px 40px", width: "100%", height: "100%" }} />
+            )}
+            {s.pattern === "grid" && (
+              <div style={{ backgroundImage: `linear-gradient(${s.accent} 1px, transparent 1px), linear-gradient(90deg, ${s.accent} 1px, transparent 1px)`, backgroundSize: "60px 60px", width: "100%", height: "100%" }} />
+            )}
+            {s.pattern === "diagonal" && (
+              <div style={{ backgroundImage: `repeating-linear-gradient(45deg, ${s.accent} 0, ${s.accent} 1px, transparent 0, transparent 50%)`, backgroundSize: "24px 24px", width: "100%", height: "100%" }} />
+            )}
+            {s.pattern === "hex" && (
+              <div style={{ backgroundImage: `radial-gradient(${s.accent} 1.5px, transparent 0)`, backgroundSize: "32px 32px", width: "100%", height: "100%" }} />
+            )}
+            {s.pattern === "noise" && (
+              <div style={{ backgroundImage: `repeating-linear-gradient(0deg, ${s.accent} 0, ${s.accent} 1px, transparent 0, transparent 8px), repeating-linear-gradient(90deg, ${s.accent} 0, ${s.accent} 1px, transparent 0, transparent 8px)`, width: "100%", height: "100%" }} />
+            )}
+            {s.pattern === "circuit" && (
+              <div style={{ backgroundImage: `linear-gradient(${s.accent} 1px, transparent 1px), linear-gradient(90deg, ${s.accent} 1px, transparent 1px)`, backgroundSize: "80px 80px", width: "100%", height: "100%" }} />
+            )}
+          </div>
 
-        {/* Main content — two-column layout */}
-        <div className="relative z-10 h-full flex items-center px-8 md:px-16 lg:px-24">
-          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Slide counter */}
+          <div className="absolute top-8 right-8 z-20 pointer-events-none flex items-center gap-3">
+            <span className="font-oswald text-[10px] font-bold uppercase tracking-widest" style={{ color: s.accent + "80" }}>
+              {String(idx + 1).padStart(2, "0")} / {String(SLIDES.length).padStart(2, "0")}
+            </span>
+          </div>
 
-            {/* Left — text content */}
+          <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
-              <span
-                className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] block mb-6"
-                style={{ color: slide.accent + "80" }}
-              >
-                {slide.eyebrow}
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] block mb-6" style={{ color: s.accent + "80" }}>
+                {s.eyebrow}
               </span>
-
-              <h2
-                className="font-oswald font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-8 text-white"
-                style={{ fontSize: "clamp(2.8rem, 6vw, 6rem)" }}
-              >
-                {slide.title.map((line, i) => (
+              <h2 className="font-oswald font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-8 text-white" style={{ fontSize: "clamp(2.4rem, 6vw, 6rem)" }}>
+                {s.title.map((line, i) => (
                   <span key={i} className="block">
-                    {i === slide.titleAccent
-                      ? <span className={slide.accentClass}>{line}</span>
-                      : line}
+                    {i === s.titleAccent ? <span className={s.accentClass}>{line}</span> : line}
                   </span>
                 ))}
               </h2>
-
               <p className="font-inter text-sm md:text-base leading-relaxed mb-10 max-w-lg" style={{ color: "rgba(255,255,255,0.6)" }}>
-                {slide.body}
+                {s.body}
               </p>
-
-              {/* Stat pill */}
-              <div className="inline-flex items-center gap-4 border-[2px] px-5 py-3 mb-8" style={{ borderColor: slide.accent + "40" }}>
-                <span className="font-oswald text-2xl font-bold" style={{ color: slide.accent }}>{slide.stat.val}</span>
-                <div className="w-px h-6" style={{ background: slide.accent + "30" }} />
-                <span className="font-oswald text-[10px] font-bold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.4)" }}>{slide.stat.label}</span>
-              </div>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2">
-                {slide.tags.map((tag, i) => (
-                  <span key={i}
-                    className="font-oswald text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 border"
-                    style={{ borderColor: slide.accent + "30", color: slide.accent + "cc", background: slide.accent + "08" }}>
-                    {tag}
-                  </span>
-                ))}
+              <div className="inline-flex items-center gap-4 border-[2px] px-5 py-3" style={{ borderColor: s.accent + "40" }}>
+                <span className="font-oswald text-2xl font-bold" style={{ color: s.accent }}>{s.stat.val}</span>
+                <div className="w-px h-6" style={{ background: s.accent + "30" }} />
+                <span className="font-oswald text-[10px] font-bold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.4)" }}>{s.stat.label}</span>
               </div>
             </div>
-
-            {/* Right — visual */}
-            <div
-              className="hidden lg:flex items-center justify-center border-[3px] relative overflow-hidden"
-              style={{ borderColor: slide.accent + "20", background: slide.accent + "05", height: "360px" }}
-            >
-              <SlideVisual type={slide.visual} accent={slide.accent} />
-              {/* Corner accent */}
-              <div className="absolute top-0 left-0 w-8 h-8 border-r-[3px] border-b-[3px]" style={{ borderColor: slide.accent + "40" }} />
-              <div className="absolute bottom-0 right-0 w-8 h-8 border-l-[3px] border-t-[3px]" style={{ borderColor: slide.accent + "40" }} />
+            <div className="hidden lg:flex items-center justify-center border-[3px] relative overflow-hidden" style={{ borderColor: s.accent + "20", background: s.accent + "05", height: "360px" }}>
+              <SlideVisual type={s.visual} accent={s.accent} />
+              <div className="absolute top-0 left-0 w-8 h-8 border-r-[3px] border-b-[3px]" style={{ borderColor: s.accent + "40" }} />
+              <div className="absolute bottom-0 right-0 w-8 h-8 border-l-[3px] border-t-[3px]" style={{ borderColor: s.accent + "40" }} />
             </div>
           </div>
-        </div>
-
-        {/* Slide number watermark */}
-        <div
-          className="absolute bottom-6 right-8 font-oswald font-bold leading-none select-none pointer-events-none"
-          style={{ fontSize: "clamp(80px, 15vw, 160px)", color: "rgba(255,255,255,0.025)" }}
-        >
-          {slide.num}
-        </div>
-
-        {/* Progress dots — bottom center */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-          {SLIDES.map((_, i) => (
-            <div
-              key={i}
-              className="transition-all duration-400"
-              style={{
-                width: i === activeSlide ? "24px" : "6px",
-                height: "6px",
-                background: i === activeSlide ? slide.accent : "rgba(255,255,255,0.25)",
-                transform: i === activeSlide ? "none" : "rotate(45deg)",
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Scroll hint arrow */}
-        {activeSlide < SLIDES.length - 1 && (
-          <div className="absolute bottom-8 right-8 z-20 flex flex-col items-center gap-1 pointer-events-none">
-            <div className="w-px h-8 animate-pulse" style={{ background: slide.accent + "40" }} />
-            <div className="w-2 h-2 rotate-45 border-r-2 border-b-2" style={{ borderColor: slide.accent + "60" }} />
+          
+          <div className="absolute bottom-6 right-8 font-oswald font-bold leading-none select-none pointer-events-none" style={{ fontSize: "clamp(80px, 15vw, 160px)", color: "rgba(255,255,255,0.025)" }}>
+            {s.num}
           </div>
-        )}
+        </div>
+      ))}
+
+      {/* Persistent UI overlays */}
+      <div className="absolute top-8 left-8 z-20 pointer-events-none">
+        <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: "rgba(255,255,255,0.3)" }}>
+          SCROLL TO EXPLORE
+        </span>
+        <div className="mt-1 w-8 h-px" style={{ background: "rgba(255,255,255,0.2)" }} />
       </div>
 
-    </section>
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+        {SLIDES.map((_, i) => (
+          <div key={i} className="transition-all duration-400"
+            style={{
+              width: i === activeSlide ? "24px" : "6px",
+              height: "6px",
+              background: i === activeSlide ? slide.accent : "rgba(255,255,255,0.25)",
+              transform: i === activeSlide ? "none" : "rotate(45deg)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── NEW COMPONENT: Zoom & Future Sections ──
+function ZoomSection() {
+  return (
+    <div className="zoom-section relative h-screen bg-[#0a0a0a] overflow-hidden flex items-center justify-center border-t-[3px] border-black">
+      {/* Background layer (deep zoom) */}
+      <div className="zoom-layer absolute inset-0 flex flex-col items-center justify-center z-10 p-6 text-center">
+        <h2 className="font-oswald text-[12vw] md:text-[18vw] font-bold uppercase text-white/10 leading-none tracking-tighter select-none">
+          CLEF
+        </h2>
+      </div>
+
+      {/* Middle layer (moving through) */}
+      <div className="zoom-layer absolute inset-0 flex flex-col items-center justify-center z-20 p-6 text-center">
+        <h2 className="font-oswald text-6xl md:text-[10rem] font-bold uppercase text-white leading-none tracking-tighter">
+          BEYOND<br /><span className="text-outline-white">LIMITS.</span>
+        </h2>
+      </div>
+
+      {/* Front layer (final focus) */}
+      <div className="zoom-layer absolute inset-0 flex flex-col items-center justify-center z-30 p-6 text-center">
+        <div className="max-w-2xl bg-black/40 backdrop-blur-sm border-[3px] border-white/10 p-8 md:p-12">
+          <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#F9FF00] block mb-6">NEXT GENERATION</span>
+          <h3 className="font-oswald text-4xl md:text-6xl font-bold uppercase text-white mb-8">
+            A NEW STANDARD FOR<br /><span className="text-gradient-yellow">PRODUCTIVITY.</span>
+          </h3>
+          <p className="font-inter text-sm md:text-base text-white/50 leading-relaxed mb-10">
+            Clef is evolving. More tools, deeper integrations, and uncompromising performance. 
+            All while maintaining the privacy-first, local-only architecture you trust.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: "Fast", icon: Zap, color: "#F9FF00" },
+              { label: "Private", icon: Shield, color: "#00E5FF" },
+              { label: "Free", icon: Star, color: "#00FF87" },
+              { label: "Open", icon: Code, color: "#FF0004" },
+            ].map((t, i) => (
+              <div key={i} className="border border-white/10 p-4 flex flex-col items-center gap-3 group hover:bg-white/5 transition-colors">
+                <t.icon size={16} style={{ color: t.color }} />
+                <span className="font-oswald text-[10px] font-bold uppercase tracking-widest text-white/40 group-hover:text-white/80 transition-colors">{t.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Animated grid overlay */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+        <div style={{ backgroundImage: "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)", backgroundSize: "60px 60px", width: "100%", height: "100%" }} />
+      </div>
+    </div>
+  );
+}
+
+function FinalSection() {
+  return (
+    <div className="relative py-24 bg-white border-t-[3px] border-black overflow-hidden">
+      <div className="px-6 md:px-12 lg:px-16 flex flex-col items-center text-center">
+        <div className="w-16 h-16 border-[4px] border-black flex items-center justify-center mb-8 bg-[#F9FF00] rotate-45">
+          <Rocket className="-rotate-45" size={32} />
+        </div>
+        <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-8 text-black max-w-4xl">
+          START BUILDING YOUR<br /><span className="text-gradient-fire">PERFECT WORKFLOW.</span>
+        </h2>
+        <p className="font-inter text-base md:text-lg text-black/60 leading-relaxed mb-12 max-w-2xl font-medium">
+          No signups, no credit cards, no barriers. Just open a tool and start creating. 
+          Your productivity shouldn't be locked behind a paywall.
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link to="/features" className="group bg-[#F9FF00] border-[4px] border-black font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-black hover:text-[#F9FF00] transition-all duration-200 shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:-translate-y-1">
+            OPEN THE WORKBENCH
+          </Link>
+        </div>
+      </div>
+      <div className="absolute -bottom-20 -left-20 font-oswald text-[250px] font-bold text-black/[0.02] leading-none select-none pointer-events-none uppercase">CLEF</div>
+    </div>
   );
 }

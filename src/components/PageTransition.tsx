@@ -61,8 +61,16 @@ export function PageTransition({ children }: Props) {
             { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", force3D: true },
             "-=0.2"
           )
-          // Clear residual transform so position:fixed children (GSAP pin) work correctly
-          .set(wrap, { clearProps: "transform" });
+          // Clear residual styles so children (GSAP pin, opacity triggers) work correctly
+          .set(wrap, { clearProps: "all" })
+          .add(() => {
+            // Force ScrollTrigger to recalculate everything after the page transition finishes
+            import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+              ScrollTrigger.refresh(true);
+              // Second refresh to catch any layout shifts after the main one
+              setTimeout(() => ScrollTrigger.refresh(true), 250);
+            });
+          });
       }
     });
 

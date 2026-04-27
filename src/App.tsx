@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route, useLocation } from "react-router";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Pricing from "./pages/Pricing";
@@ -56,7 +56,26 @@ import { PageTransition } from "./components/PageTransition";
 import { FooterBar } from "./components/FooterBar";
 import { NetworkStatus } from "./components/NetworkStatus";
 
+import { useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 export default function App() {
+  const location = useLocation();
+
+  // Global ScrollTrigger refresh on route change
+  useEffect(() => {
+    // Small delay to ensure the DOM has rendered and transitions have started/settled
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+      // If Lenis is present, notify it too
+      if ((window as any).__lenis__) {
+        (window as any).__lenis__.resize();
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
   return (
     <div className="min-h-screen bg-white">
       <PageLoader />
