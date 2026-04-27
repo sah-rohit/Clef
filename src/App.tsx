@@ -55,6 +55,7 @@ import { PageLoader } from "./components/PageLoader";
 import { PageTransition } from "./components/PageTransition";
 import { FooterBar } from "./components/FooterBar";
 import { NetworkStatus } from "./components/NetworkStatus";
+import { StartupAnimation } from "./components/StartupAnimation";
 
 import { useEffect } from "react";
 import gsap from "gsap";
@@ -78,6 +79,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white">
+      <StartupAnimation />
       <PageLoader />
       <CustomCursor />
       <ScrollToTop />

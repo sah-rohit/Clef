@@ -376,19 +376,22 @@
 }
 
 /* ── Loading bar ─────────────────────────────────────────────────────────────── */
-@keyframes loading-bar {
-  0%   { width: 0%; opacity: 1; }
-  80%  { width: 90%; opacity: 1; }
-  100% { width: 100%; opacity: 0; }
+@keyframes loading-bar-brutal {
+  0%   { width: 0%; opacity: 1; transform: scaleY(1); }
+  50%  { width: 70%; opacity: 1; transform: scaleY(1); }
+  90%  { width: 100%; opacity: 1; transform: scaleY(1); }
+  100% { width: 100%; opacity: 0; transform: scaleY(0); }
 }
-.loading-bar {
+.loading-bar-brutal {
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #F9FF00, #00E5FF, #00FF87);
+  height: 4px;
+  background: #1a1a1a;
   z-index: 9999;
-  animation: loading-bar 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: loading-bar-brutal 0.8s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+  box-shadow: 0 4px 0px rgba(249, 255, 0, 1);
+  transform-origin: top;
 }
 
 /* ── Noise texture overlay ───────────────────────────────────────────────────── */

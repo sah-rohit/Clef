@@ -22,7 +22,7 @@ export function PageLoader() {
   return (
     <div
       key={key}
-      className="loading-bar"
+      className="loading-bar-brutal"
       style={{ pointerEvents: "none" }}
     />
   );
