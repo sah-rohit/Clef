@@ -402,29 +402,28 @@
   mix-blend-mode: overlay;
 }
 
-/* ── Custom scrollbar — brutalist themed ────────────────────────────────────── */
+/* ── Custom scrollbar — brutalist / cursor themed ────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 14px;
+  height: 14px;
 }
 ::-webkit-scrollbar-track {
-  background: #f0f0f0;
-  border-left: 1px solid #1a1a1a;
+  background: #000000;
+  border-left: 2px solid #1a1a1a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1a1a1a;
-  border-radius: 0;
-  border: none;
+  background: #ffffff;
+  border: 4px solid #000000;
+  transition: background 0.2s;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #F9FF00;
-  box-shadow: inset 0 0 0 1px #1a1a1a;
 }
 ::-webkit-scrollbar-thumb:active {
   background: #FF0004;
 }
 ::-webkit-scrollbar-corner {
-  background: #1a1a1a;
+  background: #000000;
 }
 /* Firefox */
 * {

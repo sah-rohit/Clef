@@ -74,7 +74,7 @@ export default function App() {
       }
     }, 500);
     return () => clearTimeout(timer);
-  }, [location.pathname]);
+  }, [location.pathname, location.key]);
 
   return (
     <div className="min-h-screen bg-white">

@@ -371,7 +371,12 @@ export function HeroSection() {
             trigger: wrap,
             pin: true,
             scrub: 1,
-            snap: 1 / (totalSlides - 1),
+            snap: {
+              snapTo: 1 / (totalSlides - 1),
+              duration: { min: 0.4, max: 0.6 },
+              delay: 0.1,
+              ease: "power1.inOut"
+            },
             start: "top top",
             end: () => `+=${wrap.offsetWidth * (totalSlides - 1)}`,
           }
@@ -400,6 +405,12 @@ export function HeroSection() {
               end: "+=400%",
               pin: true,
               scrub: 1,
+              snap: {
+                snapTo: [0, 0.5, 1],
+                duration: { min: 0.4, max: 0.6 },
+                delay: 0.1,
+                ease: "power2.inOut"
+              }
             }
           });
 
