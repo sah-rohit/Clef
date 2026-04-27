@@ -200,12 +200,14 @@ export default function AccountCenter() {
           <div className="absolute inset-0 pointer-events-none"
             style={{ backgroundImage: `linear-gradient(${sidebarColor.pattern} 1px, transparent 1px), linear-gradient(90deg, ${sidebarColor.pattern} 1px, transparent 1px)`, backgroundSize: "40px 40px" }} />
 
-          {/* Animated concentric rings */}
-          <div className="absolute -bottom-20 -right-20 pointer-events-none">
-            {[160, 120, 80, 40].map((size, i) => (
-              <div key={i} className="absolute rounded-full border-[2px] animate-ping"
-                style={{ width: size, height: size, top: -size/2, right: -size/2, borderColor: sidebarColor.pattern, animationDelay: `${i * 0.6}s`, animationDuration: "4s" }} />
-            ))}
+          {/* Animated concentric rings - Clipped to prevent scrollbars */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute -bottom-20 -right-20">
+              {[160, 120, 80, 40].map((size, i) => (
+                <div key={i} className="absolute rounded-full border-[2px] animate-ping"
+                  style={{ width: size, height: size, top: -size/2, right: -size/2, borderColor: sidebarColor.pattern, animationDelay: `${i * 0.6}s`, animationDuration: "4s" }} />
+              ))}
+            </div>
           </div>
 
           {/* Profile card */}
@@ -286,7 +288,7 @@ export default function AccountCenter() {
 
           {/* Main Content Area */}
           <div className="flex-1 min-w-0">
-            <div className="p-6 md:p-8 lg:p-12 min-h-[100vh]">
+            <div className="p-6 md:p-8 lg:p-12 h-full">
               <div className="relative animate-slide-up-content max-w-5xl mx-auto">
 
               {/* OVERVIEW TAB */}
