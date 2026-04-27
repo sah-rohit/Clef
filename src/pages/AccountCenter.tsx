@@ -292,9 +292,11 @@ export default function AccountCenter() {
               {/* OVERVIEW TAB */}
               {activeTab === "OVERVIEW" && (
                 <div className="animate-fade-in space-y-10">
-                  <div className="border-b-[4px] border-black pb-4">
-                    <h3 className="font-oswald text-3xl font-black uppercase tracking-tight">SYSTEM OVERVIEW</h3>
-                    <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Status Report & Quick Stats</p>
+                  <div className="bg-[#F9FF00] border-[4px] border-black relative overflow-hidden p-8 md:p-12 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+                    <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">DASHBOARD</span>
+                    <h3 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black">
+                      SYSTEM<br /><span className="text-outline-black">OVERVIEW.</span>
+                    </h3>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -355,13 +357,15 @@ export default function AccountCenter() {
               {/* PROFILE TAB */}
               {activeTab === "PROFILE" && (
                 <div className="space-y-10">
-                  <div className="border-b-[4px] border-black pb-4 flex items-center justify-between">
+                  <div className="bg-[#00E5FF] border-[4px] border-black relative overflow-hidden p-8 md:p-12 shadow-[8px_8px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
-                      <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">IDENTITY RECORDS</h3>
-                      <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Manage Personal Information</p>
+                      <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">PROFILE</span>
+                      <h3 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black">
+                        IDENTITY<br /><span className="text-outline-black">RECORDS.</span>
+                      </h3>
                     </div>
                     {!isEditing && (
-                      <button onClick={() => setIsEditing(true)} className="btn-brutal btn-brutal-yellow px-6 py-3 text-sm flex items-center gap-2 shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
+                      <button onClick={() => setIsEditing(true)} className="btn-brutal btn-brutal-black px-6 py-4 text-sm flex items-center justify-center gap-2 shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all shrink-0">
                         <Settings size={18} /> MODIFY RECORDS
                       </button>
                     )}
@@ -440,9 +444,11 @@ export default function AccountCenter() {
               {/* PREFERENCES TAB */}
               {activeTab === "PREFERENCES" && (
                 <div className="space-y-10">
-                  <div className="border-b-[4px] border-black pb-4">
-                    <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">WORKBENCH PREFERENCES</h3>
-                    <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Configure UI and Tool Settings</p>
+                  <div className="bg-[#00FF87] border-[4px] border-black relative overflow-hidden p-8 md:p-12 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+                    <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">SETTINGS</span>
+                    <h3 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black">
+                      WORKBENCH<br /><span className="text-outline-black">PREFERENCES.</span>
+                    </h3>
                   </div>
 
                   <div className="space-y-6">
@@ -494,9 +500,11 @@ export default function AccountCenter() {
               {/* SECURITY TAB */}
               {activeTab === "SECURITY" && (
                 <div className="space-y-10">
-                  <div className="border-b-[4px] border-black pb-4">
-                    <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">SECURITY CENTER</h3>
-                    <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Authentication and Access Control</p>
+                  <div className="bg-[#FF0004] border-[4px] border-black relative overflow-hidden p-8 md:p-12 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+                    <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 block mb-4">ACCESS CONTROL</span>
+                    <h3 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+                      SECURITY<br /><span className="text-outline-white">CENTER.</span>
+                    </h3>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -592,12 +600,14 @@ export default function AccountCenter() {
               {/* ACTIVITY TAB */}
               {activeTab === "ACTIVITY" && (
                 <div className="space-y-10">
-                  <div className="border-b-[4px] border-black pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                  <div className="bg-[#7C3AED] border-[4px] border-black relative overflow-hidden p-8 md:p-12 shadow-[8px_8px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
-                      <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">SESSION LOGS</h3>
-                      <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Device Access History</p>
+                      <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 block mb-4">DEVICE LOGS</span>
+                      <h3 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+                        SESSION<br /><span className="text-outline-white">LOGS.</span>
+                      </h3>
                     </div>
-                    <button onClick={() => { showToast("LOGGED OUT OF ALL OTHER DEVICES.", "info"); }} className="btn-brutal bg-white px-6 py-3 text-xs">TERMINATE ALL OTHERS</button>
+                    <button onClick={() => { showToast("LOGGED OUT OF ALL OTHER DEVICES.", "info"); }} className="btn-brutal bg-[#1a1a1a] text-[#7C3AED] px-8 py-4 text-xs shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 transition-all shrink-0">TERMINATE ALL OTHERS</button>
                   </div>
 
                   <div className="space-y-4">
@@ -635,13 +645,15 @@ export default function AccountCenter() {
               {/* NOTIFICATIONS TAB */}
               {activeTab === "NOTIFICATIONS" && (
                 <div className="space-y-10">
-                  <div className="border-b-[4px] border-black pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                  <div className="bg-[#1a1a1a] border-[4px] border-black relative overflow-hidden p-8 md:p-12 shadow-[8px_8px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
-                      <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">SYSTEM ALERTS</h3>
-                      <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Incoming Transmissions</p>
+                      <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00E5FF] block mb-4">INCOMING</span>
+                      <h3 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+                        SYSTEM<br /><span className="text-outline-white">ALERTS.</span>
+                      </h3>
                     </div>
                     {notifications.length > 0 && (
-                      <button onClick={() => clearNotifications()} className="btn-brutal bg-white px-6 py-3 text-xs">CLEAR LOG</button>
+                      <button onClick={() => clearNotifications()} className="btn-brutal bg-[#FF0004] text-white px-8 py-4 text-xs shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 transition-all shrink-0">CLEAR LOG</button>
                     )}
                   </div>
 
