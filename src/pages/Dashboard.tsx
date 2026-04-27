@@ -83,10 +83,10 @@ export default function Dashboard() {
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      <div className="pt-20 pb-16">
+      <div className="relative overflow-hidden">
         {/* Header */}
-        <div className="px-6 md:px-12 lg:px-16 mb-8">
-          <div className="flex items-center gap-4 mb-6">
+        <div className="px-6 md:px-12 lg:px-16 pt-28 pb-24 md:pt-36 md:pb-32 relative z-10">
+          <div className="mb-10">
             <BackButton />
           </div>
 
@@ -104,6 +104,8 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+        <div className="absolute -bottom-6 -right-6 font-oswald text-[200px] font-bold text-black/[0.03] leading-none select-none pointer-events-none uppercase">USER</div>
+      </div>
 
         {/* Stats Bar */}
         <div className="px-6 md:px-12 lg:px-16 mb-8">

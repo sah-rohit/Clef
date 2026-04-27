@@ -101,7 +101,7 @@ export function OurPromiseSection({ showBackButton = false }: { showBackButton?:
           style={{ backgroundColor: activeColor }}
         >
           {showBackButton && (
-            <div className="absolute top-12 left-6 md:left-10">
+            <div className="absolute top-28 left-6 md:top-36 md:left-10">
               <BackButton />
             </div>
           )}

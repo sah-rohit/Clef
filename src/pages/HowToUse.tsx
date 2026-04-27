@@ -70,8 +70,8 @@ export default function HowToUse() {
         className="bg-[#1a1a1a] border-b-[3px] border-black relative overflow-hidden"
         style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}
       >
-        <div ref={heroRef} className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
-          <div className="mb-6">
+        <div ref={heroRef} className="px-6 md:px-12 lg:px-16 pt-28 pb-24 md:pt-36 md:pb-32 relative z-10">
+          <div className="mb-10">
             <BackButton />
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
@@ -86,6 +86,7 @@ export default function HowToUse() {
             </p>
           </div>
         </div>
+        <div className="absolute -bottom-6 -right-6 font-oswald text-[200px] font-bold text-white/[0.04] leading-none select-none pointer-events-none uppercase">GUIDE</div>
         {/* Color bar */}
         <div className="flex h-2">
           {["#F9FF00","#00E5FF","#00FF87","#7C3AED","#FF0004","#1a1a1a"].map((c) => (

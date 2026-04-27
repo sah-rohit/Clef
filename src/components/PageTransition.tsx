@@ -89,12 +89,22 @@ export function PageTransition({ children }: Props) {
     if (p.startsWith("/tools/")) return "LOADING TOOL...";
     if (p === "/tools")          return "FETCHING WORKBENCH...";
     if (p === "/promise")        return "INITIALIZING VALUES...";
-    if (p === "/roster")         return "ASSEMBLING TEAM...";
+    if (p === "/roster")         return "INITIALIZING ROSTER...";
     if (p === "/inquiry")        return "LOADING BOARD...";
     if (p === "/about")          return "OUR STORY...";
     if (p === "/pricing")        return "ZERO COST...";
     if (p === "/how-to-use")     return "GUIDE...";
     if (p === "/changelog")      return "HISTORY...";
+    if (p === "/tools-guide")    return "TOOL REF...";
+    if (p === "/account")        return "ACCOUNT CENTER...";
+    if (p === "/login")          return "AUTHORIZING...";
+    if (p === "/dashboard")      return "DASHBOARD...";
+    if (p === "/contact")        return "CONNECT...";
+    if (p === "/privacy")        return "SAFEGUARD...";
+    if (p === "/terms")          return "LEGAL...";
+    if (p === "/cookies")        return "LOCAL DATA...";
+    if (p === "/agreement")      return "AGREEMENT...";
+    if (p === "/security")      return "HARDENING...";
     return "CLEF...";
   })();
 

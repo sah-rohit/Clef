@@ -11,8 +11,8 @@ export default function Github() {
       {/* Hero — dark bg */}
       <div className="bg-[#1a1a1a] border-b-[3px] border-black relative overflow-hidden"
         style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
-        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
-          <div className="mb-6"><BackButton /></div>
+        <div className="px-6 md:px-12 lg:px-16 pt-28 pb-24 md:pt-36 md:pb-32 relative z-10">
+          <div className="mb-10"><BackButton /></div>
           <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-4">OPEN SOURCE</span>
           <h1 className="font-oswald text-6xl md:text-8xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white mb-6">
             GITHUB<br /><span className="text-gradient-cyber">REPOSITORY.</span>
@@ -21,7 +21,7 @@ export default function Github() {
             Explore the codebase, track commits, and review the open-source architecture behind Clef.
           </p>
         </div>
-        <div className="absolute -bottom-4 -right-4 font-oswald text-[180px] font-bold text-white/[0.03] leading-none select-none pointer-events-none uppercase">MIT</div>
+        <div className="absolute -bottom-4 -right-4 font-oswald text-[180px] font-bold text-white/[0.03] leading-none select-none pointer-events-none uppercase">REPO</div>
       </div>
 
       {/* Main repo card — green bg */}

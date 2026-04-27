@@ -78,11 +78,11 @@ export function RosterSection({ showBackButton = false }: { showBackButton?: boo
       {/* Header — cyan bg */}
       <div className="bg-[#00E5FF] border-b-[3px] border-black relative overflow-hidden">
         {showBackButton && (
-          <div className="absolute top-12 left-6 md:left-10 z-20">
+          <div className="absolute top-28 left-6 md:top-36 md:left-10 z-20">
             <BackButton />
           </div>
         )}
-        <div ref={headerRef} className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
+        <div ref={headerRef} className="px-6 md:px-12 lg:px-16 pt-28 pb-24 md:pt-36 md:pb-32 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">HOW WE STACK UP</span>
@@ -91,7 +91,7 @@ export function RosterSection({ showBackButton = false }: { showBackButton?: boo
               </h2>
             </div>
             <div className="text-right">
-              <span className="font-oswald text-[120px] md:text-[160px] font-bold leading-none text-black/10 select-none pointer-events-none uppercase">TEAM</span>
+              <span className="font-oswald text-[120px] md:text-[160px] font-bold leading-none text-black/10 select-none pointer-events-none uppercase">ROSTER</span>
             </div>
           </div>
         </div>

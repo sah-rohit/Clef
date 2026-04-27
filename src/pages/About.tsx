@@ -20,8 +20,8 @@ export default function About() {
         className="bg-[#F9FF00] border-b-[3px] border-black relative overflow-hidden"
         style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}
       >
-        <div ref={heroRef} className="px-6 md:px-12 lg:px-16 pt-24 pb-20 md:pt-32 md:pb-28 relative z-10">
-          <div className="mb-8">
+        <div ref={heroRef} className="px-6 md:px-12 lg:px-16 pt-28 pb-24 md:pt-36 md:pb-32 relative z-10">
+          <div className="mb-10">
             <BackButton />
           </div>
           <div className="max-w-4xl">
@@ -34,7 +34,7 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className="absolute -bottom-6 -right-6 font-oswald text-[200px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">CLEF</div>
+        <div className="absolute -bottom-6 -right-6 font-oswald text-[200px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">STORY</div>
       </div>
 
       {/* ── Marquee ── */}
