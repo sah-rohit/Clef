@@ -261,8 +261,8 @@ export function ClefAI() {
   // Fullscreen: covers entire viewport
   // Normal: fixed bottom-right panel
   const panelPositionClass = isFullscreen
-    ? "fixed inset-0 z-[200]"
-    : "fixed inset-x-0 bottom-0 md:inset-auto md:right-6 md:bottom-14 z-[100] md:z-[57] w-full h-[85vh] md:w-[440px] md:h-[620px]";
+    ? "fixed inset-0 z-[100000]"
+    : "fixed inset-x-0 bottom-0 md:inset-auto md:right-6 md:bottom-14 z-[100000] md:z-[57] w-full h-[85dvh] md:w-[440px] md:h-[620px]";
   const panelBottomStyle = isFullscreen ? {} : {};
 
   const COLORS = ["#FF0004", "#F9FF00", "#00E5FF", "#00FF87", "#7C3AED", "#FF6B00", "#1a1a1a"];
@@ -530,10 +530,14 @@ export function ClefAI() {
               <div className="flex gap-3">
                 <textarea
                   ref={textareaRef}
-                  className="flex-1 border-[4px] border-black p-3.5 font-inter text-sm font-medium outline-none resize-none focus:bg-[#fafafa] min-h-[60px] max-h-[140px] placeholder:text-black/30 ai-scroll transition-colors rounded-xl touch-manipulation"
-                  placeholder="Ask anything… Markdown, LaTeX, code supported"
+                  className="flex-1 border-[4px] border-black p-3.5 font-inter text-sm font-medium outline-none resize-none focus:bg-[#fafafa] min-h-[60px] max-h-[140px] placeholder:text-black/30 ai-scroll transition-colors rounded-xl"
+                  style={{ touchAction: "manipulation", WebkitUserSelect: "text", userSelect: "text", cursor: "text" }}
+                  placeholder="Ask anything…"
                   value={input}
-                  rows={1}
+                  rows={2}
+                  autoComplete="off"
+                  autoCorrect="on"
+                  inputMode="text"
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => { 
                     if (e.key === "Enter" && !e.shiftKey) { 
@@ -542,7 +546,6 @@ export function ClefAI() {
                     } 
                   }}
                   onFocus={() => {
-                    // Mobile keyboard adjustment
                     if (window.innerWidth < 768) {
                       setTimeout(scrollToBottom, 300);
                     }

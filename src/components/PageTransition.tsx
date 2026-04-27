@@ -56,63 +56,64 @@ export function PageTransition({ children }: Props) {
       });
       timelineRef.current = tl;
 
-      if (isFirstLoad) {
+      if (isFirstLoad && currentPath === "/") {
+        // ── Home Kinetic Portal on first load ──
+        gsap.set(curtain, { scaleY: 1, opacity: 1, pointerEvents: "auto", background: "#1a1a1a" });
+        tl.fromTo(text, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" })
+          .to(curtain, { background: "#F9FF00", duration: 0.08 })
+          .to(text, { scale: 1.15, duration: 0.08, repeat: 3, yoyo: true })
+          .to(text, { 
+            duration: 0.7, scale: 8, opacity: 0, letterSpacing: "8em",
+            fontWeight: "900", ease: "expo.in"
+          })
+          .set(curtain, { background: "#1a1a1a" })
+          .fromTo(".kinetic-line", { scaleX: 0 }, { scaleX: 1, duration: 0.35, stagger: 0.04, ease: "power3.inOut" })
+          .set(text, { scale: 1, opacity: 0, letterSpacing: "0.1em" })
+          .to(text, { duration: 0.35, opacity: 1, ease: "power2.out" })
+          .to(".kinetic-line", { scaleX: 0, duration: 0.25, stagger: 0.02 }, "-=0.2")
+          .to(curtain, { scaleY: 0, transformOrigin: "top center", duration: 0.7, ease: "expo.inOut" }, "+=0.05")
+          .to(text, { opacity: 0, y: -20, duration: 0.25 }, "-=0.6")
+          .fromTo(wrap, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.35")
+          .set(wrap, { clearProps: "all" })
+          .set(curtain, { opacity: 0, pointerEvents: "none" });
+
+      } else if (isFirstLoad) {
+        // ── Standard first-load fade for other pages ──
         gsap.set(curtain, { scaleY: 0, opacity: 0, pointerEvents: "none" });
-        tl.fromTo(
-          wrap,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
-        ).set(wrap, { clearProps: "transform" });
+        tl.fromTo(wrap, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" })
+          .set(wrap, { clearProps: "transform" });
+
       } else {
-        // Sweep up + fade content
+        // ── In-app navigation transition ──
         tl.set(curtain, { scaleY: 1, opacity: 1, pointerEvents: "auto", transformOrigin: "top center" })
           .fromTo(text, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 });
 
-        // Special kinetic animation for Home
+        // Kinetic portal for Home
         if (currentPath === "/") {
-          tl.to(curtain, { background: "#F9FF00", duration: 0.1 })
-            .to(text, { scale: 1.2, duration: 0.1, repeat: 3, yoyo: true })
-            .to(text, { 
-              duration: 0.8, 
-              scale: 8, 
-              opacity: 0, 
-              letterSpacing: "8em", 
-              fontWeight: "900", 
-              ease: "expo.in" 
+          tl.to(curtain, { background: "#F9FF00", duration: 0.08 })
+            .to(text, { scale: 1.15, duration: 0.08, repeat: 3, yoyo: true })
+            .to(text, {
+              duration: 0.7, scale: 8, opacity: 0, letterSpacing: "8em",
+              fontWeight: "900", ease: "expo.in"
             })
             .set(curtain, { background: "#1a1a1a" })
-            .fromTo(".kinetic-line", { scaleX: 0 }, { scaleX: 1, duration: 0.4, stagger: 0.05, ease: "power3.inOut" })
+            .fromTo(".kinetic-line", { scaleX: 0 }, { scaleX: 1, duration: 0.35, stagger: 0.04, ease: "power3.inOut" })
             .set(text, { scale: 1, opacity: 0, letterSpacing: "0.1em" })
-            .to(text, { 
-              duration: 0.4, 
-              opacity: 1, 
-              ease: "power2.out" 
-            })
-            .to(".kinetic-line", { scaleX: 0, duration: 0.3, stagger: 0.02 }, "-=0.2");
+            .to(text, { duration: 0.35, opacity: 1, ease: "power2.out" })
+            .to(".kinetic-line", { scaleX: 0, duration: 0.25, stagger: 0.02 }, "-=0.2");
         }
 
         tl.to(curtain, {
-            scaleY: 0,
-            transformOrigin: "top center",
-            duration: 0.8,
-            ease: "expo.inOut",
+            scaleY: 0, transformOrigin: "top center", duration: 0.8, ease: "expo.inOut",
           }, "+=0.1")
           .to(text, { opacity: 0, y: -20, duration: 0.3 }, "-=0.7")
-          .fromTo(
-            wrap,
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
-            "-=0.4"
-          )
+          .fromTo(wrap, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.4")
           .set(wrap, { clearProps: "all" })
           .set(curtain, { opacity: 0, pointerEvents: "none" })
           .add(() => {
             window.scrollTo(0, 0);
             if ((window as any).__lenis__) (window as any).__lenis__.scrollTo(0, { immediate: true });
-            
-            import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-              ScrollTrigger.refresh(true);
-            });
+            import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => ScrollTrigger.refresh(true));
           });
       }
     });
