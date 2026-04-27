@@ -187,8 +187,9 @@ export function ToolPreviewPopup({ tool, onClose, onOpen }: ToolPreviewPopupProp
   };
 
   const handleOpen = () => {
-    handleClose();
-    setTimeout(() => navigate(tool.path), 280);
+    document.body.style.overflow = ""; // ensure scroll is restored
+    onClose();
+    navigate(tool.path);
   };
 
   return (
@@ -200,12 +201,12 @@ export function ToolPreviewPopup({ tool, onClose, onOpen }: ToolPreviewPopupProp
     >
       <div
         ref={panelRef}
-        className="relative w-full max-w-5xl max-h-[90vh] border-[4px] border-black flex flex-col md:flex-row shadow-[16px_16px_0px_rgba(0,0,0,0.8)] overflow-y-auto md:overflow-hidden"
-        style={{ minHeight: "min(600px, 90vh)" }}
+        className="relative w-full max-w-5xl border-[4px] border-black flex flex-col md:flex-row shadow-[16px_16px_0px_rgba(0,0,0,0.8)] overflow-hidden"
+        style={{ height: "90vh", maxHeight: "600px" }}
       >
         {/* ── LEFT PANEL — vibrant color ── */}
-        <div className="relative flex-1 md:w-[55%] flex flex-col overflow-x-hidden md:overflow-hidden"
-          style={{ background: panelColor, minHeight: "280px" }}>
+        <div className="relative flex-1 md:w-[55%] flex flex-col overflow-hidden"
+          style={{ background: panelColor }}>
 
           {/* Ghost background text */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
@@ -233,7 +234,7 @@ export function ToolPreviewPopup({ tool, onClose, onOpen }: ToolPreviewPopupProp
           </div>
 
           {/* Main content */}
-          <div className="relative z-10 flex flex-col flex-1 p-6 md:p-10 overflow-y-auto md:overflow-hidden">
+          <div className="relative z-10 flex flex-col flex-1 p-6 md:p-10 overflow-y-auto">
             {/* Category badge */}
             <div className="flex items-center gap-3 mb-6">
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] px-3 py-1.5 border-[2px]"
