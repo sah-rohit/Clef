@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Send, Copy, ThumbsUp, ThumbsDown, Pin, PinOff,
   RotateCcw, StopCircle, Bot, MessageSquare, Shield, X, Plus, Trash2,
-  Maximize2, Minimize2, Bold, Italic, Highlighter, Type,
+  Maximize2, Minimize2,
 } from "lucide-react";
 import { useAuth } from "@/providers/AuthProvider";
 import { useToast } from "@/providers/ToastProvider";
@@ -34,25 +34,7 @@ function saveConversations(c: Conversation[]) {
   localStorage.setItem("clef_conversations", JSON.stringify(c));
 }
 
-// Wrap selected text in textarea with markdown syntax
-function wrapSelection(
-  textarea: HTMLTextAreaElement,
-  before: string,
-  after: string,
-  value: string,
-  setValue: (v: string) => void
-) {
-  const start = textarea.selectionStart;
-  const end   = textarea.selectionEnd;
-  const sel   = value.slice(start, end);
-  const newVal = value.slice(0, start) + before + sel + after + value.slice(end);
-  setValue(newVal);
-  // Restore cursor after React re-render
-  requestAnimationFrame(() => {
-    textarea.focus();
-    textarea.setSelectionRange(start + before.length, end + before.length);
-  });
-}
+
 
 export function ClefAI() {
   const [isOpen,        setIsOpen]        = useState(false);
@@ -64,7 +46,6 @@ export function ClefAI() {
   const [isTyping,      setIsTyping]      = useState(false);
   const [abortCtrl,     setAbortCtrl]     = useState<AbortController | null>(null);
   const [stats,         setStats]         = useState({ hour: 0, day: 0 });
-  const [showColorPicker, setShowColorPicker] = useState(false);
 
   const { user }      = useAuth();
   const { showToast } = useToast();
@@ -149,25 +130,7 @@ export function ClefAI() {
     updateActivePairs(prev => prev.map((p, i) => i === idx ? { ...p, pinned: !p.pinned } : p));
   };
 
-  // Formatting helpers
-  const fmt = (before: string, after: string) => {
-    const ta = textareaRef.current;
-    if (!ta) return;
-    wrapSelection(ta, before, after, input, setInput);
-  };
 
-  const insertColor = (color: string) => {
-    const ta = textareaRef.current;
-    if (!ta) return;
-    const start = ta.selectionStart;
-    const end   = ta.selectionEnd;
-    const sel   = input.slice(start, end) || "text";
-    // Use HTML span for color (markdown doesn't support color natively)
-    const tag = `<span style="color:${color}">${sel}</span>`;
-    const newVal = input.slice(0, start) + tag + input.slice(end);
-    setInput(newVal);
-    setShowColorPicker(false);
-  };
 
   const handleSend = async (customInput?: string, pairIndex?: number) => {
     const text = customInput || input;
@@ -265,7 +228,7 @@ export function ClefAI() {
     : "fixed inset-x-0 bottom-0 md:inset-auto md:right-6 md:bottom-14 z-[100000] md:z-[57] w-full h-[85dvh] md:w-[440px] md:h-[620px]";
   const panelBottomStyle = isFullscreen ? {} : {};
 
-  const COLORS = ["#FF0004", "#F9FF00", "#00E5FF", "#00FF87", "#7C3AED", "#FF6B00", "#1a1a1a"];
+
 
   return (
     <>
@@ -484,48 +447,6 @@ export function ClefAI() {
           {/* ── Input area ── */}
           <div className={`border-t-[4px] border-black bg-white shrink-0 ${isFullscreen ? "flex flex-col items-center" : ""}`}>
             <div className={`${isFullscreen ? "w-full max-w-3xl" : "w-full"} p-3`}>
-
-              {/* Formatting toolbar */}
-              <div className="flex items-center gap-0 border-[2px] border-black mb-2 w-fit">
-                <button onClick={() => fmt("**", "**")}
-                  className="p-1.5 border-r-[2px] border-black hover:bg-[#F9FF00] transition-colors" title="Bold">
-                  <Bold size={11} />
-                </button>
-                <button onClick={() => fmt("*", "*")}
-                  className="p-1.5 border-r-[2px] border-black hover:bg-[#F9FF00] transition-colors" title="Italic">
-                  <Italic size={11} />
-                </button>
-                <button onClick={() => fmt("==", "==")}
-                  className="p-1.5 border-r-[2px] border-black hover:bg-[#F9FF00] transition-colors" title="Highlight">
-                  <Highlighter size={11} />
-                </button>
-                <button onClick={() => fmt("`", "`")}
-                  className="p-1.5 border-r-[2px] border-black hover:bg-[#7C3AED]/20 transition-colors font-mono text-[10px] font-bold" title="Inline code">
-                  {"</>"}
-                </button>
-                <button onClick={() => fmt("$", "$")}
-                  className="p-1.5 border-r-[2px] border-black hover:bg-[#00E5FF]/20 transition-colors font-mono text-[10px] font-bold" title="LaTeX math">
-                  ∑
-                </button>
-                {/* Color picker */}
-                <div className="relative">
-                  <button onClick={() => setShowColorPicker(s => !s)}
-                    className="p-1.5 hover:bg-[#F9FF00] transition-colors flex items-center gap-1" title="Text color">
-                    <Type size={11} />
-                    <span className="w-2 h-2 rounded-full bg-[#FF0004]" />
-                  </button>
-                  {showColorPicker && (
-                    <div className="absolute bottom-full left-0 mb-1 flex gap-1 bg-white border-[2px] border-black p-1.5 shadow-[4px_4px_0px_rgba(0,0,0,1)] z-10">
-                      {COLORS.map(c => (
-                        <button key={c} onClick={() => insertColor(c)}
-                          className="w-5 h-5 border-[2px] border-black hover:scale-110 transition-transform"
-                          style={{ background: c }} title={c} />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
               {/* Textarea + send */}
               <div className="flex gap-3">
                 <textarea
