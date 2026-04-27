@@ -1,7 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BackButton } from "@/components/BackButton";
-import { SectionHeader } from "@/components/SectionHeader";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Link } from "react-router";
 import { ArrowUpRight, Zap, Shield, Wrench, Plus, Bug, Sparkles } from "lucide-react";
@@ -190,27 +189,29 @@ export default function Changelog() {
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      <div className="page-top pb-20">
-        {/* Header */}
-        <div ref={heroRef} className="px-6 md:px-12 lg:px-16 mb-16">
-          <BackButton />
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mt-6">
-            <SectionHeader
-              eyebrow="Version History"
-              eyebrowColor="#7C3AED"
-              title="CHANGELOG."
-              accentLast
-              accentStyle="gradient-purple"
-              size="xl"
-            />
-            <p className="font-inter text-sm text-black/60 max-w-sm leading-relaxed md:text-right">
-              Every update, fix, and new feature — documented in full. No marketing speak, just what changed.
-            </p>
+      <div className="pb-20">
+        {/* Header — purple bg */}
+        <div className="bg-[#7C3AED] border-b-[3px] border-black relative overflow-hidden"
+          style={{ marginTop: "calc(-1 * (var(--ribbon-h) + var(--nav-h)))", paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
+          <div ref={heroRef} className="px-6 md:px-12 lg:px-16 py-16 md:py-24 relative z-10">
+            <div className="mb-6"><BackButton /></div>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div>
+                <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 block mb-4">VERSION HISTORY</span>
+                <h1 className="font-oswald text-6xl md:text-8xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+                  CHANGE<br /><span className="text-outline-white">LOG.</span>
+                </h1>
+              </div>
+              <p className="font-inter text-sm text-white/50 max-w-sm leading-relaxed md:text-right pb-2">
+                Every update, fix, and new feature — documented in full. No marketing speak, just what changed.
+              </p>
+            </div>
           </div>
+          <div className="absolute -bottom-4 -right-4 font-oswald text-[180px] font-bold text-white/[0.04] leading-none select-none pointer-events-none uppercase">v1.5</div>
         </div>
 
         {/* Legend */}
-        <div ref={legendRef} className="px-6 md:px-12 lg:px-16 mb-12">
+        <div ref={legendRef} className="px-6 md:px-12 lg:px-16 py-8 bg-white border-b-[3px] border-black">
           <div className="flex flex-wrap gap-0 border-[3px] border-black w-fit">
             {Object.entries(typeConfig).map(([key, cfg]) => {
               const Icon = cfg.icon;
@@ -227,7 +228,7 @@ export default function Changelog() {
         </div>
 
         {/* Releases */}
-        <div ref={releasesRef} className="px-6 md:px-12 lg:px-16">
+        <div ref={releasesRef} className="px-6 md:px-12 lg:px-16 py-12 bg-white">
           <div className="space-y-0 border-[3px] border-black">
             {releases.map((release, ri) => (
               <div key={ri} className="border-b-[3px] border-black last:border-b-0">

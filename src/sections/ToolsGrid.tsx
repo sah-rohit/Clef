@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router";
 import { TOOLS, CATEGORIES, type ToolCategory } from "@/data/tools";
+import type { ToolDef } from "@/data/tools";
 import { ArrowUpRight, Search } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { ToolPreviewPopup } from "@/components/ToolPreviewPopup";
 
 export function ToolsGrid() {
   const [filter, setFilter] = useState<ToolCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [previewTool, setPreviewTool] = useState<ToolDef | null>(null);
   const headerRef = useScrollReveal<HTMLDivElement>({ y: 30, duration: 0.6 });
   const gridRef   = useScrollReveal<HTMLDivElement>({ y: 40, duration: 0.7, delay: 0.1 });
 
@@ -71,10 +73,10 @@ export function ToolsGrid() {
             const Icon = tool.icon;
             const isWide = i % 5 === 0;
             return (
-              <Link
+              <button
                 key={tool.id}
-                to={tool.path}
-                className={`relative border-[3px] border-black cursor-pointer overflow-hidden group ${
+                onClick={() => setPreviewTool(tool)}
+                className={`relative border-[3px] border-black cursor-pointer overflow-hidden group text-left ${
                   isWide ? "lg:col-span-2" : ""
                 }`}
                 onMouseEnter={() => setHoveredId(tool.id)}
@@ -151,7 +153,7 @@ export function ToolsGrid() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
-              </Link>
+              </button>
             );
           })}
         </div>
@@ -164,6 +166,15 @@ export function ToolsGrid() {
           </div>
         )}
       </div>
+
+      {/* Tool Preview Popup */}
+      {previewTool && (
+        <ToolPreviewPopup
+          tool={previewTool}
+          onClose={() => setPreviewTool(null)}
+          onOpen={() => setPreviewTool(null)}
+        />
+      )}
     </section>
   );
 }
