@@ -367,7 +367,7 @@ export function ClefAI() {
           {/* ── Messages area ── */}
           <div
             ref={messagesRef}
-            className={`flex-1 overflow-y-auto ai-scroll bg-[#fafafa] ${isFullscreen ? "flex flex-col" : ""}`}
+            className={`flex-1 min-h-0 overflow-y-auto ai-scroll bg-[#fafafa] ${isFullscreen ? "flex flex-col" : ""}`}
           >
             <div className={`p-4 space-y-4 ${isFullscreen ? "max-w-3xl mx-auto w-full flex-1" : ""}`}>
               {pairs.length === 0 && (

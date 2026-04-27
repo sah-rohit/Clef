@@ -587,23 +587,23 @@ export function HeroSection() {
       </div>
 
       {/* ── Featured tools strip ── */}
-      <div className="border-b-[3px] border-black bg-white">
+      <div className="border-b-[3px] border-black bg-[#1a1a1a]">
         <div className="px-6 md:px-12 lg:px-16 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <span className="font-oswald text-xs font-bold uppercase tracking-[0.25em] text-black/40">POPULAR TOOLS</span>
-          <div className="flex flex-wrap gap-0 border-[3px] border-black">
+          <span className="font-oswald text-xs font-bold uppercase tracking-[0.25em] text-white/40">POPULAR TOOLS</span>
+          <div className="flex flex-wrap gap-0 border-[3px] border-white/20">
             {[
-              { Icon: Braces,      label: "JSON",       path: "/tools/json-formatter",    color: "#059669" },
-              { Icon: Palette,     label: "COLORS",     path: "/tools/color-converter",   color: "#8B5CF6" },
-              { Icon: Hash,        label: "WORD COUNT", path: "/tools/word-counter",      color: "#7C3AED" },
+              { Icon: Braces,      label: "JSON",       path: "/tools/json-formatter",    color: "#00FF87" },
+              { Icon: Palette,     label: "COLORS",     path: "/tools/color-converter",   color: "#00E5FF" },
+              { Icon: Hash,        label: "WORD COUNT", path: "/tools/word-counter",      color: "#F9FF00" },
               { Icon: Timer,       label: "POMODORO",   path: "/tools/pomodoro-timer",    color: "#FF0004" },
-              { Icon: Fingerprint, label: "UUID",       path: "/tools/uuid-generator",    color: "#9333EA" },
-              { Icon: QrCode,      label: "QR CODE",    path: "/tools/qr-code-generator", color: "#1a1a1a" },
+              { Icon: Fingerprint, label: "UUID",       path: "/tools/uuid-generator",    color: "#7C3AED" },
+              { Icon: QrCode,      label: "QR CODE",    path: "/tools/qr-code-generator", color: "#00E5FF" },
             ].map(({ Icon, label, path, color }, i) => (
               <Link key={i} to={path}
-                className="group flex items-center gap-2 px-4 py-2.5 border-r-[3px] border-black last:border-r-0 hover:bg-[#1a1a1a] transition-colors duration-150">
-                <Icon size={14} className="group-hover:text-white transition-colors" style={{ color }} />
-                <span className="font-oswald text-[10px] font-bold uppercase tracking-wider group-hover:text-white transition-colors">{label}</span>
-                <ArrowUpRight size={10} className="text-black/20 group-hover:text-white/60 transition-colors" />
+                className="group flex items-center gap-2 px-4 py-2.5 border-r-[3px] border-white/20 last:border-r-0 hover:bg-white/10 transition-colors duration-150">
+                <Icon size={14} className="transition-colors" style={{ color }} />
+                <span className="font-oswald text-[10px] font-bold uppercase tracking-wider text-white/70 group-hover:text-white transition-colors">{label}</span>
+                <ArrowUpRight size={10} className="text-white/20 group-hover:text-white/60 transition-colors" />
               </Link>
             ))}
           </div>
@@ -648,17 +648,17 @@ export function HeroSection() {
       </div>
 
       {/* ── SECTION: How It Works ── */}
-      <div className="bg-[#1a1a1a] border-b-[3px] border-black">
+      <div className="bg-[#001a0a] border-b-[3px] border-black">
         <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#F9FF00] block mb-3">WORKFLOW</span>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-3">WORKFLOW</span>
               <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase text-white leading-[0.9] tracking-[-0.02em]">
                 THREE STEPS.<br /><span className="text-outline-white">ZERO FRICTION.</span>
               </h2>
             </div>
             <Link to="/features"
-              className="inline-flex items-center gap-2 border-[2px] border-white/20 px-5 py-2.5 font-oswald text-[10px] font-bold uppercase tracking-widest text-white hover:bg-[#F9FF00] hover:text-black hover:border-[#F9FF00] transition-all duration-200 w-fit">
+              className="inline-flex items-center gap-2 border-[2px] border-white/20 px-5 py-2.5 font-oswald text-[10px] font-bold uppercase tracking-widest text-white hover:bg-[#00FF87] hover:text-black hover:border-[#00FF87] transition-all duration-200 w-fit">
               FULL GUIDE <ArrowUpRight size={12} />
             </Link>
           </div>
@@ -755,38 +755,38 @@ export function HeroSection() {
       </div>
 
       {/* ── SECTION: What's Inside ── */}
-      <div className="bg-white border-b-[3px] border-black">
+      <div className="bg-[#0a0a0a] border-b-[3px] border-black">
         <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-            <div className="lg:border-r-[3px] lg:border-black lg:pr-16 pb-12 lg:pb-0 flex flex-col justify-center">
+            <div className="lg:border-r-[3px] lg:border-white/10 lg:pr-16 pb-12 lg:pb-0 flex flex-col justify-center">
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF0004] block mb-4">THE TOOLSET</span>
-              <h2 className="font-oswald text-4xl md:text-5xl lg:text-6xl font-bold uppercase leading-[0.9] tracking-[-0.03em] mb-6">
+              <h2 className="font-oswald text-4xl md:text-5xl lg:text-6xl font-bold uppercase leading-[0.9] tracking-[-0.03em] mb-6 text-white">
                 28 TOOLS.<br /><span className="text-gradient-cyber">3 CATEGORIES.</span><br />
-                <span className="font-[400] tracking-[0.04em] text-3xl md:text-4xl">INFINITE USES.</span>
+                <span className="font-[400] tracking-[0.04em] text-3xl md:text-4xl text-white/50">INFINITE USES.</span>
               </h2>
-              <p className="font-inter text-sm text-black/55 leading-relaxed max-w-sm">
+              <p className="font-inter text-sm text-white/50 leading-relaxed max-w-sm">
                 From JSON formatting to QR codes, from regex testing to color palettes — every tool is purpose-built, distraction-free, and permanently free.
               </p>
             </div>
-            <div className="lg:pl-16 flex flex-col gap-0 border-[3px] border-black lg:border-0">
+            <div className="lg:pl-16 flex flex-col gap-0 border-[3px] border-white/10 lg:border-0">
               {[
                 { label: "DEVELOPER", count: 13, color: "#00E5FF", tools: ["JSON Formatter", "Regex Tester", "JWT Decoder", "CSS Minifier", "Diff Checker", "Base64", "+7 more"], desc: "Code, format, debug, convert." },
                 { label: "PRODUCTIVITY", count: 7, color: "#F9FF00", tools: ["Text File Maker", "Markdown Editor", "Word Counter", "Lorem Ipsum", "Pomodoro", "Text Case", "+1 more"], desc: "Write, edit, focus, ship." },
                 { label: "UTILITY", count: 8, color: "#00FF87", tools: ["Password Gen", "QR Code", "Unit Converter", "Calculator", "Timestamp", "Aspect Ratio", "+2 more"], desc: "Convert, generate, measure." },
               ].map((cat, i) => (
                 <div key={i}
-                  className="hero-cat group border-b-[3px] border-black last:border-b-0 lg:border-[3px] lg:border-black lg:mb-3 last:mb-0 p-6 hover:bg-[#fafafa] transition-colors duration-200 cursor-default">
+                  className="hero-cat group border-b-[3px] border-white/10 last:border-b-0 lg:border-[3px] lg:border-white/10 lg:mb-3 last:mb-0 p-6 hover:bg-white/5 transition-colors duration-200 cursor-default">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
                       <div className="w-2 h-2 rotate-45" style={{ background: cat.color }} />
-                      <span className="font-oswald text-base font-bold uppercase tracking-wider">{cat.label}</span>
+                      <span className="font-oswald text-base font-bold uppercase tracking-wider text-white">{cat.label}</span>
                     </div>
                     <span className="font-oswald text-2xl font-bold" style={{ color: cat.color }}>{cat.count}</span>
                   </div>
-                  <p className="font-inter text-xs text-black/40 uppercase tracking-wider mb-3">{cat.desc}</p>
+                  <p className="font-inter text-xs text-white/30 uppercase tracking-wider mb-3">{cat.desc}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {cat.tools.map((t, j) => (
-                      <span key={j} className="font-inter text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 border border-black/10 text-black/50 group-hover:border-black/20 transition-colors">{t}</span>
+                      <span key={j} className="font-inter text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 border border-white/10 text-white/40 group-hover:border-white/20 transition-colors">{t}</span>
                     ))}
                   </div>
                 </div>
@@ -813,34 +813,34 @@ export function HeroSection() {
           </div>
           <div className="flex flex-wrap gap-2">
             {[
-              { name: "JSON Formatter", color: "#059669" },
-              { name: "Regex Tester", color: "#E11D48" },
-              { name: "JWT Decoder", color: "#9333EA" },
-              { name: "CSS Minifier", color: "#0891B2" },
-              { name: "Diff Checker", color: "#7C3AED" },
-              { name: "Base64 Encoder", color: "#0284C7" },
-              { name: "Color Converter", color: "#8B5CF6" },
+              { name: "JSON Formatter",    color: "#00FF87" },
+              { name: "Regex Tester",      color: "#FF0004" },
+              { name: "JWT Decoder",       color: "#7C3AED" },
+              { name: "CSS Minifier",      color: "#00E5FF" },
+              { name: "Diff Checker",      color: "#F9FF00" },
+              { name: "Base64 Encoder",    color: "#00E5FF" },
+              { name: "Color Converter",   color: "#7C3AED" },
               { name: "Color Palette Gen", color: "#F9FF00" },
-              { name: "Hash Generator", color: "#166534" },
-              { name: "UUID Generator", color: "#9333EA" },
-              { name: "URL Encoder", color: "#4F46E5" },
-              { name: "Image to Base64", color: "#2563EB" },
+              { name: "Hash Generator",    color: "#00FF87" },
+              { name: "UUID Generator",    color: "#7C3AED" },
+              { name: "URL Encoder",       color: "#00E5FF" },
+              { name: "Image to Base64",   color: "#00FF87" },
               { name: "Number Base Conv.", color: "#FF0004" },
-              { name: "Text File Maker", color: "#F9FF00" },
-              { name: "Markdown Editor", color: "#FF0004" },
-              { name: "Word Counter", color: "#7C3AED" },
-              { name: "Lorem Ipsum", color: "#D97706" },
-              { name: "Pomodoro Timer", color: "#FF0004" },
-              { name: "Text Case Conv.", color: "#00FF87" },
-              { name: "Password Generator", color: "#DC2626" },
-              { name: "QR Code Generator", color: "#1a1a1a" },
-              { name: "Unit Converter", color: "#0891B2" },
-              { name: "Calculator", color: "#1a1a1a" },
-              { name: "Timestamp Conv.", color: "#00E5FF" },
-              { name: "Aspect Ratio Calc", color: "#D97706" },
-              { name: "Cron Builder", color: "#059669" },
-              { name: "Code Editor", color: "#1a1a1a" },
-              { name: "Clef AI", color: "#7C3AED" },
+              { name: "Text File Maker",   color: "#F9FF00" },
+              { name: "Markdown Editor",   color: "#FF0004" },
+              { name: "Word Counter",      color: "#7C3AED" },
+              { name: "Lorem Ipsum",       color: "#00E5FF" },
+              { name: "Pomodoro Timer",    color: "#FF0004" },
+              { name: "Text Case Conv.",   color: "#00FF87" },
+              { name: "Password Generator",color: "#FF0004" },
+              { name: "QR Code Generator", color: "#F9FF00" },
+              { name: "Unit Converter",    color: "#00E5FF" },
+              { name: "Calculator",        color: "#00FF87" },
+              { name: "Timestamp Conv.",   color: "#00E5FF" },
+              { name: "Aspect Ratio Calc", color: "#F9FF00" },
+              { name: "Cron Builder",      color: "#00FF87" },
+              { name: "Code Editor",       color: "#7C3AED" },
+              { name: "Clef AI",           color: "#7C3AED" },
             ].map(({ name, color }, i) => (
               <div key={i}
                 className="hero-tool-pill flex items-center gap-2 border border-white/10 px-3 py-2 hover:border-white/30 hover:bg-white/5 transition-all duration-150 cursor-default group">
@@ -852,42 +852,42 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── SECTION: Built Different ── */}
-      <div className="bg-[#F9FF00] border-b-[3px] border-black overflow-hidden relative">
+      {/* ── SECTION: Privacy Architecture ── */}
+      <div className="bg-[#050510] border-b-[3px] border-black relative overflow-hidden">
         <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
             <div>
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">WHY CLEF</span>
-              <h2 className="font-oswald text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-6 text-black">
-                NO ADS.<br />NO TRACKING.<br /><span className="text-outline-black">NO BS.</span>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00E5FF] block mb-4">PRIVACY ARCHITECTURE</span>
+              <h2 className="font-oswald text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-6 text-white">
+                YOUR DATA.<br />YOUR DEVICE.<br /><span className="text-gradient-cyber">YOUR RULES.</span>
               </h2>
-              <p className="font-inter text-sm text-black/65 leading-relaxed max-w-sm">
-                Most utility sites are ad farms in disguise. Clef is different — it's a personal project built for real use, not for monetization. The code is open, the tools are free, and your data stays yours.
+              <p className="font-inter text-sm text-white/55 leading-relaxed max-w-sm">
+                We didn't add a privacy policy as an afterthought. We built the architecture so there's nothing to collect. No server, no database, no telemetry — just your browser doing the work.
               </p>
             </div>
-            <div className="flex flex-col gap-0 border-[3px] border-black bg-white">
+            <div className="flex flex-col gap-0 border-[3px] border-white/10">
               {[
-                { them: "Ads everywhere",     us: "Zero ads, ever",           color: "#00FF87" },
-                { them: "Paywalled features", us: "Everything free, always",  color: "#00E5FF" },
-                { them: "Data harvesting",    us: "Local-only processing",    color: "#7C3AED" },
-                { them: "Bloated interfaces", us: "Brutalist, fast, focused", color: "#F9FF00" },
-                { them: "Closed source",      us: "MIT licensed on GitHub",   color: "#FF0004" },
+                { label: "Data sent to servers",   val: "0 bytes",          color: "#00FF87", icon: "✓" },
+                { label: "Cookies set",            val: "None",             color: "#00E5FF", icon: "✓" },
+                { label: "Analytics trackers",     val: "Zero",             color: "#7C3AED", icon: "✓" },
+                { label: "Third-party scripts",    val: "Not loaded",       color: "#F9FF00", icon: "✓" },
+                { label: "Processing location",    val: "Your browser",     color: "#00FF87", icon: "✓" },
+                { label: "Account required",       val: "Never",            color: "#00E5FF", icon: "✓" },
               ].map((row, i) => (
-                <div key={i} className="hero-compare-row grid grid-cols-2 border-b-[3px] border-black last:border-b-0">
-                  <div className="px-4 py-3 border-r-[3px] border-black flex items-center gap-2">
-                    <span className="w-1 h-1 bg-[#FF0004] rounded-full flex-shrink-0" />
-                    <span className="font-inter text-xs text-black/40 line-through decoration-[#FF0004]">{row.them}</span>
+                <div key={i} className="hero-compare-row grid grid-cols-2 border-b-[3px] border-white/10 last:border-b-0">
+                  <div className="px-4 py-3 border-r-[3px] border-white/10 flex items-center gap-2">
+                    <span className="font-inter text-xs text-white/40">{row.label}</span>
                   </div>
                   <div className="px-4 py-3 flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rotate-45 flex-shrink-0" style={{ background: row.color }} />
-                    <span className="font-inter text-xs font-semibold text-black">{row.us}</span>
+                    <span className="font-oswald text-[10px] font-bold" style={{ color: row.color }}>{row.icon}</span>
+                    <span className="font-inter text-xs font-semibold text-white">{row.val}</span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className="absolute -bottom-4 -right-4 font-oswald text-[160px] md:text-[220px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">FREE</div>
+        <div className="absolute -bottom-4 -right-4 font-oswald text-[160px] md:text-[220px] font-bold text-[#00E5FF]/[0.03] leading-none select-none pointer-events-none uppercase">SAFE</div>
       </div>
 
       {/* ── SECTION: AI Assistant spotlight ── */}
@@ -984,37 +984,40 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── SECTION: Testimonials / Community ── */}
+      {/* ── SECTION: Open Source Commitment ── */}
       <div className="bg-[#1a1a1a] border-b-[3px] border-black">
         <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
           <div className="mb-12">
-            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#F9FF00] block mb-3">COMMUNITY</span>
+            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-3">OPEN SOURCE</span>
             <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase text-white leading-[0.9]">
-              ENGINEERED FOR UTILITY.<br /><span className="text-outline-white">BUILT FOR PRECISION.</span>
+              EVERY COMMIT.<br /><span className="text-outline-white">EVERY LINE. PUBLIC.</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-[3px] border-white/10">
             {[
               {
-                title: "RADICAL PRIVACY",
-                desc: "We don't just 'value' privacy; we architect for it. No data ever leaves your device because there are no servers to receive it.",
-                tag: "SECURITY",
-                color: "#F9FF00",
-                Icon: Shield,
-              },
-              {
-                title: "BLISTERING SPEED",
-                desc: "Tools should be extensions of your mind. We optimize for sub-100ms load times, ensuring your workflow remains uninterrupted.",
-                tag: "PERFORMANCE",
-                color: "#00E5FF",
-                Icon: Zap,
-              },
-              {
-                title: "RADICAL OPENNESS",
-                desc: "Transparency is the bedrock of trust. Every line of Clef's source code is public, auditable, and open for contribution.",
-                tag: "TRANSPARENCY",
+                title: "FORK IT",
+                desc: "Clone the entire codebase, spin up your own instance, or build something new on top. MIT license means no restrictions — do whatever you want with it.",
+                tag: "MIT LICENSE",
                 color: "#00FF87",
-                Icon: Globe,
+                Icon: GitBranch,
+                stat: "MIT",
+              },
+              {
+                title: "AUDIT IT",
+                desc: "Every function, every API call, every data flow is visible. No black boxes. If you're skeptical about our privacy claims, read the code — it proves itself.",
+                tag: "TRANSPARENCY",
+                color: "#F9FF00",
+                Icon: Eye,
+                stat: "100%",
+              },
+              {
+                title: "CONTRIBUTE",
+                desc: "Found a bug? Have a tool idea? Submit a PR. Clef is built by the community, for the community. Your contribution ships to every user instantly.",
+                tag: "COMMUNITY",
+                color: "#7C3AED",
+                Icon: Heart,
+                stat: "PRs open",
               },
             ].map((p, i) => (
               <div key={i}
@@ -1023,8 +1026,9 @@ export function HeroSection() {
                   <div className="w-10 h-10 border-[2px] flex items-center justify-center" style={{ borderColor: p.color + "40" }}>
                     <p.Icon size={18} style={{ color: p.color }} />
                   </div>
-                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 border border-white/10 text-white/30">{p.tag}</span>
+                  <span className="font-oswald text-2xl font-bold" style={{ color: p.color + "60" }}>{p.stat}</span>
                 </div>
+                <span className="font-oswald text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 border border-white/10 text-white/30 inline-block mb-4">{p.tag}</span>
                 <h3 className="font-oswald text-xl font-bold uppercase text-white mb-4 tracking-tight">{p.title}</h3>
                 <p className="font-inter text-sm text-white/50 leading-relaxed mb-6">{p.desc}</p>
                 <div className="w-8 h-1" style={{ background: p.color }} />
@@ -1034,59 +1038,57 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── SECTION: Design System Showcase ── */}
+      {/* ── SECTION: Offline & PWA ── */}
       <div className="bg-white border-b-[3px] border-black">
         <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
           <div className="mb-12">
-            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#7C3AED] block mb-4">DESIGN LANGUAGE</span>
+            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-4">OFFLINE FIRST</span>
             <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.9] tracking-[-0.03em]">
-              BRUTALIST.<br /><span className="text-gradient-purple">INTENTIONAL.</span>
+              NO WIFI.<br /><span className="text-gradient-cyber">NO PROBLEM.</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-[3px] border-black">
-            {/* Color palette */}
-            <div className="border-b-[3px] md:border-b-0 md:border-r-[3px] border-black p-8">
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.25em] text-black/40 block mb-6">COLOR SYSTEM</span>
-              <div className="flex flex-col gap-0 border-[3px] border-black">
+            {/* PWA install visual */}
+            <div className="border-b-[3px] md:border-b-0 md:border-r-[3px] border-black p-8 bg-[#001a0a]">
+              <div className="flex flex-col gap-4 max-w-xs">
+                <div className="flex items-center gap-3 border-[2px] border-[#00FF87]/30 px-4 py-3 bg-[#00FF87]/5">
+                  <WifiOff size={16} className="text-[#00FF87]" />
+                  <span className="font-oswald text-xs font-bold uppercase tracking-widest text-[#00FF87]">OFFLINE MODE ACTIVE</span>
+                </div>
                 {[
-                  { name: "YELLOW", hex: "#F9FF00", role: "Primary / CTA" },
-                  { name: "RED",    hex: "#FF0004", role: "Danger / Accent" },
-                  { name: "CYAN",   hex: "#00E5FF", role: "Info / Tech" },
-                  { name: "GREEN",  hex: "#00FF87", role: "Success / Open" },
-                  { name: "PURPLE", hex: "#7C3AED", role: "AI / Premium" },
-                  { name: "BLACK",  hex: "#1a1a1a", role: "Base / Structure" },
-                ].map((c, i) => (
-                  <div key={i} className="flex items-center border-b-[3px] border-black last:border-b-0">
-                    <div className="w-12 h-12 border-r-[3px] border-black flex-shrink-0" style={{ background: c.hex }} />
-                    <div className="px-4 flex-1 flex items-center justify-between">
-                      <span className="font-oswald text-xs font-bold uppercase tracking-wider">{c.name}</span>
-                      <span className="font-mono text-[10px] text-black/40">{c.hex}</span>
-                      <span className="font-inter text-[9px] uppercase tracking-wider text-black/30 hidden sm:block">{c.role}</span>
+                  { name: "JSON Formatter", status: "Ready", color: "#00FF87" },
+                  { name: "Regex Tester",   status: "Ready", color: "#00FF87" },
+                  { name: "Color Converter",status: "Ready", color: "#00FF87" },
+                  { name: "Clef AI",        status: "Requires connection", color: "#F9FF00" },
+                ].map((t, i) => (
+                  <div key={i} className="flex items-center justify-between border-b border-white/5 pb-2 last:border-0">
+                    <span className="font-inter text-xs text-white/60">{t.name}</span>
+                    <span className="font-oswald text-[9px] font-bold uppercase tracking-wider" style={{ color: t.color }}>{t.status}</span>
+                  </div>
+                ))}
+                <div className="mt-2 border-[2px] border-[#00E5FF]/20 px-3 py-2 flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#00E5FF] animate-pulse" />
+                  <span className="font-inter text-[10px] text-[#00E5FF]/70 uppercase tracking-wider">Service worker active — 27 tools cached</span>
+                </div>
+              </div>
+            </div>
+            {/* PWA info */}
+            <div className="p-8">
+              <span className="font-inter text-[9px] uppercase tracking-widest text-black/30 block mb-6">HOW IT WORKS</span>
+              <div className="flex flex-col gap-5">
+                {[
+                  { step: "01", title: "First Visit", desc: "Clef's service worker caches all tool bundles, assets, and fonts to your device.", color: "#00FF87" },
+                  { step: "02", title: "Install as PWA", desc: "Add Clef to your home screen or desktop. It behaves like a native app — no browser chrome.", color: "#00E5FF" },
+                  { step: "03", title: "Work Anywhere", desc: "Plane, basement, dead zone — every tool runs locally. No CDN, no cloud, no waiting.", color: "#7C3AED" },
+                ].map((s, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="w-8 h-8 border-[2px] flex items-center justify-center font-oswald text-xs font-bold flex-shrink-0" style={{ borderColor: s.color, color: s.color }}>{s.step}</div>
+                    <div>
+                      <div className="font-oswald text-sm font-bold uppercase tracking-tight mb-1">{s.title}</div>
+                      <div className="font-inter text-xs text-black/50 leading-relaxed">{s.desc}</div>
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-            {/* Typography */}
-            <div className="p-8">
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.25em] text-black/40 block mb-6">TYPOGRAPHY</span>
-              <div className="flex flex-col gap-6">
-                <div>
-                  <span className="font-inter text-[9px] uppercase tracking-widest text-black/30 block mb-2">DISPLAY — OSWALD 700</span>
-                  <div className="font-oswald text-5xl font-bold uppercase leading-none tracking-[-0.04em]">CLEF</div>
-                </div>
-                <div>
-                  <span className="font-inter text-[9px] uppercase tracking-widest text-black/30 block mb-2">HEADING — OSWALD 400</span>
-                  <div className="font-oswald text-2xl font-normal uppercase tracking-[0.08em]">WORKBENCH TOOLS</div>
-                </div>
-                <div>
-                  <span className="font-inter text-[9px] uppercase tracking-widest text-black/30 block mb-2">BODY — INTER 400</span>
-                  <div className="font-inter text-sm text-black/70 leading-relaxed">Purpose-built utilities for developers and creators. Fast, private, and permanently free.</div>
-                </div>
-                <div>
-                  <span className="font-inter text-[9px] uppercase tracking-widest text-black/30 block mb-2">LABEL — OSWALD 700 TRACKED</span>
-                  <div className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50">SECTION LABEL STYLE</div>
-                </div>
               </div>
             </div>
           </div>
@@ -1094,13 +1096,13 @@ export function HeroSection() {
       </div>
 
       {/* ── SECTION: Tech Stack ── */}
-      <div className="bg-[#0a0a0a] border-b-[3px] border-black">
+      <div className="bg-[#0a0005] border-b-[3px] border-black">
         <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
             <div className="lg:border-r-[3px] lg:border-white/10 lg:pr-16 pb-12 lg:pb-0">
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00E5FF] block mb-4">UNDER THE HOOD</span>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#7C3AED] block mb-4">UNDER THE HOOD</span>
               <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase text-white leading-[0.9] tracking-[-0.03em] mb-6">
-                MODERN STACK.<br /><span className="text-gradient-cyber">ZERO BLOAT.</span>
+                MODERN STACK.<br /><span className="text-gradient-purple">ZERO BLOAT.</span>
               </h2>
               <p className="font-inter text-sm text-white/55 leading-relaxed max-w-sm">
                 Built with React 19, TypeScript, Vite, Tailwind, and GSAP. Deployed on the edge. Every dependency is justified — nothing is there for show.
@@ -1109,13 +1111,13 @@ export function HeroSection() {
             <div className="lg:pl-16 grid grid-cols-2 gap-0 border-[3px] border-white/10">
               {[
                 { name: "React 19",    role: "UI Framework",     color: "#00E5FF" },
-                { name: "TypeScript",  role: "Type Safety",      color: "#0284C7" },
+                { name: "TypeScript",  role: "Type Safety",      color: "#00E5FF" },
                 { name: "Vite 7",      role: "Build Tool",       color: "#F9FF00" },
                 { name: "Tailwind 3",  role: "Styling",          color: "#00E5FF" },
                 { name: "GSAP 3",      role: "Animations",       color: "#00FF87" },
                 { name: "Convex",      role: "Backend / DB",     color: "#FF0004" },
                 { name: "Groq / Llama","role": "AI Inference",   color: "#7C3AED" },
-                { name: "Lenis",       role: "Smooth Scroll",    color: "#F9FF00" },
+                { name: "Lenis",       role: "Smooth Scroll",    color: "#7C3AED" },
               ].map((tech, i) => (
                 <div key={i}
                   className="border-b-[3px] border-r-[3px] border-white/10 last:border-r-0 p-5 group hover:bg-white/5 transition-colors duration-150">
@@ -1129,31 +1131,42 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── SECTION: CTA Banner ── */}
-      <div className="bg-[#F9FF00] border-b-[3px] border-black relative overflow-hidden">
+      {/* ── SECTION: Pricing Manifesto ── */}
+      <div className="bg-[#1a0000] border-b-[3px] border-black relative overflow-hidden">
         <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20 relative z-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div>
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-3">GET STARTED</span>
-              <h2 className="font-oswald text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black">
-                OPEN YOUR<br />FIRST TOOL.<br /><span className="text-outline-black">RIGHT NOW.</span>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF0004] block mb-3">PRICING MODEL</span>
+              <h2 className="font-oswald text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+                FREE.<br />NOT FREEMIUM.<br /><span className="text-outline-white">NOT A TRIAL.</span>
               </h2>
             </div>
-            <div className="flex flex-col gap-4">
-              <button onClick={scrollToTools}
-                className="group bg-[#1a1a1a] text-[#F9FF00] border-[3px] border-[#1a1a1a] font-oswald font-bold uppercase tracking-widest text-sm flex items-center gap-3 px-8 py-4 hover:bg-white hover:text-black transition-all duration-200 shadow-[6px_6px_0px_rgba(0,0,0,0.3)] hover:-translate-y-1">
-                EXPLORE ALL TOOLS
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-              <a href="https://github.com/sah-rohit/Clef" target="_blank" rel="noopener noreferrer"
-                className="group border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm flex items-center gap-3 px-8 py-4 hover:bg-black hover:text-[#F9FF00] transition-all duration-200">
-                VIEW ON GITHUB
-                <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
+            <div className="flex flex-col gap-4 max-w-sm">
+              <p className="font-inter text-sm text-white/55 leading-relaxed">
+                No "Pro" tier. No feature gates. No "upgrade to unlock." Every tool, every feature, every update — free for everyone, forever. That's the whole model.
+              </p>
+              <div className="grid grid-cols-2 gap-0 border-[3px] border-white/10">
+                {[
+                  { label: "Monthly cost",   val: "$0",    color: "#FF0004" },
+                  { label: "Annual cost",    val: "$0",    color: "#FF0004" },
+                  { label: "Tools unlocked", val: "All 28", color: "#F9FF00" },
+                  { label: "Credit card",    val: "Never",  color: "#00FF87" },
+                ].map((item, i) => (
+                  <div key={i} className="border-b-[2px] border-r-[2px] border-white/10 p-4 last:border-r-0">
+                    <div className="font-oswald text-xl font-bold mb-1" style={{ color: item.color }}>{item.val}</div>
+                    <div className="font-inter text-[9px] uppercase tracking-widest text-white/30">{item.label}</div>
+                  </div>
+                ))}
+              </div>
+              <Link to="/pricing"
+                className="group inline-flex items-center gap-3 border-[3px] border-[#FF0004] text-[#FF0004] font-oswald font-bold uppercase tracking-widest text-sm px-7 py-3 hover:bg-[#FF0004] hover:text-white transition-all duration-200 w-fit">
+                SEE PRICING PAGE
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
           </div>
         </div>
-        <div className="absolute -bottom-8 -left-8 font-oswald text-[200px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">GO</div>
+        <div className="absolute -bottom-8 -left-8 font-oswald text-[200px] font-bold text-[#FF0004]/[0.04] leading-none select-none pointer-events-none uppercase">FREE</div>
       </div>
 
       <HorizontalSlides magneticWrap={magneticWrap} activeSlide={activeSlide} slide={slide} />
@@ -1289,16 +1302,16 @@ function ZoomSection() {
       {/* Middle layer (moving through) */}
       <div className="zoom-layer absolute inset-0 flex flex-col items-center justify-center z-20 p-6 text-center">
         <h2 className="font-oswald text-6xl md:text-[10rem] font-bold uppercase text-white leading-none tracking-tighter">
-          BEYOND<br /><span className="text-outline-white">LIMITS.</span>
+          BEYOND<br /><span className="text-gradient-fire">LIMITS.</span>
         </h2>
       </div>
 
       {/* Front layer (final focus) */}
       <div className="zoom-layer absolute inset-0 flex flex-col items-center justify-center z-30 p-6 text-center">
         <div className="max-w-2xl bg-black/40 backdrop-blur-sm border-[3px] border-white/10 p-8 md:p-12">
-          <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#F9FF00] block mb-6">NEXT GENERATION</span>
+          <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#7C3AED] block mb-6">NEXT GENERATION</span>
           <h3 className="font-oswald text-4xl md:text-6xl font-bold uppercase text-white mb-8">
-            A NEW STANDARD FOR<br /><span className="text-gradient-yellow">PRODUCTIVITY.</span>
+            A NEW STANDARD FOR<br /><span className="text-gradient-purple">PRODUCTIVITY.</span>
           </h3>
           <p className="font-inter text-sm md:text-base text-white/50 leading-relaxed mb-10">
             Clef is evolving. More tools, deeper integrations, and uncompromising performance. 
@@ -1306,10 +1319,10 @@ function ZoomSection() {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: "Fast", icon: Zap, color: "#F9FF00" },
+              { label: "Fast",    icon: Zap,    color: "#F9FF00" },
               { label: "Private", icon: Shield, color: "#00E5FF" },
-              { label: "Free", icon: Star, color: "#00FF87" },
-              { label: "Open", icon: Code, color: "#FF0004" },
+              { label: "Free",    icon: Star,   color: "#00FF87" },
+              { label: "Open",    icon: Code,   color: "#FF0004" },
             ].map((t, i) => (
               <div key={i} className="border border-white/10 p-4 flex flex-col items-center gap-3 group hover:bg-white/5 transition-colors">
                 <t.icon size={16} style={{ color: t.color }} />
@@ -1330,25 +1343,30 @@ function ZoomSection() {
 
 function FinalSection() {
   return (
-    <div className="relative py-24 bg-white border-t-[3px] border-black overflow-hidden">
+    <div className="relative py-24 bg-[#F9FF00] border-t-[3px] border-black overflow-hidden">
       <div className="px-6 md:px-12 lg:px-16 flex flex-col items-center text-center">
-        <div className="w-16 h-16 border-[4px] border-black flex items-center justify-center mb-8 bg-[#F9FF00] rotate-45">
-          <Rocket className="-rotate-45" size={32} />
+        <div className="w-16 h-16 border-[4px] border-black flex items-center justify-center mb-8 bg-[#1a1a1a] rotate-45">
+          <Rocket className="-rotate-45 text-[#F9FF00]" size={32} />
         </div>
         <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-8 text-black max-w-4xl">
-          START BUILDING YOUR<br /><span className="text-gradient-fire">PERFECT WORKFLOW.</span>
+          OPEN YOUR FIRST TOOL.<br /><span className="text-outline-black">RIGHT NOW.</span>
         </h2>
         <p className="font-inter text-base md:text-lg text-black/60 leading-relaxed mb-12 max-w-2xl font-medium">
-          No signups, no credit cards, no barriers. Just open a tool and start creating. 
-          Your productivity shouldn't be locked behind a paywall.
+          No signups, no credit cards, no barriers. 28 tools ready to go — just click and start. Your workflow shouldn't cost anything.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <Link to="/features" className="group bg-[#F9FF00] border-[4px] border-black font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-black hover:text-[#F9FF00] transition-all duration-200 shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:-translate-y-1">
+          <Link to="/features" className="group bg-[#1a1a1a] text-[#F9FF00] border-[4px] border-[#1a1a1a] font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-white hover:text-black transition-all duration-200 shadow-[8px_8px_0px_rgba(0,0,0,0.3)] hover:shadow-[12px_12px_0px_rgba(0,0,0,0.2)] hover:-translate-y-1 flex items-center gap-3">
             OPEN THE WORKBENCH
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </Link>
+          <a href="https://github.com/sah-rohit/Clef" target="_blank" rel="noopener noreferrer"
+            className="group border-[4px] border-black font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-black hover:text-[#F9FF00] transition-all duration-200 flex items-center gap-3">
+            STAR ON GITHUB
+            <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </a>
         </div>
       </div>
-      <div className="absolute -bottom-20 -left-20 font-oswald text-[250px] font-bold text-black/[0.02] leading-none select-none pointer-events-none uppercase">CLEF</div>
+      <div className="absolute -bottom-20 -left-20 font-oswald text-[250px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">CLEF</div>
     </div>
   );
 }
