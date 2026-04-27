@@ -43,12 +43,12 @@ export function Navigation() {
   }, [location.pathname]);
 
   const navItems = [
-    { label: "FEATURES",    path: "/features" },
-    { label: "TOOLS",       path: "/features#tools" },
-    { label: "OUR PROMISE", path: "/features#promise" },
-    { label: "HOW TO USE",  path: "/how-to-use" },
-    { label: "PRICING",     path: "/pricing" },
-    { label: "ABOUT",       path: "/about" },
+    { label: "FEATURES",    path: "/features",         color: "#00E5FF" },
+    { label: "TOOLS",       path: "/features#tools",   color: "#F9FF00" },
+    { label: "OUR PROMISE", path: "/features#promise", color: "#00FF87" },
+    { label: "HOW TO USE",  path: "/how-to-use",       color: "#7C3AED" },
+    { label: "PRICING",     path: "/pricing",          color: "#FF0004" },
+    { label: "ABOUT",       path: "/about",            color: "#00E5FF" },
   ];
 
   const ClefLogo = () => (
@@ -146,8 +146,9 @@ export function Navigation() {
                 <Link
                   key={i}
                   to={item.path}
-                  className="flex-1 border-r-[3px] border-black px-1 py-0 font-oswald text-[10px] font-bold uppercase tracking-wider hover:bg-[#F9FF00] transition-colors text-center flex items-center justify-center whitespace-nowrap h-[56px]"
+                  className="flex-1 border-r-[3px] border-black px-1 py-0 font-oswald text-[10px] font-bold uppercase tracking-wider transition-all duration-300 text-center flex items-center justify-center whitespace-nowrap h-[56px] hover:text-black hover:shadow-inner group relative overflow-hidden"
                 >
+                  <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out -z-10" style={{ background: item.color }} />
                   {item.label}
                 </Link>
               ))}

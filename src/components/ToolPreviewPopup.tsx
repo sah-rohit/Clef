@@ -200,11 +200,11 @@ export function ToolPreviewPopup({ tool, onClose, onOpen }: ToolPreviewPopupProp
     >
       <div
         ref={panelRef}
-        className="relative w-full max-w-5xl max-h-[90vh] border-[4px] border-black overflow-hidden flex flex-col md:flex-row shadow-[16px_16px_0px_rgba(0,0,0,0.8)]"
+        className="relative w-full max-w-5xl max-h-[90vh] border-[4px] border-black flex flex-col md:flex-row shadow-[16px_16px_0px_rgba(0,0,0,0.8)] overflow-y-auto md:overflow-hidden"
         style={{ minHeight: "min(600px, 90vh)" }}
       >
         {/* ── LEFT PANEL — vibrant color ── */}
-        <div className="relative flex-1 md:w-[55%] flex flex-col overflow-hidden"
+        <div className="relative flex-1 md:w-[55%] flex flex-col overflow-x-hidden md:overflow-hidden"
           style={{ background: panelColor, minHeight: "280px" }}>
 
           {/* Ghost background text */}
@@ -233,7 +233,7 @@ export function ToolPreviewPopup({ tool, onClose, onOpen }: ToolPreviewPopupProp
           </div>
 
           {/* Main content */}
-          <div className="relative z-10 flex flex-col flex-1 p-8 md:p-10">
+          <div className="relative z-10 flex flex-col flex-1 p-6 md:p-10 overflow-y-auto md:overflow-hidden">
             {/* Category badge */}
             <div className="flex items-center gap-3 mb-6">
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] px-3 py-1.5 border-[2px]"
@@ -312,8 +312,8 @@ export function ToolPreviewPopup({ tool, onClose, onOpen }: ToolPreviewPopupProp
         </div>
 
         {/* ── RIGHT PANEL — illustration ── */}
-        <div className="relative md:w-[45%] border-l-[4px] border-black overflow-hidden"
-          style={{ minHeight: "300px" }}>
+        <div className="relative md:w-[45%] border-t-[4px] md:border-t-0 md:border-l-[4px] border-black overflow-hidden shrink-0 hidden sm:block"
+          style={{ minHeight: "200px", md: { minHeight: "300px" } } as any}>
           <ToolIllustration tool={tool} meta={meta} />
 
           {/* Close button overlay */}

@@ -1,9 +1,14 @@
+import React, { useEffect, useRef } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { BackButton } from "@/components/BackButton";
 import { Link } from "react-router";
 import { TOOLS, CATEGORIES } from "@/data/tools";
 import { ArrowUpRight, Code, Layers, Wrench } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const categoryMeta: Record<string, { color: string; bg: string; icon: React.ElementType; desc: string }> = {
   developer: {
@@ -102,19 +107,54 @@ const toolDetails: Record<string, { howTo: string[]; useCases: string[] }> = {
 };
 
 export default function ToolsGuide() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
   const grouped = CATEGORIES.filter(c => c.value !== "all").map(cat => ({
     ...cat,
     tools: TOOLS.filter(t => t.category === cat.value),
   }));
 
+  useEffect(() => {
+    // Apple-style entrance with brutalist snapping
+    const ctx = gsap.context(() => {
+      // Hero fade up
+      gsap.fromTo(".hero-animate > *", 
+        { y: 50, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power3.out" }
+      );
+      
+      // Category cards stagger
+      gsap.fromTo(".category-card",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out", delay: 0.3 }
+      );
+
+      // Tool rows scroll animation with snap/hold magnetic effect
+      gsap.utils.toArray(".tool-row").forEach((row: any) => {
+        ScrollTrigger.create({
+          trigger: row,
+          start: "top 90%",
+          end: "bottom 80%",
+          animation: gsap.fromTo(row, 
+            { y: 40, opacity: 0, scale: 0.98 }, 
+            { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.2)" }
+          ),
+          toggleActions: "play none none reverse",
+        });
+      });
+    }, containerRef);
+    
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white" ref={containerRef}>
       <Navigation />
 
       {/* Hero — dark bg */}
       <div className="bg-[#1a1a1a] border-b-[3px] border-black relative overflow-hidden"
         style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-24 relative z-10">
+        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-24 relative z-10 hero-animate">
           <div className="mb-6"><BackButton /></div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
@@ -140,7 +180,7 @@ export default function ToolsGuide() {
             const Icon = meta.icon;
             return (
               <div key={cat.value}
-                className={`p-10 md:p-12 border-b-[3px] md:border-b-0 ${i < grouped.length - 1 ? "md:border-r-[3px]" : ""} border-black group hover:brightness-95 transition-all`}
+                className={`category-card p-10 md:p-12 border-b-[3px] md:border-b-0 ${i < grouped.length - 1 ? "md:border-r-[3px]" : ""} border-black group hover:brightness-95 transition-all`}
                 style={{ background: meta.bg }}>
                 <div className="w-12 h-12 border-[3px] border-black bg-black flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Icon size={20} style={{ color: meta.color }} />
@@ -185,7 +225,7 @@ export default function ToolsGuide() {
                   const details = toolDetails[tool.id];
                   return (
                     <div key={tool.id}
-                      className={`grid grid-cols-1 lg:grid-cols-12 ${ti < cat.tools.length - 1 ? "border-b-[3px] border-black" : ""}`}>
+                      className={`tool-row grid grid-cols-1 lg:grid-cols-12 ${ti < cat.tools.length - 1 ? "border-b-[3px] border-black" : ""}`}>
                       {/* Tool identity */}
                       <div className="lg:col-span-3 px-6 py-6 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col justify-between gap-4"
                         style={{ background: meta.bg + "22" }}>

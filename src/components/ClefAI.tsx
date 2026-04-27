@@ -9,6 +9,7 @@ import { useToast } from "@/providers/ToastProvider";
 import { useAction } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { AIMarkdown } from "@/components/AIMarkdown";
+import gsap from "gsap";
 
 interface MessageVersion { content: string; timestamp: number; }
 interface MessagePair {
@@ -88,6 +89,22 @@ export function ClefAI() {
       el.scrollTop = el.scrollHeight;
     });
   }, []);
+
+  // Entrance animation for panel
+  useEffect(() => {
+    if (isOpen) {
+      gsap.fromTo(
+        ".ai-panel-animate",
+        { y: 50, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.1)" }
+      );
+      gsap.fromTo(
+        ".ai-message-animate",
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power2.out", delay: 0.2 }
+      );
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) scrollToBottom();
@@ -269,22 +286,31 @@ export function ClefAI() {
       {/* ── Chat panel ── */}
       {isOpen && (
         <div
-          className={`${panelPositionClass} flex flex-col border-[4px] border-black bg-white animate-slide-up overflow-hidden shadow-[8px_8px_0px_rgba(0,0,0,1)]`}
+          className={`${panelPositionClass} flex flex-col border-[4px] border-black bg-white overflow-hidden shadow-[16px_16px_0px_rgba(0,0,0,1)] ai-panel-animate`}
           style={panelBottomStyle}
         >
 
           {/* Header */}
-          <div className="bg-[#1a1a1a] text-white px-4 py-2.5 flex items-center justify-between border-b-[4px] border-black shrink-0">
-            <div className="flex items-center gap-2.5">
-              <Bot size={18} className="shrink-0 text-[#F9FF00]" />
-              <span className="font-oswald text-sm font-bold uppercase tracking-[0.2em] text-[#F9FF00]">Clef AI</span>
+          <div className="bg-[#1a1a1a] text-white px-5 py-4 flex items-center justify-between border-b-[4px] border-black shrink-0 relative overflow-hidden">
+            {/* Background geometric pattern */}
+            <div className="absolute inset-0 pointer-events-none opacity-20"
+              style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`, backgroundSize: "20px 20px" }} />
+            
+            <div className="flex items-center gap-3 relative z-10">
+              <Bot size={24} className="shrink-0 text-[#F9FF00]" />
+              <div>
+                <span className="font-oswald text-lg font-bold uppercase tracking-[0.2em] text-white leading-none block">Clef AI</span>
+                <span className="font-inter text-[9px] font-bold text-[#00FF87] uppercase tracking-widest flex items-center gap-1.5 mt-1">
+                  <div className="w-1.5 h-1.5 bg-[#00FF87] rounded-full animate-pulse" /> SYSTEM ONLINE
+                </span>
+              </div>
               {pinnedPairs.length > 0 && (
-                <span className="bg-[#F9FF00] text-black font-oswald text-[8px] font-bold px-1.5 py-0.5 uppercase tracking-wider">
+                <span className="bg-[#FF0004] text-white border-[2px] border-white/20 font-oswald text-[9px] font-bold px-2 py-0.5 uppercase tracking-wider ml-2">
                   {pinnedPairs.length} PINNED
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-0.5">
+            <div className="flex items-center gap-1.5 relative z-10">
               <button onClick={() => setShowHistory(!showHistory)}
                 className={`p-1.5 transition-colors border-[2px] border-transparent hover:border-black/30 ${showHistory ? "bg-[#F9FF00] text-black" : "hover:bg-white/10"}`}
                 title="Conversations">
@@ -367,11 +393,15 @@ export function ClefAI() {
           {/* ── Messages area ── */}
           <div
             ref={messagesRef}
-            className={`flex-1 min-h-0 overflow-y-auto ai-scroll bg-[#fafafa] ${isFullscreen ? "flex flex-col" : ""}`}
+            className={`flex-1 min-h-0 overflow-y-auto ai-scroll bg-white relative ${isFullscreen ? "flex flex-col" : ""}`}
           >
-            <div className={`p-4 space-y-4 ${isFullscreen ? "max-w-3xl mx-auto w-full flex-1" : ""}`}>
+            {/* Subtle background texture */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+              style={{ backgroundImage: `radial-gradient(#000 1.5px, transparent 0)`, backgroundSize: "24px 24px" }} />
+              
+            <div className={`p-4 md:p-6 space-y-6 relative z-10 ${isFullscreen ? "max-w-4xl mx-auto w-full flex-1" : ""}`}>
               {pairs.length === 0 && (
-                <div className="flex flex-col items-center justify-center min-h-[200px] opacity-20 select-none animate-fade-in">
+                <div className="flex flex-col items-center justify-center min-h-[300px] opacity-30 select-none">
                   <Bot size={28} />
                   <p className="font-oswald text-lg font-bold uppercase tracking-[0.2em] mt-4 text-center leading-tight">
                     System Ready.<br />Awaiting Input.
@@ -383,29 +413,31 @@ export function ClefAI() {
               )}
 
               {pairs.map((pair, idx) => (
-                <div key={pair.id} className="space-y-2 animate-fade-in">
-                  {/* User bubble */}
-                  <div className="flex justify-end">
-                    <div className="bg-[#F9FF00] border-[3px] border-black p-3 shadow-[3px_3px_0px_rgba(0,0,0,1)] max-w-[85%]">
-                      <p className="font-inter text-[11px] font-medium whitespace-pre-wrap break-words">
+                <div key={pair.id} className="space-y-4 ai-message-animate">
+                  {/* User bubble - Apple-like rounded corners on one side but brutalist borders */}
+                  <div className="flex justify-end group">
+                    <div className="bg-[#00E5FF] border-[3px] border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] max-w-[85%] rounded-[24px] rounded-tr-[4px] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
+                      <p className="font-inter text-sm font-semibold whitespace-pre-wrap break-words leading-relaxed text-black">
                         {pair.user.versions[pair.user.currentIdx].content}
                       </p>
                     </div>
                   </div>
 
-                  {/* AI bubble */}
+                  {/* AI bubble - Clean white card with shadow */}
                   <div className="flex justify-start">
-                    <div className={`border-[3px] border-black p-3 w-full shadow-[3px_3px_0px_rgba(0,0,0,1)] transition-colors ${
+                    <div className={`border-[3px] border-black p-5 w-full shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-[24px] rounded-tl-[4px] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all ${
                       pair.pinned
-                        ? "bg-white border-l-[4px] border-l-[#F9FF00]"
+                        ? "bg-[#fafafa] border-l-[8px] border-l-[#F9FF00]"
                         : "bg-white"
                     }`}>
                       {pair.ai.versions[pair.ai.currentIdx].content ? (
-                        <AIMarkdown content={pair.ai.versions[pair.ai.currentIdx].content} />
+                        <div className="prose prose-sm md:prose-base max-w-none text-black">
+                          <AIMarkdown content={pair.ai.versions[pair.ai.currentIdx].content} />
+                        </div>
                       ) : isTyping && idx === pairs.length - 1 ? (
-                        <div className="flex items-center gap-1.5 py-1">
+                        <div className="flex items-center gap-2 py-2">
                           {[0, 1, 2].map(i => (
-                            <div key={i} className="w-1.5 h-1.5 bg-black/30 rounded-full animate-bounce"
+                            <div key={i} className="w-2.5 h-2.5 bg-black rounded-full animate-bounce"
                               style={{ animationDelay: `${i * 0.15}s` }} />
                           ))}
                         </div>
@@ -413,29 +445,30 @@ export function ClefAI() {
 
                       {/* Action bar — only show when there's content */}
                       {pair.ai.versions[pair.ai.currentIdx].content && (
-                        <div className="mt-2 flex items-center justify-between border-t border-black/10 pt-1.5">
-                          <div className="flex items-center gap-1">
+                        <div className="mt-4 flex items-center justify-between border-t-[2px] border-black/10 pt-3">
+                          <div className="flex items-center gap-1.5">
                             <button onClick={() => { navigator.clipboard.writeText(pair.ai.versions[pair.ai.currentIdx].content); showToast("Copied!", "success"); }}
-                              className="hover:text-[#FF0004] p-0.5 transition-colors" title="Copy">
-                              <Copy size={10} />
+                              className="hover:bg-[#F9FF00] p-1.5 border-[2px] border-transparent hover:border-black transition-all rounded-md" title="Copy">
+                              <Copy size={12} />
                             </button>
                             <button onClick={() => togglePin(idx)}
-                              className={`p-0.5 transition-colors ${pair.pinned ? "text-[#FF0004]" : "hover:text-[#FF0004]"}`}
+                              className={`p-1.5 border-[2px] border-transparent hover:border-black transition-all rounded-md ${pair.pinned ? "text-[#FF0004] bg-[#FF0004]/10" : "hover:bg-white/10"}`}
                               title={pair.pinned ? "Unpin" : "Pin"}>
-                              {pair.pinned ? <PinOff size={10} /> : <Pin size={10} />}
+                              {pair.pinned ? <PinOff size={12} /> : <Pin size={12} />}
                             </button>
+                            <div className="w-px h-4 bg-black/20 mx-1" />
                             <button onClick={() => updateActivePairs(prev => prev.map((p, i) => i === idx ? { ...p, feedback: p.feedback === "up" ? null : "up" } : p))}
-                              className={`p-0.5 transition-colors ${pair.feedback === "up" ? "text-[#059669]" : "hover:text-[#059669]"}`}>
-                              <ThumbsUp size={10} />
+                              className={`p-1.5 border-[2px] border-transparent hover:border-black transition-all rounded-md ${pair.feedback === "up" ? "text-[#059669] bg-[#059669]/10" : "hover:bg-black/5"}`}>
+                              <ThumbsUp size={12} />
                             </button>
                             <button onClick={() => updateActivePairs(prev => prev.map((p, i) => i === idx ? { ...p, feedback: p.feedback === "down" ? null : "down" } : p))}
-                              className={`p-0.5 transition-colors ${pair.feedback === "down" ? "text-[#FF0004]" : "hover:text-[#FF0004]"}`}>
-                              <ThumbsDown size={10} />
+                              className={`p-1.5 border-[2px] border-transparent hover:border-black transition-all rounded-md ${pair.feedback === "down" ? "text-[#FF0004] bg-[#FF0004]/10" : "hover:bg-black/5"}`}>
+                              <ThumbsDown size={12} />
                             </button>
                           </div>
                           <button onClick={() => handleSend(pair.user.versions[pair.user.currentIdx].content, idx)}
-                            className="hover:text-[#FF0004] p-0.5 flex items-center gap-1 font-oswald text-[8px] font-bold tracking-widest transition-colors">
-                            <RotateCcw size={9} /> RETRY
+                            className="hover:bg-black hover:text-[#F9FF00] p-1.5 px-3 border-[2px] border-transparent hover:border-black flex items-center gap-1.5 font-oswald text-[10px] font-bold tracking-widest transition-all rounded-md">
+                            <RotateCcw size={10} /> RETRY
                           </button>
                         </div>
                       )}
@@ -492,10 +525,10 @@ export function ClefAI() {
               </div>
 
               {/* Textarea + send */}
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <textarea
                   ref={textareaRef}
-                  className="flex-1 border-[3px] border-black p-2.5 font-inter text-xs font-medium outline-none resize-none focus:bg-[#F9FF00]/5 min-h-[44px] max-h-[140px] placeholder:text-black/30 ai-scroll"
+                  className="flex-1 border-[4px] border-black p-3.5 font-inter text-sm font-medium outline-none resize-none focus:bg-[#fafafa] min-h-[56px] max-h-[140px] placeholder:text-black/30 ai-scroll transition-colors rounded-xl"
                   placeholder="Ask anything… Markdown, LaTeX, code supported"
                   value={input}
                   onChange={e => setInput(e.target.value)}
@@ -503,18 +536,18 @@ export function ClefAI() {
                 />
                 <button
                   onClick={() => isTyping ? handleStop() : handleSend()}
-                  className={`w-11 shrink-0 ${isTyping ? "bg-[#FF0004]" : "bg-[#F9FF00]"} border-[3px] border-black hover:bg-black hover:text-white transition-all flex items-center justify-center shadow-[3px_3px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5`}
+                  className={`w-14 shrink-0 ${isTyping ? "bg-[#FF0004]" : "bg-[#F9FF00]"} border-[4px] border-black hover:bg-black hover:text-white transition-all flex items-center justify-center shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 rounded-xl`}
                 >
-                  {isTyping ? <StopCircle size={16} /> : <Send size={16} />}
+                  {isTyping ? <StopCircle size={20} /> : <Send size={20} />}
                 </button>
               </div>
 
               {/* Footer info */}
-              <div className="flex items-center justify-between mt-1.5">
-                <p className="text-[8px] font-bold uppercase text-black/35 tracking-[0.12em] flex items-center gap-1">
-                  <Shield size={8} /> Llama 3.1 • MD+LaTeX
+              <div className="flex items-center justify-between mt-2.5 px-1">
+                <p className="text-[9px] font-bold uppercase text-black/40 tracking-[0.15em] flex items-center gap-1.5">
+                  <Shield size={10} /> Llama 3.1 • MD+LaTeX
                 </p>
-                <p className="text-[8px] font-bold uppercase text-black/35 tracking-[0.12em]">
+                <p className="text-[9px] font-bold uppercase text-black/40 tracking-[0.15em]">
                   {stats.hour}/{limits.hour}h • {stats.day}/{limits.day}d
                 </p>
               </div>

@@ -39,7 +39,7 @@ export function Footer() {
               <Link
                 key={item.label}
                 to={item.path}
-                className="block font-inter text-sm text-white/70 hover:text-[#F9FF00] transition-colors"
+                className="block font-inter text-sm text-white/70 hover:text-[#00E5FF] transition-colors"
               >
                 {item.label}
               </Link>
@@ -62,7 +62,7 @@ export function Footer() {
               <Link
                 key={item.label}
                 to={item.path}
-                className="block font-inter text-sm text-white/70 hover:text-[#F9FF00] transition-colors"
+                className="block font-inter text-sm text-white/70 hover:text-[#00FF87] transition-colors"
               >
                 {item.label}
               </Link>
@@ -81,7 +81,7 @@ export function Footer() {
               <Link
                 key={item.label}
                 to={item.path}
-                className="block font-inter text-sm text-white/70 hover:text-[#F9FF00] transition-colors cursor-pointer"
+                className="block font-inter text-sm text-white/70 hover:text-[#7C3AED] transition-colors cursor-pointer"
               >
                 {item.label}
               </Link>

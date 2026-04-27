@@ -12,6 +12,10 @@ import {
   LayoutDashboard, Sliders, Activity, Star, Moon, Sun, Monitor
 } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type Tab = "OVERVIEW" | "PROFILE" | "PREFERENCES" | "SECURITY" | "ACTIVITY" | "NOTIFICATIONS";
 
@@ -62,6 +66,15 @@ export default function AccountCenter() {
       });
     }
   }, [user]);
+
+  // Entrance animations
+  useEffect(() => {
+    gsap.fromTo(
+      ".animate-slide-up-content > *",
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power3.out", clearProps: "all" }
+    );
+  }, [activeTab]);
 
   if (!isAuthenticated || !user) return null;
 
@@ -176,12 +189,12 @@ export default function AccountCenter() {
       <Navigation />
 
       {/* ── Full-bleed layout: vibrant left sidebar + white content ── */}
-      <div className="flex-1 flex flex-col lg:flex-row" style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
+      <div className="flex-1 flex flex-col lg:flex-row relative" style={{ paddingTop: "calc(var(--ribbon-h) + var(--nav-h))" }}>
 
-        {/* ── LEFT SIDEBAR — color changes per active tab ── */}
+        {/* ── LEFT SIDEBAR — sticky to avoid infinite growth ── */}
         <div
-          className="lg:w-72 xl:w-80 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col shrink-0 relative overflow-hidden transition-colors duration-500"
-          style={{ background: sidebarColor.bg }}>
+          className="lg:w-72 xl:w-80 border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black flex flex-col shrink-0 overflow-y-auto lg:sticky transition-colors duration-500"
+          style={{ background: sidebarColor.bg, top: "calc(var(--ribbon-h) + var(--nav-h))", height: "calc(100vh - var(--ribbon-h) - var(--nav-h))" }}>
 
           {/* Geometric background pattern — contrasting */}
           <div className="absolute inset-0 pointer-events-none"
@@ -196,7 +209,7 @@ export default function AccountCenter() {
           </div>
 
           {/* Profile card */}
-          <div className="px-6 py-8 border-b-[3px] border-black relative overflow-hidden">
+          <div className="px-6 py-8 border-b-[3px] border-black relative overflow-hidden shrink-0">
             <div className="absolute -bottom-4 -right-4 font-oswald text-[100px] font-bold leading-none select-none pointer-events-none uppercase"
               style={{ color: sidebarColor.isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)" }}>
               {user.name?.charAt(0) || "U"}
@@ -225,17 +238,17 @@ export default function AccountCenter() {
           </div>
 
           {/* Nav tabs */}
-          <nav className="flex flex-col flex-1">
+          <nav className="flex flex-col flex-1 shrink-0">
             {TABS.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
               const notifCount = tab.id === "NOTIFICATIONS" ? notifications.filter(n => !n.read).length : 0;
               return (
                 <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                  className="w-full flex items-center justify-between px-6 py-4 text-left transition-all border-b-[2px] last:border-b-0"
+                  className={`w-full flex items-center justify-between px-6 py-4 text-left transition-all border-b-[2px] last:border-b-0 ${isActive ? "" : "hover:bg-black/5"}`}
                   style={{
                     borderColor: sidebarColor.isLight ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.12)",
-                    background: isActive ? (sidebarColor.isLight ? "#1a1a1a" : "rgba(255,255,255,0.15)") : "transparent",
+                    background: isActive ? (sidebarColor.isLight ? "#1a1a1a" : "#ffffff") : "transparent",
                   }}>
                   <div className="flex items-center gap-3">
                     <Icon size={15} style={{ color: isActive ? sidebarColor.bg : (sidebarColor.isLight ? "rgba(0,0,0,0.55)" : "rgba(255,255,255,0.55)") }} />
@@ -255,7 +268,7 @@ export default function AccountCenter() {
           </nav>
 
           {/* Quick actions */}
-          <div className="p-4 border-t-[3px] border-black flex flex-col gap-2">
+          <div className="p-4 border-t-[3px] border-black flex flex-col gap-2 shrink-0">
             <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-center mb-1" style={{ color: sidebarSubColor }}>
               {currentTime.toLocaleTimeString()}
             </div>
@@ -273,8 +286,8 @@ export default function AccountCenter() {
 
           {/* Main Content Area */}
           <div className="flex-1 min-w-0">
-            <div className="p-6 md:p-8 lg:p-10 min-h-[600px]">
-              <div className="relative">
+            <div className="p-6 md:p-8 lg:p-12 min-h-[100vh]">
+              <div className="relative animate-slide-up-content max-w-5xl mx-auto">
 
               {/* OVERVIEW TAB */}
               {activeTab === "OVERVIEW" && (
@@ -308,31 +321,31 @@ export default function AccountCenter() {
                     </div>
                   </div>
 
-                  <div className="border-[4px] border-black">
-                    <div className="border-b-[4px] border-black bg-black text-white px-6 py-3">
-                      <h4 className="font-oswald text-lg font-bold uppercase tracking-widest">RECENT WORKBENCH ACTIVITY</h4>
+                  <div className="border-[4px] border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] transition-all bg-white overflow-hidden">
+                    <div className="border-b-[4px] border-black bg-black text-[#F9FF00] px-8 py-5">
+                      <h4 className="font-oswald text-xl font-bold uppercase tracking-widest">RECENT WORKBENCH ACTIVITY</h4>
                     </div>
                     <div className="p-0">
-                      <div className="flex items-center justify-between p-4 border-b-[2px] border-black/10 hover:bg-[#F9FF00]/10 transition-colors">
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 border-[2px] border-black flex items-center justify-center bg-white"><Settings size={18} /></div>
+                      <div className="flex items-center justify-between p-6 border-b-[2px] border-black/10 hover:bg-[#F9FF00]/10 transition-colors">
+                        <div className="flex items-center gap-5">
+                          <div className="w-12 h-12 border-[3px] border-black flex items-center justify-center bg-white shadow-[2px_2px_0px_rgba(0,0,0,1)]"><Settings size={20} /></div>
                           <div>
-                            <p className="font-oswald text-sm font-bold uppercase">ACCOUNT SETTINGS ACCESSED</p>
-                            <p className="font-inter text-[10px] font-bold text-black/40">JUST NOW</p>
+                            <p className="font-oswald text-lg font-bold uppercase">ACCOUNT SETTINGS ACCESSED</p>
+                            <p className="font-inter text-[11px] font-bold text-black/50 tracking-wider">JUST NOW</p>
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between p-4 border-b-[2px] border-black/10 hover:bg-[#F9FF00]/10 transition-colors">
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 border-[2px] border-black flex items-center justify-center bg-white"><History size={18} /></div>
+                      <div className="flex items-center justify-between p-6 border-b-[2px] border-black/10 hover:bg-[#F9FF00]/10 transition-colors">
+                        <div className="flex items-center gap-5">
+                          <div className="w-12 h-12 border-[3px] border-black flex items-center justify-center bg-white shadow-[2px_2px_0px_rgba(0,0,0,1)]"><History size={20} /></div>
                           <div>
-                            <p className="font-oswald text-sm font-bold uppercase">SUCCESSFUL LOGIN</p>
-                            <p className="font-inter text-[10px] font-bold text-black/40">TODAY</p>
+                            <p className="font-oswald text-lg font-bold uppercase">SUCCESSFUL LOGIN</p>
+                            <p className="font-inter text-[11px] font-bold text-black/50 tracking-wider">TODAY</p>
                           </div>
                         </div>
                       </div>
-                      <div className="p-4 text-center">
-                        <button onClick={() => setActiveTab('ACTIVITY')} className="font-oswald text-xs font-bold uppercase underline hover:text-[#FF0004]">VIEW ALL LOGS</button>
+                      <div className="p-6 text-center bg-[#fafafa]">
+                        <button onClick={() => setActiveTab('ACTIVITY')} className="font-oswald text-sm font-bold uppercase tracking-widest hover:text-[#FF0004] transition-colors border-b-[2px] border-transparent hover:border-[#FF0004]">VIEW ALL LOGS →</button>
                       </div>
                     </div>
                   </div>
@@ -341,21 +354,21 @@ export default function AccountCenter() {
 
               {/* PROFILE TAB */}
               {activeTab === "PROFILE" && (
-                <div className="animate-fade-in space-y-10">
+                <div className="space-y-10">
                   <div className="border-b-[4px] border-black pb-4 flex items-center justify-between">
                     <div>
-                      <h3 className="font-oswald text-3xl font-black uppercase tracking-tight">IDENTITY RECORDS</h3>
+                      <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">IDENTITY RECORDS</h3>
                       <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Manage Personal Information</p>
                     </div>
                     {!isEditing && (
-                      <button onClick={() => setIsEditing(true)} className="btn-brutal btn-brutal-yellow px-6 py-3 text-xs flex items-center gap-2">
-                        <Settings size={16} /> MODIFY RECORDS
+                      <button onClick={() => setIsEditing(true)} className="btn-brutal btn-brutal-yellow px-6 py-3 text-sm flex items-center gap-2 shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
+                        <Settings size={18} /> MODIFY RECORDS
                       </button>
                     )}
                   </div>
 
                   {isEditing ? (
-                    <form onSubmit={handleUpdate} className="space-y-8 bg-[#fafafa] border-[4px] border-black p-8">
+                    <form onSubmit={handleUpdate} className="space-y-8 bg-white border-[4px] border-black p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-2">
                           <label className="font-oswald text-xs font-bold uppercase tracking-widest text-black">DISPLAY NAME</label>
@@ -404,20 +417,20 @@ export default function AccountCenter() {
                     </form>
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="p-8 border-[4px] border-black bg-white">
+                      <div className="p-8 border-[4px] border-black bg-[#fafafa] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[10px_10px_0px_rgba(0,0,0,1)] transition-all">
                         <span className="font-oswald text-[10px] font-bold uppercase tracking-widest text-black/40 block mb-3">REGISTERED NAME</span>
                         <p className="font-oswald text-3xl font-black uppercase">{user.name}</p>
                       </div>
-                      <div className="p-8 border-[4px] border-black bg-white">
+                      <div className="p-8 border-[4px] border-black bg-[#fafafa] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[10px_10px_0px_rgba(0,0,0,1)] transition-all">
                         <span className="font-oswald text-[10px] font-bold uppercase tracking-widest text-black/40 block mb-3">SYSTEM ALIAS</span>
-                        <p className="font-oswald text-3xl font-black uppercase text-[#FF0004]">@{user.username}</p>
+                        <p className="font-oswald text-3xl font-black uppercase text-[#00E5FF]">@{user.username}</p>
                       </div>
-                      <div className="p-8 border-[4px] border-black bg-white md:col-span-2 flex items-center justify-between">
+                      <div className="p-8 border-[4px] border-black bg-[#fafafa] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[10px_10px_0px_rgba(0,0,0,1)] transition-all md:col-span-2 flex items-center justify-between group">
                         <div>
                           <span className="font-oswald text-[10px] font-bold uppercase tracking-widest text-black/40 block mb-3">CONTACT VECTOR</span>
                           <p className="font-inter text-lg font-bold tracking-tight">{user.email || "UNREGISTERED GUEST"}</p>
                         </div>
-                        <Mail size={32} className="text-black/10" />
+                        <Mail size={36} className="text-black/10 group-hover:text-black transition-colors" />
                       </div>
                     </div>
                   )}
@@ -426,15 +439,15 @@ export default function AccountCenter() {
 
               {/* PREFERENCES TAB */}
               {activeTab === "PREFERENCES" && (
-                <div className="animate-fade-in space-y-10">
+                <div className="space-y-10">
                   <div className="border-b-[4px] border-black pb-4">
-                    <h3 className="font-oswald text-3xl font-black uppercase tracking-tight">WORKBENCH PREFERENCES</h3>
+                    <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">WORKBENCH PREFERENCES</h3>
                     <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Configure UI and Tool Settings</p>
                   </div>
 
                   <div className="space-y-6">
                     {/* Theme Mock */}
-                    <div className="border-[4px] border-black p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div className="border-[4px] border-black p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-white shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[10px_10px_0px_rgba(0,0,0,1)] transition-all">
                       <div>
                         <h4 className="font-oswald text-xl font-bold uppercase">INTERFACE THEME</h4>
                         <p className="font-inter text-xs font-bold text-black/50 uppercase mt-1">Select visual style (Simulation)</p>
@@ -442,21 +455,21 @@ export default function AccountCenter() {
                       <div className="flex border-[3px] border-black overflow-hidden bg-black w-full md:w-auto">
                         <button 
                           onClick={() => setThemePreference("LIGHT")}
-                          className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-oswald text-sm font-bold uppercase transition-colors ${themePreference === "LIGHT" ? "bg-[#F9FF00] text-black" : "text-white hover:bg-white/10"}`}
+                          className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-oswald text-sm font-bold uppercase transition-colors ${themePreference === "LIGHT" ? "bg-[#00FF87] text-black" : "text-white hover:bg-white/10"}`}
                         >
                           <Sun size={16} /> LIGHT
                         </button>
                         <div className="w-[3px] bg-black" />
                         <button 
                           onClick={() => setThemePreference("DARK")}
-                          className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-oswald text-sm font-bold uppercase transition-colors ${themePreference === "DARK" ? "bg-[#F9FF00] text-black" : "text-white hover:bg-white/10"}`}
+                          className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-oswald text-sm font-bold uppercase transition-colors ${themePreference === "DARK" ? "bg-[#00FF87] text-black" : "text-white hover:bg-white/10"}`}
                         >
                           <Moon size={16} /> DARK
                         </button>
                         <div className="w-[3px] bg-black" />
                         <button 
                           onClick={() => setThemePreference("SYSTEM")}
-                          className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-oswald text-sm font-bold uppercase transition-colors ${themePreference === "SYSTEM" ? "bg-[#F9FF00] text-black" : "text-white hover:bg-white/10"}`}
+                          className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-oswald text-sm font-bold uppercase transition-colors ${themePreference === "SYSTEM" ? "bg-[#00FF87] text-black" : "text-white hover:bg-white/10"}`}
                         >
                           <Monitor size={16} /> AUTO
                         </button>
@@ -464,12 +477,12 @@ export default function AccountCenter() {
                     </div>
 
                     {/* Cache Clearance */}
-                    <div className="border-[4px] border-black p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div className="border-[4px] border-black p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-white shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[10px_10px_0px_rgba(0,0,0,1)] transition-all">
                       <div>
                         <h4 className="font-oswald text-xl font-bold uppercase">LOCAL CACHE</h4>
                         <p className="font-inter text-xs font-bold text-black/50 uppercase mt-1">Clear temporary tool data to free space</p>
                       </div>
-                      <button onClick={handleClearCache} className="btn-brutal bg-white px-8 py-3 text-sm flex items-center justify-center gap-2 w-full md:w-auto">
+                      <button onClick={handleClearCache} className="btn-brutal bg-[#fafafa] hover:bg-[#F9FF00] transition-colors border-[3px] border-black px-8 py-3 text-sm flex items-center justify-center gap-2 w-full md:w-auto shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1">
                         <Trash2 size={16} /> PURGE CACHE
                       </button>
                     </div>
@@ -480,21 +493,21 @@ export default function AccountCenter() {
 
               {/* SECURITY TAB */}
               {activeTab === "SECURITY" && (
-                <div className="animate-fade-in space-y-10">
+                <div className="space-y-10">
                   <div className="border-b-[4px] border-black pb-4">
-                    <h3 className="font-oswald text-3xl font-black uppercase tracking-tight">SECURITY CENTER</h3>
+                    <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">SECURITY CENTER</h3>
                     <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Authentication and Access Control</p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Password Reset */}
                     {!user.isGuest && (
-                      <div className="border-[4px] border-black bg-white flex flex-col h-full">
-                        <div className="bg-black text-white p-4 flex items-center gap-3">
-                          <Key size={20} className="text-[#F9FF00]" />
+                      <div className="border-[4px] border-black bg-white flex flex-col h-full shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] transition-all">
+                        <div className="bg-black text-white p-5 flex items-center gap-3">
+                          <Key size={20} className="text-[#00E5FF]" />
                           <h4 className="font-oswald text-lg font-bold uppercase tracking-widest">CIPHER UPDATE</h4>
                         </div>
-                        <form onSubmit={handlePasswordReset} className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+                        <form onSubmit={handlePasswordReset} className="p-6 md:p-8 space-y-4 flex-1 flex flex-col justify-between">
                           <div className="space-y-4">
                             <input 
                               type="password" 
@@ -527,12 +540,12 @@ export default function AccountCenter() {
                     )}
 
                     {/* Email Update */}
-                    <div className="border-[4px] border-black bg-white flex flex-col h-full">
-                      <div className="bg-black text-white p-4 flex items-center gap-3">
-                        <Globe size={20} className="text-[#F9FF00]" />
+                    <div className="border-[4px] border-black bg-white flex flex-col h-full shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] transition-all">
+                      <div className="bg-black text-white p-5 flex items-center gap-3">
+                        <Globe size={20} className="text-[#00FF87]" />
                         <h4 className="font-oswald text-lg font-bold uppercase tracking-widest">COMM. VECTOR</h4>
                       </div>
-                      <form onSubmit={handleEmailUpdate} className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+                      <form onSubmit={handleEmailUpdate} className="p-6 md:p-8 space-y-4 flex-1 flex flex-col justify-between">
                         <div className="space-y-4">
                           <input 
                             type="email" 
@@ -559,7 +572,7 @@ export default function AccountCenter() {
                   </div>
 
                   {/* Danger Zone */}
-                  <div className="border-[4px] border-[#FF0004] bg-[#FF0004]/5 p-8 mt-10">
+                  <div className="border-[4px] border-[#FF0004] bg-[#FF0004]/5 p-8 mt-10 shadow-[6px_6px_0px_rgba(255,0,4,0.3)]">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                       <div>
                         <h4 className="font-oswald text-2xl font-black uppercase text-[#FF0004]">DANGER ZONE</h4>
@@ -567,7 +580,7 @@ export default function AccountCenter() {
                       </div>
                       <button 
                         onClick={handleDelete}
-                        className="btn-brutal bg-[#FF0004] text-white border-black hover:bg-black w-full md:w-auto px-8 py-4 flex items-center justify-center gap-3"
+                        className="btn-brutal bg-[#FF0004] text-white border-black hover:bg-black w-full md:w-auto px-8 py-4 flex items-center justify-center gap-3 shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1"
                       >
                         <Trash2 size={20} /> INITIATE PURGE
                       </button>
@@ -578,10 +591,10 @@ export default function AccountCenter() {
 
               {/* ACTIVITY TAB */}
               {activeTab === "ACTIVITY" && (
-                <div className="animate-fade-in space-y-10">
+                <div className="space-y-10">
                   <div className="border-b-[4px] border-black pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
-                      <h3 className="font-oswald text-3xl font-black uppercase tracking-tight">SESSION LOGS</h3>
+                      <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">SESSION LOGS</h3>
                       <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Device Access History</p>
                     </div>
                     <button onClick={() => { showToast("LOGGED OUT OF ALL OTHER DEVICES.", "info"); }} className="btn-brutal bg-white px-6 py-3 text-xs">TERMINATE ALL OTHERS</button>
@@ -589,17 +602,17 @@ export default function AccountCenter() {
 
                   <div className="space-y-4">
                     {loginActivities.map((log) => (
-                      <div key={log.id} className="border-[4px] border-black bg-white p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 group hover:bg-[#fafafa] transition-colors">
+                      <div key={log.id} className="border-[4px] border-black bg-white p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 group hover:bg-[#fafafa] shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[10px_10px_0px_rgba(0,0,0,1)] transition-all">
                         <div className="flex items-start gap-6">
-                          <div className={`p-4 border-[3px] border-black ${log.active ? 'bg-[#F9FF00]' : 'bg-white'}`}>
+                          <div className={`p-4 border-[3px] border-black ${log.active ? 'bg-[#7C3AED] text-white' : 'bg-white text-black'}`}>
                             <Smartphone size={28} />
                           </div>
                           <div>
                             <div className="flex flex-wrap items-center gap-3 mb-2">
-                              <h4 className="font-oswald text-lg font-black uppercase">{log.device}</h4>
-                              <span className="font-oswald text-lg font-bold text-black/30">/</span>
-                              <h4 className="font-oswald text-lg font-black uppercase">{log.browser}</h4>
-                              {log.active && <span className="text-[10px] bg-black text-[#F9FF00] px-3 py-1 font-bold uppercase tracking-widest ml-2">ACTIVE NODE</span>}
+                              <h4 className="font-oswald text-xl font-black uppercase">{log.device}</h4>
+                              <span className="font-oswald text-xl font-bold text-black/30">/</span>
+                              <h4 className="font-oswald text-xl font-black uppercase">{log.browser}</h4>
+                              {log.active && <span className="text-[10px] bg-black text-[#7C3AED] px-3 py-1 font-bold uppercase tracking-widest ml-2">ACTIVE NODE</span>}
                             </div>
                             <p className="font-inter text-xs font-bold text-black/50 uppercase tracking-widest flex items-center gap-3">
                               <span>IP: {log.ip}</span>
@@ -609,9 +622,9 @@ export default function AccountCenter() {
                           </div>
                         </div>
                         {!log.active ? (
-                          <span className="font-oswald text-sm font-bold uppercase text-black/20 border-[2px] border-black/10 px-4 py-2">INACTIVE</span>
+                          <span className="font-oswald text-sm font-bold uppercase text-black/20 border-[2px] border-black/10 px-6 py-3">INACTIVE</span>
                         ) : (
-                           <button onClick={() => logoutFromDevice(log.id)} className="btn-brutal bg-[#FF0004] text-white py-2 px-6 text-xs w-full md:w-auto">REVOKE ACCESS</button>
+                           <button onClick={() => logoutFromDevice(log.id)} className="btn-brutal bg-[#FF0004] text-white py-3 px-8 text-xs w-full md:w-auto shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 transition-all">REVOKE ACCESS</button>
                         )}
                       </div>
                     ))}
@@ -621,10 +634,10 @@ export default function AccountCenter() {
 
               {/* NOTIFICATIONS TAB */}
               {activeTab === "NOTIFICATIONS" && (
-                <div className="animate-fade-in space-y-10">
+                <div className="space-y-10">
                   <div className="border-b-[4px] border-black pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
-                      <h3 className="font-oswald text-3xl font-black uppercase tracking-tight">SYSTEM ALERTS</h3>
+                      <h3 className="font-oswald text-4xl md:text-5xl font-black uppercase tracking-tight">SYSTEM ALERTS</h3>
                       <p className="font-inter text-sm font-bold uppercase text-black/50 mt-1">Incoming Transmissions</p>
                     </div>
                     {notifications.length > 0 && (
@@ -643,16 +656,16 @@ export default function AccountCenter() {
                         <div 
                           key={n.id} 
                           onClick={() => markNotificationRead(n.id)}
-                          className={`border-[4px] border-black p-6 cursor-pointer transition-all ${n.read ? 'bg-white opacity-50' : 'bg-[#F9FF00] hover:bg-[#e5eb00]'}`}
+                          className={`border-[4px] border-black p-6 cursor-pointer transition-all ${n.read ? 'bg-white opacity-60 shadow-[4px_4px_0px_rgba(0,0,0,0.1)]' : 'bg-white shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[12px_12px_0px_rgba(0,0,0,1)]'}`}
                         >
                           <div className="flex items-start gap-5">
-                            <div className="mt-1 bg-black text-white p-2 border-[2px] border-black">
+                            <div className={`mt-1 bg-black text-white p-3 border-[2px] border-black ${!n.read && n.type === 'success' ? 'text-[#00FF87]' : !n.read ? 'text-[#FF0004]' : 'text-white'}`}>
                               {n.type === 'success' ? <CheckCircle2 size={24} /> : <AlertCircle size={24} />}
                             </div>
                             <div className="flex-1">
                               <div className="flex items-center justify-between gap-4">
                                 <h4 className="font-oswald text-xl font-black uppercase leading-tight">{n.title}</h4>
-                                {!n.read && <div className="w-3 h-3 bg-[#FF0004] border-[2px] border-black shrink-0" />}
+                                {!n.read && <div className="w-3 h-3 bg-[#00E5FF] border-[2px] border-black shrink-0" />}
                               </div>
                               <p className={`font-inter text-sm font-bold mt-2 ${n.read ? 'text-black/60' : 'text-black/80'}`}>{n.message}</p>
                               <p className="font-inter text-[10px] font-bold text-black/40 mt-4 uppercase tracking-widest">{new Date(n.timestamp).toLocaleString()}</p>
