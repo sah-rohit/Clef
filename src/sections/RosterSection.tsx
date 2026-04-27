@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
-import { SectionHeader } from "@/components/SectionHeader";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export function RosterSection() {
@@ -74,24 +73,25 @@ export function RosterSection() {
   ];
 
   return (
-    <section id="roster" className="py-16 md:py-24 border-b-[3px] border-black">
-      <div ref={headerRef} className="px-6 md:px-12 lg:px-16 mb-12">
-        <div className="flex items-end justify-between">
-          <SectionHeader
-            eyebrow="HOW WE STACK UP"
-            eyebrowColor="#FF0004"
-            title="THE CLEF ROSTER."
-            accentLast
-            accentStyle="gradient-fire"
-            size="lg"
-          />
-          <span className="hidden md:block font-oswald text-sm uppercase tracking-widest text-black/40">
-            {comparison.length} CORE ATTRIBUTES
-          </span>
+    <section id="roster" className="border-b-[3px] border-black">
+      {/* Header — cyan bg */}
+      <div className="bg-[#00E5FF] border-b-[3px] border-black">
+        <div ref={headerRef} className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
+          <div className="flex items-end justify-between">
+            <div>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">HOW WE STACK UP</span>
+              <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black">
+                THE CLEF<br /><span className="text-outline-black">ROSTER.</span>
+              </h2>
+            </div>
+            <span className="hidden md:block font-oswald text-sm uppercase tracking-widest text-black/40">
+              {comparison.length} CORE ATTRIBUTES
+            </span>
+          </div>
         </div>
       </div>
 
-      <div ref={tableRef} className="px-6 md:px-12 lg:px-16 overflow-x-auto md:overflow-visible">
+      <div ref={tableRef} className="px-6 md:px-12 lg:px-16 py-12 overflow-x-auto md:overflow-visible bg-white">
         {/* Mobile View - Cards */}
         <div className="md:hidden space-y-6">
           {comparison.map((item, i) => (

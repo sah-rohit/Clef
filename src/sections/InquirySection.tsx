@@ -124,19 +124,24 @@ export function InquirySection() {
   const filteredPosts = activeTab === "CONTACT" ? [] : posts;
 
   return (
-    <section id="inquiry" className="py-16 md:py-20 px-6 md:px-12 bg-white border-t-[4px] border-black overflow-hidden">
-      <div className="max-w-[1300px] mx-auto">
-        <div className="mb-10">
-          <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF0004] block mb-2">COMMUNITY TALK</span>
-          <h2 className="font-oswald text-6xl font-bold uppercase tracking-tighter">INQUIRY</h2>
+    <section id="inquiry" className="border-t-[4px] border-black overflow-hidden">
+      {/* Header — purple bg */}
+      <div className="bg-[#7C3AED] border-b-[3px] border-black">
+        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
+          <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 block mb-4">COMMUNITY TALK</span>
+          <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+            INQUIRY.<br /><span className="text-outline-white">SPEAK UP.</span>
+          </h2>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 border-[4px] border-black">
-          {/* Sidebar Navigation */}
-          <div className="lg:col-span-3 border-r-[4px] border-black p-8 bg-[#fafafa]">
+      <div className="max-w-[1300px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 border-[4px] border-black border-t-0">
+          {/* Sidebar Navigation — yellow bg */}
+          <div className="lg:col-span-3 border-r-[4px] border-black p-8 bg-[#F9FF00]">
             <div className="mb-10">
-              <h3 className="font-oswald text-sm font-bold uppercase mb-4 tracking-wider">GUIDELINES</h3>
-              <p className="font-inter text-[10px] text-black/50 leading-relaxed uppercase tracking-tight">
+              <h3 className="font-oswald text-sm font-bold uppercase mb-4 tracking-wider text-black">GUIDELINES</h3>
+              <p className="font-inter text-[10px] text-black/60 leading-relaxed uppercase tracking-tight">
                 No account needed. Share your thoughts, report bugs, or just say hi. Select a category below.
               </p>
             </div>
@@ -147,7 +152,7 @@ export function InquirySection() {
                   key={s}
                   onClick={() => setActiveTab(s)}
                   className={`w-full text-left flex items-center justify-between px-6 py-4 font-oswald text-[11px] font-bold uppercase tracking-[0.1em] border-b-[3px] border-black last:border-b-0 transition-all ${
-                    activeTab === s ? "bg-[#F9FF00]" : "bg-white hover:bg-[#F9FF00]/10"
+                    activeTab === s ? "bg-black text-[#F9FF00]" : "bg-white hover:bg-black/5"
                   }`}
                 >
                   {s}
@@ -158,7 +163,7 @@ export function InquirySection() {
 
             <div className="mt-8 p-6 border-[3px] border-black bg-white">
               <h4 className="font-oswald text-[10px] font-bold uppercase mb-2">SUPPORT</h4>
-              <p className="font-inter text-[9px] text-black/40 leading-relaxed uppercase tracking-tighter">
+              <p className="font-inter text-[9px] text-black/50 leading-relaxed uppercase tracking-tighter">
                 Ask Clef AI for help with the platform.
               </p>
             </div>

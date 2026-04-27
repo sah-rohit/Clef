@@ -571,14 +571,25 @@ export function HeroSection() {
       </div>
 
       {/* ── Marquee ticker strip ── */}
-      <div className="border-t-[3px] border-b-[3px] border-black bg-[#F9FF00] py-3 overflow-hidden">
+      <div className="border-t-[3px] border-b-[3px] border-black bg-[#1a1a1a] py-3 overflow-hidden">
         <div className="flex animate-marquee whitespace-nowrap">
           {[...Array(2)].map((_, rep) => (
             <span key={rep} className="flex items-center">
-              {["28 FREE TOOLS","ZERO ADS","PRIVACY FIRST","OPEN SOURCE","WORKS OFFLINE","AI POWERED","NO SIGN-UP NEEDED","BRUTALIST DESIGN","BUILT FOR CREATORS","ALWAYS FREE"].map((item, i) => (
+              {[
+                { text: "28 FREE TOOLS", color: "#F9FF00" },
+                { text: "ZERO ADS", color: "#FF0004" },
+                { text: "PRIVACY FIRST", color: "#00E5FF" },
+                { text: "OPEN SOURCE", color: "#00FF87" },
+                { text: "WORKS OFFLINE", color: "#7C3AED" },
+                { text: "AI POWERED", color: "#F9FF00" },
+                { text: "NO SIGN-UP NEEDED", color: "#00E5FF" },
+                { text: "BRUTALIST DESIGN", color: "#FF0004" },
+                { text: "BUILT FOR CREATORS", color: "#00FF87" },
+                { text: "ALWAYS FREE", color: "#7C3AED" },
+              ].map((item, i) => (
                 <span key={i} className="inline-flex items-center gap-4 mx-6">
-                  <span className="font-oswald text-sm font-bold uppercase tracking-widest text-black">{item}</span>
-                  <span className="w-1.5 h-1.5 bg-black rotate-45 inline-block flex-shrink-0" />
+                  <span className="font-oswald text-sm font-bold uppercase tracking-widest" style={{ color: item.color }}>{item.text}</span>
+                  <span className="w-1.5 h-1.5 rotate-45 inline-block flex-shrink-0" style={{ background: item.color }} />
                 </span>
               ))}
             </span>
@@ -586,167 +597,124 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── Featured tools strip ── */}
-      <div className="border-b-[3px] border-black bg-[#1a1a1a]">
-        <div className="px-6 md:px-12 lg:px-16 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <span className="font-oswald text-xs font-bold uppercase tracking-[0.25em] text-white/40">POPULAR TOOLS</span>
-          <div className="flex flex-wrap gap-0 border-[3px] border-white/20">
-            {[
-              { Icon: Braces,      label: "JSON",       path: "/tools/json-formatter",    color: "#00FF87" },
-              { Icon: Palette,     label: "COLORS",     path: "/tools/color-converter",   color: "#00E5FF" },
-              { Icon: Hash,        label: "WORD COUNT", path: "/tools/word-counter",      color: "#F9FF00" },
-              { Icon: Timer,       label: "POMODORO",   path: "/tools/pomodoro-timer",    color: "#FF0004" },
-              { Icon: Fingerprint, label: "UUID",       path: "/tools/uuid-generator",    color: "#7C3AED" },
-              { Icon: QrCode,      label: "QR CODE",    path: "/tools/qr-code-generator", color: "#00E5FF" },
-            ].map(({ Icon, label, path, color }, i) => (
-              <Link key={i} to={path}
-                className="group flex items-center gap-2 px-4 py-2.5 border-r-[3px] border-white/20 last:border-r-0 hover:bg-white/10 transition-colors duration-150">
-                <Icon size={14} className="transition-colors" style={{ color }} />
-                <span className="font-oswald text-[10px] font-bold uppercase tracking-wider text-white/70 group-hover:text-white transition-colors">{label}</span>
-                <ArrowUpRight size={10} className="text-white/20 group-hover:text-white/60 transition-colors" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ── SECTION: Live Metrics ── */}
-      <div className="bg-[#1a1a1a] border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-12">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-            <div>
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#F9FF00] block mb-2">BY THE NUMBERS</span>
-              <h2 className="font-oswald text-3xl md:text-4xl font-bold uppercase text-white leading-[0.9]">
-                BUILT TO LAST.<br /><span className="text-outline-white">NUMBERS PROVE IT.</span>
-              </h2>
-            </div>
-            <div className="flex items-center gap-2 border border-white/10 px-4 py-2">
-              <Activity size={12} className="text-[#00FF87]" />
-              <span className="font-inter text-[10px] uppercase tracking-widest text-white/40">All metrics real-time</span>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-[3px] border-white/10">
-            {[
-              { val: "28+",    label: "Tools Available",    sub: "& growing",       color: "#F9FF00", Icon: Layers },
-              { val: "100%",   label: "Browser-side",       sub: "zero server calls", color: "#00E5FF", Icon: Cpu },
-              { val: "0ms",    label: "Data Transmitted",   sub: "to our servers",  color: "#00FF87", Icon: Lock },
-              { val: "∞",      label: "Free Usage",         sub: "no limits ever",  color: "#7C3AED", Icon: Infinity },
-            ].map(({ val, label, sub, color, Icon }, i) => (
-              <div key={i}
-                className="hero-metric border-b-[3px] md:border-b-0 border-r-[3px] border-white/10 last:border-r-0 p-6 md:p-8 group hover:bg-white/5 transition-colors duration-200">
-                <div className="flex items-start justify-between mb-4">
-                  <Icon size={16} style={{ color: color + "80" }} />
-                  <span className="font-inter text-[9px] uppercase tracking-widest text-white/20">{String(i + 1).padStart(2, "0")}</span>
-                </div>
-                <div className="font-oswald text-4xl md:text-5xl font-bold leading-none mb-2" style={{ color }}>{val}</div>
-                <div className="font-oswald text-xs font-bold uppercase tracking-wider text-white/70 mb-1">{label}</div>
-                <div className="font-inter text-[9px] uppercase tracking-widest text-white/30">{sub}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ── SECTION: How It Works ── */}
-      <div className="bg-[#001a0a] border-b-[3px] border-black">
+      {/* ── SECTION: Live Metrics — vibrant yellow bg ── */}
+      <div className="bg-[#F9FF00] border-b-[3px] border-black">
         <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-3">WORKFLOW</span>
-              <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase text-white leading-[0.9] tracking-[-0.02em]">
-                THREE STEPS.<br /><span className="text-outline-white">ZERO FRICTION.</span>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-3">BY THE NUMBERS</span>
+              <h2 className="font-oswald text-4xl md:text-6xl font-bold uppercase text-black leading-[0.88] tracking-[-0.03em]">
+                BUILT TO LAST.<br /><span className="text-outline-black">NUMBERS PROVE IT.</span>
               </h2>
             </div>
-            <Link to="/features"
-              className="inline-flex items-center gap-2 border-[2px] border-white/20 px-5 py-2.5 font-oswald text-[10px] font-bold uppercase tracking-widest text-white hover:bg-[#00FF87] hover:text-black hover:border-[#00FF87] transition-all duration-200 w-fit">
-              FULL GUIDE <ArrowUpRight size={12} />
-            </Link>
+            <div className="flex items-center gap-2 border-[2px] border-black px-4 py-2 bg-black/5">
+              <Activity size={12} className="text-black/60" />
+              <span className="font-inter text-[10px] uppercase tracking-widest text-black/50">All metrics verified</span>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-[3px] border-white/10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-[3px] border-black bg-white">
             {[
-              { num: "01", color: "#F9FF00", title: "PICK A TOOL", desc: "Browse 28 tools by category or search by name. Every tool is one click away from the homepage.", detail: "No account. No loading screen. Just click." },
-              { num: "02", color: "#00E5FF", title: "DO YOUR WORK", desc: "Paste, type, upload — whatever the tool needs. All processing happens locally in your browser.", detail: "Your data never leaves your device." },
-              { num: "03", color: "#00FF87", title: "EXPORT & GO", desc: "Download your result as a file, copy to clipboard, or share a link. Done in seconds.", detail: "No cloud upload. No waiting. Instant." },
-            ].map((step, i) => (
+              { val: "28+",  label: "Tools Available",  sub: "& growing",         color: "#FF0004", Icon: Layers },
+              { val: "100%", label: "Browser-side",     sub: "zero server calls", color: "#7C3AED", Icon: Cpu },
+              { val: "0ms",  label: "Data Transmitted", sub: "to our servers",    color: "#00E5FF", Icon: Lock },
+              { val: "∞",    label: "Free Usage",       sub: "no limits ever",    color: "#00FF87", Icon: Infinity },
+            ].map(({ val, label, sub, color, Icon }, i) => (
               <div key={i}
-                className="hero-step p-8 md:p-10 border-b-[3px] md:border-b-0 md:border-r-[3px] border-white/10 last:border-0 group hover:bg-white/5 transition-colors duration-200">
-                <div className="w-12 h-12 border-[3px] border-current flex items-center justify-center font-oswald text-xl font-bold mb-6 group-hover:scale-105 transition-transform duration-200"
-                  style={{ color: step.color, borderColor: step.color }}>
-                  {step.num}
+                className="hero-metric border-b-[3px] md:border-b-0 border-r-[3px] border-black last:border-r-0 p-8 md:p-10 group hover:bg-[#fafafa] transition-colors duration-200 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: `linear-gradient(135deg, ${color}08 0%, transparent 60%)` }} />
+                <div className="flex items-start justify-between mb-5 relative z-10">
+                  <Icon size={18} style={{ color }} />
+                  <span className="font-inter text-[9px] uppercase tracking-widest text-black/20">{String(i + 1).padStart(2, "0")}</span>
                 </div>
-                <h3 className="font-oswald text-xl font-bold uppercase text-white mb-3 tracking-tight">{step.title}</h3>
-                <p className="font-inter text-sm text-white/55 leading-relaxed mb-4">{step.desc}</p>
-                <span className="font-oswald text-[10px] font-bold uppercase tracking-widest" style={{ color: step.color }}>{step.detail}</span>
+                <div className="font-oswald text-5xl md:text-6xl font-bold leading-none mb-2 relative z-10" style={{ color }}>{val}</div>
+                <div className="font-oswald text-xs font-bold uppercase tracking-wider text-black/70 mb-1 relative z-10">{label}</div>
+                <div className="font-inter text-[9px] uppercase tracking-widest text-black/35 relative z-10">{sub}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* ── SECTION: Feature Cards Grid (Premium UI) ── */}
+      {/* ── SECTION: How It Works — white bg, Apple-style large steps ── */}
       <div className="bg-white border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-24">
-          <div className="mb-14">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
+          <div className="text-center mb-16">
+            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-4">WORKFLOW</span>
+            <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase text-black leading-[0.88] tracking-[-0.04em]">
+              THREE STEPS.<br /><span className="text-gradient-cyber">ZERO FRICTION.</span>
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-[3px] border-black">
+            {[
+              { num: "01", color: "#F9FF00", bg: "#F9FF00", title: "PICK A TOOL", desc: "Browse 28 tools by category or search by name. Every tool is one click away from the homepage.", detail: "No account. No loading screen. Just click." },
+              { num: "02", color: "#00E5FF", bg: "#00E5FF", title: "DO YOUR WORK", desc: "Paste, type, upload — whatever the tool needs. All processing happens locally in your browser.", detail: "Your data never leaves your device." },
+              { num: "03", color: "#00FF87", bg: "#00FF87", title: "EXPORT & GO", desc: "Download your result as a file, copy to clipboard, or share a link. Done in seconds.", detail: "No cloud upload. No waiting. Instant." },
+            ].map((step, i) => (
+              <div key={i}
+                className="hero-step border-b-[3px] md:border-b-0 md:border-r-[3px] border-black last:border-0 group relative overflow-hidden">
+                {/* Color accent top bar */}
+                <div className="h-2 w-full" style={{ background: step.bg }} />
+                <div className="p-10 md:p-12">
+                  <div className="font-oswald text-[80px] md:text-[100px] font-bold leading-none mb-6 opacity-[0.07]" style={{ color: step.color }}>{step.num}</div>
+                  <div className="w-14 h-14 border-[3px] flex items-center justify-center font-oswald text-2xl font-bold mb-8 -mt-16 relative z-10 group-hover:scale-105 transition-transform duration-300"
+                    style={{ color: "#1a1a1a", borderColor: step.color, background: step.bg }}>
+                    {step.num}
+                  </div>
+                  <h3 className="font-oswald text-2xl font-bold uppercase tracking-tight mb-4">{step.title}</h3>
+                  <p className="font-inter text-sm text-black/55 leading-relaxed mb-6">{step.desc}</p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rotate-45 flex-shrink-0" style={{ background: step.color }} />
+                    <span className="font-oswald text-[10px] font-bold uppercase tracking-widest text-black/50">{step.detail}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex justify-center">
+            <Link to="/features"
+              className="group inline-flex items-center gap-3 border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm px-8 py-4 hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5">
+              SEE FULL GUIDE <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ── SECTION: Feature Cards — dark bg for contrast after white ── */}
+      <div className="bg-[#1a1a1a] border-b-[3px] border-black">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
+          <div className="mb-16">
             <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF0004] block mb-4">WHAT MAKES CLEF DIFFERENT</span>
-            <h2 className="font-oswald text-4xl md:text-6xl font-bold uppercase leading-[0.9] tracking-[-0.03em]">
+            <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
               PREMIUM FEATURES.<br /><span className="text-gradient-fire">ZERO PRICE TAG.</span>
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-[3px] border-black">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-[3px] border-white/10">
             {[
-              {
-                Icon: Zap, color: "#F9FF00", bg: "#F9FF00",
-                title: "INSTANT EVERYTHING",
-                desc: "Sub-100ms tool opens. Pre-compiled bundles. No lazy loading. No splash screens. Click and it's there.",
-                tag: "PERFORMANCE",
-              },
-              {
-                Icon: Lock, color: "#00E5FF", bg: "#00E5FF",
-                title: "ZERO-KNOWLEDGE ARCH",
-                desc: "Every computation runs in your browser's sandbox. We have no server that receives your data — by design.",
-                tag: "PRIVACY",
-              },
-              {
-                Icon: WifiOff, color: "#00FF87", bg: "#00FF87",
-                title: "OFFLINE FIRST PWA",
-                desc: "Install Clef as a PWA. After first load, every tool works without internet. Service worker cached.",
-                tag: "OFFLINE",
-              },
-              {
-                Icon: Sparkles, color: "#7C3AED", bg: "#7C3AED",
-                title: "AI BUILT IN",
-                desc: "Llama 3.1 via Groq. Ask it anything — debug code, explain concepts, generate content. No API key needed.",
-                tag: "AI",
-              },
-              {
-                Icon: Code, color: "#FF0004", bg: "#FF0004",
-                title: "OPEN SOURCE MIT",
-                desc: "Every line of code is public on GitHub. Fork it, audit it, contribute. Trust through radical transparency.",
-                tag: "OPEN SOURCE",
-              },
-              {
-                Icon: Crown, color: "#F9FF00", bg: "#1a1a1a",
-                title: "BRUTALIST DESIGN",
-                desc: "No rounded corners. No gradients. No shadows. Pure brutalist UI — fast, focused, and unapologetically bold.",
-                tag: "DESIGN",
-              },
-            ].map(({ Icon, color, bg, title, desc, tag }, i) => (
+              { Icon: Zap,      color: "#F9FF00", title: "INSTANT EVERYTHING",   desc: "Sub-100ms tool opens. Pre-compiled bundles. No lazy loading. No splash screens. Click and it's there.",                                    tag: "PERFORMANCE" },
+              { Icon: Lock,     color: "#00E5FF", title: "ZERO-KNOWLEDGE ARCH",  desc: "Every computation runs in your browser's sandbox. We have no server that receives your data — by design.",                                  tag: "PRIVACY"     },
+              { Icon: WifiOff,  color: "#00FF87", title: "OFFLINE FIRST PWA",    desc: "Install Clef as a PWA. After first load, every tool works without internet. Service worker cached.",                                        tag: "OFFLINE"     },
+              { Icon: Sparkles, color: "#7C3AED", title: "AI BUILT IN",          desc: "Llama 3.1 via Groq. Ask it anything — debug code, explain concepts, generate content. No API key needed.",                                  tag: "AI"          },
+              { Icon: Code,     color: "#FF0004", title: "OPEN SOURCE MIT",      desc: "Every line of code is public on GitHub. Fork it, audit it, contribute. Trust through radical transparency.",                                tag: "OPEN SOURCE" },
+              { Icon: Crown,    color: "#F9FF00", title: "BRUTALIST DESIGN",     desc: "No rounded corners. No gradients. No shadows. Pure brutalist UI — fast, focused, and unapologetically bold.",                               tag: "DESIGN"      },
+            ].map(({ Icon, color, title, desc, tag }, i) => (
               <div key={i}
-                className="hero-feature-card border-b-[3px] border-r-[3px] border-black last:border-r-0 p-8 group hover:bg-[#fafafa] transition-all duration-200 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-16 h-16 opacity-[0.06]"
-                  style={{ background: `radial-gradient(circle at top right, ${color}, transparent)` }} />
-                <div className="flex items-start justify-between mb-6">
-                  <div className="w-10 h-10 flex items-center justify-center border-[3px] border-black group-hover:scale-110 transition-transform duration-200"
-                    style={{ background: bg === "#1a1a1a" ? "#1a1a1a" : bg + "20", borderColor: bg === "#1a1a1a" ? "#1a1a1a" : color }}>
-                    <Icon size={18} style={{ color: bg === "#1a1a1a" ? "#F9FF00" : color }} />
+                className="hero-feature-card border-b-[3px] border-r-[3px] border-white/10 last:border-r-0 p-8 md:p-10 group hover:bg-white/5 transition-all duration-300 relative overflow-hidden">
+                {/* Glow on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  style={{ background: `radial-gradient(ellipse at top left, ${color}12 0%, transparent 60%)` }} />
+                <div className="flex items-start justify-between mb-8 relative z-10">
+                  <div className="w-12 h-12 flex items-center justify-center border-[2px] group-hover:scale-110 transition-transform duration-300"
+                    style={{ borderColor: color + "40", background: color + "10" }}>
+                    <Icon size={20} style={{ color }} />
                   </div>
-                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 border border-black/10 text-black/40">{tag}</span>
+                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 border border-white/10 text-white/25">{tag}</span>
                 </div>
-                <h3 className="font-oswald text-lg font-bold uppercase tracking-tight mb-3">{title}</h3>
-                <p className="font-inter text-xs text-black/55 leading-relaxed">{desc}</p>
-                <div className="mt-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <ChevronRight size={12} className="text-black/40" />
-                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest text-black/40">LEARN MORE</span>
+                <h3 className="font-oswald text-xl font-bold uppercase tracking-tight mb-4 text-white relative z-10">{title}</h3>
+                <p className="font-inter text-sm text-white/45 leading-relaxed relative z-10">{desc}</p>
+                <div className="mt-8 flex items-center gap-2 relative z-10">
+                  <div className="w-6 h-[2px]" style={{ background: color }} />
+                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest" style={{ color: color + "80" }}>{tag}</span>
                 </div>
               </div>
             ))}
@@ -754,39 +722,43 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── SECTION: What's Inside ── */}
-      <div className="bg-[#0a0a0a] border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
+      {/* ── SECTION: What's Inside — cyan bg ── */}
+      <div className="bg-[#00E5FF] border-b-[3px] border-black">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-            <div className="lg:border-r-[3px] lg:border-white/10 lg:pr-16 pb-12 lg:pb-0 flex flex-col justify-center">
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF0004] block mb-4">THE TOOLSET</span>
-              <h2 className="font-oswald text-4xl md:text-5xl lg:text-6xl font-bold uppercase leading-[0.9] tracking-[-0.03em] mb-6 text-white">
-                28 TOOLS.<br /><span className="text-gradient-cyber">3 CATEGORIES.</span><br />
-                <span className="font-[400] tracking-[0.04em] text-3xl md:text-4xl text-white/50">INFINITE USES.</span>
+            <div className="lg:border-r-[3px] lg:border-black lg:pr-16 pb-12 lg:pb-0 flex flex-col justify-center">
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">THE TOOLSET</span>
+              <h2 className="font-oswald text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-6 text-black">
+                28 TOOLS.<br />3 CATEGORIES.<br /><span className="text-outline-black">INFINITE USES.</span>
               </h2>
-              <p className="font-inter text-sm text-white/50 leading-relaxed max-w-sm">
+              <p className="font-inter text-sm text-black/65 leading-relaxed max-w-sm mb-8">
                 From JSON formatting to QR codes, from regex testing to color palettes — every tool is purpose-built, distraction-free, and permanently free.
               </p>
+              <Link to="/features"
+                className="group inline-flex items-center gap-3 bg-black text-[#00E5FF] border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm px-7 py-3 hover:bg-white hover:text-black transition-all duration-200 shadow-[4px_4px_0px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 w-fit">
+                BROWSE ALL TOOLS <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
-            <div className="lg:pl-16 flex flex-col gap-0 border-[3px] border-white/10 lg:border-0">
+            <div className="lg:pl-16 flex flex-col gap-3">
               {[
-                { label: "DEVELOPER", count: 13, color: "#00E5FF", tools: ["JSON Formatter", "Regex Tester", "JWT Decoder", "CSS Minifier", "Diff Checker", "Base64", "+7 more"], desc: "Code, format, debug, convert." },
-                { label: "PRODUCTIVITY", count: 7, color: "#F9FF00", tools: ["Text File Maker", "Markdown Editor", "Word Counter", "Lorem Ipsum", "Pomodoro", "Text Case", "+1 more"], desc: "Write, edit, focus, ship." },
-                { label: "UTILITY", count: 8, color: "#00FF87", tools: ["Password Gen", "QR Code", "Unit Converter", "Calculator", "Timestamp", "Aspect Ratio", "+2 more"], desc: "Convert, generate, measure." },
+                { label: "DEVELOPER",    count: 13, color: "#1a1a1a", bg: "#F9FF00", tools: ["JSON Formatter", "Regex Tester", "JWT Decoder", "CSS Minifier", "Diff Checker", "Base64", "+7 more"], desc: "Code, format, debug, convert." },
+                { label: "PRODUCTIVITY", count: 7,  color: "#1a1a1a", bg: "#FF0004", tools: ["Text File Maker", "Markdown Editor", "Word Counter", "Lorem Ipsum", "Pomodoro", "Text Case", "+1 more"], desc: "Write, edit, focus, ship." },
+                { label: "UTILITY",      count: 8,  color: "#1a1a1a", bg: "#7C3AED", tools: ["Password Gen", "QR Code", "Unit Converter", "Calculator", "Timestamp", "Aspect Ratio", "+2 more"], desc: "Convert, generate, measure." },
               ].map((cat, i) => (
                 <div key={i}
-                  className="hero-cat group border-b-[3px] border-white/10 last:border-b-0 lg:border-[3px] lg:border-white/10 lg:mb-3 last:mb-0 p-6 hover:bg-white/5 transition-colors duration-200 cursor-default">
+                  className="hero-cat group border-[3px] border-black bg-white p-6 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all duration-200 cursor-default">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 rotate-45" style={{ background: cat.color }} />
-                      <span className="font-oswald text-base font-bold uppercase tracking-wider text-white">{cat.label}</span>
+                      <div className="w-8 h-8 flex items-center justify-center border-[2px] border-black" style={{ background: cat.bg }}>
+                        <span className="font-oswald text-[10px] font-bold text-black">{cat.count}</span>
+                      </div>
+                      <span className="font-oswald text-lg font-bold uppercase tracking-wider text-black">{cat.label}</span>
                     </div>
-                    <span className="font-oswald text-2xl font-bold" style={{ color: cat.color }}>{cat.count}</span>
+                    <span className="font-inter text-[9px] uppercase tracking-widest text-black/40">{cat.desc}</span>
                   </div>
-                  <p className="font-inter text-xs text-white/30 uppercase tracking-wider mb-3">{cat.desc}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {cat.tools.map((t, j) => (
-                      <span key={j} className="font-inter text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 border border-white/10 text-white/40 group-hover:border-white/20 transition-colors">{t}</span>
+                      <span key={j} className="font-inter text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 border border-black/15 text-black/60 group-hover:border-black/30 transition-colors">{t}</span>
                     ))}
                   </div>
                 </div>
@@ -796,18 +768,18 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── SECTION: All Tools Pill Grid ── */}
-      <div className="bg-[#0a0a0a] border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
+      {/* ── SECTION: All Tools Pill Grid — dark bg ── */}
+      <div className="bg-[#1a1a1a] border-b-[3px] border-black">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-3">FULL ARSENAL</span>
-              <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase text-white leading-[0.9]">
+              <h2 className="font-oswald text-4xl md:text-6xl font-bold uppercase text-white leading-[0.88] tracking-[-0.03em]">
                 EVERY TOOL.<br /><span className="text-gradient-cyber">RIGHT HERE.</span>
               </h2>
             </div>
             <Link to="/features"
-              className="inline-flex items-center gap-2 bg-[#F9FF00] border-[3px] border-[#F9FF00] px-6 py-3 font-oswald text-[10px] font-bold uppercase tracking-widest text-black hover:bg-white transition-all duration-200 w-fit">
+              className="inline-flex items-center gap-2 bg-[#F9FF00] border-[3px] border-[#F9FF00] px-6 py-3 font-oswald text-[10px] font-bold uppercase tracking-widest text-black hover:bg-white transition-all duration-200 w-fit shadow-[4px_4px_0px_rgba(249,255,0,0.3)]">
               OPEN WORKBENCH <ArrowUpRight size={12} />
             </Link>
           </div>
@@ -843,128 +815,129 @@ export function HeroSection() {
               { name: "Clef AI",           color: "#7C3AED" },
             ].map(({ name, color }, i) => (
               <div key={i}
-                className="hero-tool-pill flex items-center gap-2 border border-white/10 px-3 py-2 hover:border-white/30 hover:bg-white/5 transition-all duration-150 cursor-default group">
+                className="hero-tool-pill flex items-center gap-2 border border-white/10 px-3 py-2 hover:border-current hover:bg-white/5 transition-all duration-150 cursor-default group"
+                style={{ "--hover-color": color } as React.CSSProperties}>
                 <div className="w-1.5 h-1.5 rotate-45 flex-shrink-0" style={{ background: color }} />
-                <span className="font-oswald text-[10px] font-bold uppercase tracking-wider text-white/60 group-hover:text-white/90 transition-colors">{name}</span>
+                <span className="font-oswald text-[10px] font-bold uppercase tracking-wider text-white/55 group-hover:text-white/90 transition-colors">{name}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* ── SECTION: Privacy Architecture ── */}
-      <div className="bg-[#050510] border-b-[3px] border-black relative overflow-hidden">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20 relative z-10">
+      {/* ── SECTION: Privacy Architecture — green bg ── */}
+      <div className="bg-[#00FF87] border-b-[3px] border-black relative overflow-hidden">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
             <div>
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00E5FF] block mb-4">PRIVACY ARCHITECTURE</span>
-              <h2 className="font-oswald text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-6 text-white">
-                YOUR DATA.<br />YOUR DEVICE.<br /><span className="text-gradient-cyber">YOUR RULES.</span>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">PRIVACY ARCHITECTURE</span>
+              <h2 className="font-oswald text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-6 text-black">
+                YOUR DATA.<br />YOUR DEVICE.<br /><span className="text-outline-black">YOUR RULES.</span>
               </h2>
-              <p className="font-inter text-sm text-white/55 leading-relaxed max-w-sm">
+              <p className="font-inter text-sm text-black/65 leading-relaxed max-w-sm">
                 We didn't add a privacy policy as an afterthought. We built the architecture so there's nothing to collect. No server, no database, no telemetry — just your browser doing the work.
               </p>
             </div>
-            <div className="flex flex-col gap-0 border-[3px] border-white/10">
+            <div className="flex flex-col gap-0 border-[3px] border-black bg-white shadow-[8px_8px_0px_rgba(0,0,0,1)]">
               {[
-                { label: "Data sent to servers",   val: "0 bytes",          color: "#00FF87", icon: "✓" },
-                { label: "Cookies set",            val: "None",             color: "#00E5FF", icon: "✓" },
-                { label: "Analytics trackers",     val: "Zero",             color: "#7C3AED", icon: "✓" },
-                { label: "Third-party scripts",    val: "Not loaded",       color: "#F9FF00", icon: "✓" },
-                { label: "Processing location",    val: "Your browser",     color: "#00FF87", icon: "✓" },
-                { label: "Account required",       val: "Never",            color: "#00E5FF", icon: "✓" },
+                { label: "Data sent to servers",  val: "0 bytes",       color: "#00FF87" },
+                { label: "Cookies set",           val: "None",          color: "#00E5FF" },
+                { label: "Analytics trackers",    val: "Zero",          color: "#7C3AED" },
+                { label: "Third-party scripts",   val: "Not loaded",    color: "#F9FF00" },
+                { label: "Processing location",   val: "Your browser",  color: "#00FF87" },
+                { label: "Account required",      val: "Never",         color: "#FF0004" },
               ].map((row, i) => (
-                <div key={i} className="hero-compare-row grid grid-cols-2 border-b-[3px] border-white/10 last:border-b-0">
-                  <div className="px-4 py-3 border-r-[3px] border-white/10 flex items-center gap-2">
-                    <span className="font-inter text-xs text-white/40">{row.label}</span>
+                <div key={i} className="hero-compare-row grid grid-cols-2 border-b-[3px] border-black last:border-b-0">
+                  <div className="px-4 py-3.5 border-r-[3px] border-black flex items-center gap-2">
+                    <span className="font-inter text-xs text-black/50">{row.label}</span>
                   </div>
-                  <div className="px-4 py-3 flex items-center gap-2">
-                    <span className="font-oswald text-[10px] font-bold" style={{ color: row.color }}>{row.icon}</span>
-                    <span className="font-inter text-xs font-semibold text-white">{row.val}</span>
+                  <div className="px-4 py-3.5 flex items-center gap-2">
+                    <div className="w-2 h-2 rotate-45 flex-shrink-0" style={{ background: row.color }} />
+                    <span className="font-inter text-xs font-bold text-black">{row.val}</span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className="absolute -bottom-4 -right-4 font-oswald text-[160px] md:text-[220px] font-bold text-[#00E5FF]/[0.03] leading-none select-none pointer-events-none uppercase">SAFE</div>
+        <div className="absolute -bottom-4 -right-4 font-oswald text-[160px] md:text-[220px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">SAFE</div>
       </div>
 
-      {/* ── SECTION: AI Assistant spotlight ── */}
-      <div className="bg-white border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
+      {/* ── SECTION: AI Assistant spotlight — purple bg ── */}
+      <div className="bg-[#7C3AED] border-b-[3px] border-black">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-            <div className="hero-chat lg:border-r-[3px] lg:border-black lg:pr-16 pb-12 lg:pb-0">
-              <div className="border-[3px] border-black bg-white shadow-apple max-w-sm">
-                <div className="bg-[#1a1a1a] px-4 py-3 flex items-center gap-3 border-b-[3px] border-black">
+            <div className="hero-chat lg:border-r-[3px] lg:border-white/20 lg:pr-16 pb-12 lg:pb-0">
+              <div className="border-[3px] border-white/30 bg-white/10 backdrop-blur-sm max-w-sm shadow-[8px_8px_0px_rgba(0,0,0,0.3)]">
+                <div className="bg-black/30 px-4 py-3 flex items-center gap-3 border-b-[3px] border-white/20">
                   <div className="w-2 h-2 bg-[#F9FF00] rounded-full animate-pulse" />
                   <span className="font-oswald text-xs font-bold uppercase tracking-widest text-[#F9FF00]">CLEF AI</span>
-                  <span className="ml-auto font-inter text-[9px] text-white/30 uppercase">LLAMA 3.1 • GROQ</span>
+                  <span className="ml-auto font-inter text-[9px] text-white/40 uppercase">LLAMA 3.1 • GROQ</span>
                 </div>
-                <div className="p-4 space-y-3 bg-[#fafafa]">
+                <div className="p-4 space-y-3">
                   <div className="flex justify-end">
-                    <div className="bg-[#F9FF00] border-[2px] border-black px-3 py-2 max-w-[80%]">
-                      <p className="font-inter text-[11px] font-medium">Can you explain what a JWT token is?</p>
+                    <div className="bg-[#F9FF00] border-[2px] border-black/20 px-3 py-2 max-w-[80%]">
+                      <p className="font-inter text-[11px] font-medium text-black">Can you explain what a JWT token is?</p>
                     </div>
                   </div>
                   <div className="flex justify-start">
-                    <div className="bg-white border-[2px] border-black px-3 py-2 max-w-[85%]">
-                      <p className="font-inter text-[11px] leading-relaxed text-black/80">
-                        A JWT (JSON Web Token) is a compact, URL-safe token with three parts: <span className="font-semibold text-[#7C3AED]">header</span>, <span className="font-semibold text-[#00E5FF]">payload</span>, and <span className="font-semibold text-[#00FF87]">signature</span> — separated by dots.
+                    <div className="bg-white/15 border-[2px] border-white/20 px-3 py-2 max-w-[85%]">
+                      <p className="font-inter text-[11px] leading-relaxed text-white/90">
+                        A JWT has three parts: <span className="font-bold text-[#F9FF00]">header</span>, <span className="font-bold text-[#00E5FF]">payload</span>, and <span className="font-bold text-[#00FF87]">signature</span> — separated by dots.
                       </p>
                     </div>
                   </div>
                   <div className="flex justify-end">
-                    <div className="bg-[#F9FF00] border-[2px] border-black px-3 py-2 max-w-[80%]">
-                      <p className="font-inter text-[11px] font-medium">Can you decode this one for me?</p>
+                    <div className="bg-[#F9FF00] border-[2px] border-black/20 px-3 py-2 max-w-[80%]">
+                      <p className="font-inter text-[11px] font-medium text-black">Can you decode this one for me?</p>
                     </div>
                   </div>
                   <div className="flex justify-start">
-                    <div className="bg-white border-[2px] border-black px-3 py-2 max-w-[85%]">
-                      <p className="font-inter text-[11px] leading-relaxed text-black/80">
-                        Sure! Or even better — use the <span className="font-semibold text-[#FF0004]">JWT Decoder</span> tool in Clef. Paste your token and see the header, payload, and expiry instantly.
+                    <div className="bg-white/15 border-[2px] border-white/20 px-3 py-2 max-w-[85%]">
+                      <p className="font-inter text-[11px] leading-relaxed text-white/90">
+                        Sure! Or use the <span className="font-bold text-[#FF0004]">JWT Decoder</span> tool — paste your token and see the header, payload, and expiry instantly.
                       </p>
                     </div>
                   </div>
                   <div className="flex justify-start">
-                    <div className="bg-white border-[2px] border-black px-4 py-3 flex items-center gap-1.5">
+                    <div className="bg-white/10 border-[2px] border-white/15 px-4 py-3 flex items-center gap-1.5">
                       {[0, 1, 2].map(i => (
-                        <div key={i} className="w-1.5 h-1.5 bg-black/30 rounded-full animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
+                        <div key={i} className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
                       ))}
                     </div>
                   </div>
                 </div>
-                <div className="border-t-[3px] border-black px-3 py-2 flex items-center gap-2 bg-white">
-                  <span className="font-inter text-[10px] text-black/25 flex-1 uppercase tracking-wider">Ask anything...</span>
-                  <div className="w-7 h-7 bg-[#F9FF00] border-[2px] border-black flex items-center justify-center">
-                    <ArrowRight size={12} />
+                <div className="border-t-[3px] border-white/20 px-3 py-2 flex items-center gap-2 bg-black/20">
+                  <span className="font-inter text-[10px] text-white/30 flex-1 uppercase tracking-wider">Ask anything...</span>
+                  <div className="w-7 h-7 bg-[#F9FF00] border-[2px] border-black/20 flex items-center justify-center">
+                    <ArrowRight size={12} className="text-black" />
                   </div>
                 </div>
               </div>
             </div>
             <div className="hero-ai-right lg:pl-16 flex flex-col justify-center">
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#7C3AED] block mb-4">BUILT-IN AI</span>
-              <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.9] tracking-[-0.03em] mb-6">
-                CLEF AI.<br /><span className="text-gradient-purple">YOUR LOGIC ENGINE.</span>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 block mb-4">BUILT-IN AI</span>
+              <h2 className="font-oswald text-5xl md:text-6xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-6 text-white">
+                CLEF AI.<br /><span className="text-outline-white">YOUR LOGIC ENGINE.</span>
               </h2>
-              <p className="font-inter text-sm text-black/55 leading-relaxed mb-8 max-w-sm">
+              <p className="font-inter text-sm text-white/65 leading-relaxed mb-8 max-w-sm">
                 Powered by Llama 3.1 via Groq. Ask it to debug code, explain concepts, generate content, or help with any task. No API key needed — it just works.
               </p>
-              <div className="flex flex-col gap-0 border-[3px] border-black mb-8">
+              <div className="flex flex-col gap-0 border-[3px] border-white/20 mb-8 bg-black/20">
                 {[
-                  { label: "Model",      val: "Llama 3.1",           color: "#7C3AED" },
+                  { label: "Model",      val: "Llama 3.1",            color: "#F9FF00" },
                   { label: "Provider",   val: "Groq (fast inference)", color: "#00E5FF" },
-                  { label: "History",    val: "Local + cloud sync",   color: "#00FF87" },
-                  { label: "Rate limit", val: "10–20 req/hr free",    color: "#F9FF00" },
-                  { label: "API key",    val: "Not required",         color: "#00FF87" },
+                  { label: "History",    val: "Local + cloud sync",    color: "#00FF87" },
+                  { label: "Rate limit", val: "10–20 req/hr free",     color: "#F9FF00" },
+                  { label: "API key",    val: "Not required",          color: "#00FF87" },
                 ].map((row, i) => (
-                  <div key={i} className="grid grid-cols-2 border-b-[3px] border-black last:border-b-0">
-                    <div className="px-4 py-2.5 border-r-[3px] border-black">
-                      <span className="font-oswald text-[10px] font-bold uppercase tracking-wider text-black/40">{row.label}</span>
+                  <div key={i} className="grid grid-cols-2 border-b-[3px] border-white/10 last:border-b-0">
+                    <div className="px-4 py-2.5 border-r-[3px] border-white/10">
+                      <span className="font-oswald text-[10px] font-bold uppercase tracking-wider text-white/40">{row.label}</span>
                     </div>
                     <div className="px-4 py-2.5 flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rotate-45 flex-shrink-0" style={{ background: row.color }} />
-                      <span className="font-inter text-xs font-semibold text-black">{row.val}</span>
+                      <span className="font-inter text-xs font-semibold text-white">{row.val}</span>
                     </div>
                   </div>
                 ))}
@@ -975,7 +948,7 @@ export function HeroSection() {
                     document.querySelector<HTMLButtonElement>(".fixed.right-4");
                   btn?.click();
                 }}
-                className="group inline-flex items-center gap-3 bg-[#1a1a1a] text-white border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm px-7 py-3 hover:bg-[#7C3AED] transition-all duration-200 shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-glow-purple hover:-translate-y-0.5 w-fit">
+                className="group inline-flex items-center gap-3 bg-[#F9FF00] text-black border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm px-7 py-3 hover:bg-white transition-all duration-200 shadow-[4px_4px_0px_rgba(0,0,0,0.4)] hover:shadow-[6px_6px_0px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 w-fit">
                 TRY CLEF AI
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>
@@ -984,144 +957,126 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── SECTION: Open Source Commitment ── */}
-      <div className="bg-[#1a1a1a] border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
-          <div className="mb-12">
-            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-3">OPEN SOURCE</span>
-            <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase text-white leading-[0.9]">
-              EVERY COMMIT.<br /><span className="text-outline-white">EVERY LINE. PUBLIC.</span>
+      {/* ── SECTION: Open Source — white bg ── */}
+      <div className="bg-white border-b-[3px] border-black">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
+          <div className="text-center mb-16">
+            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-4">OPEN SOURCE</span>
+            <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase text-black leading-[0.88] tracking-[-0.04em]">
+              EVERY COMMIT.<br /><span className="text-gradient-cyber">EVERY LINE. PUBLIC.</span>
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-[3px] border-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              {
-                title: "FORK IT",
-                desc: "Clone the entire codebase, spin up your own instance, or build something new on top. MIT license means no restrictions — do whatever you want with it.",
-                tag: "MIT LICENSE",
-                color: "#00FF87",
-                Icon: GitBranch,
-                stat: "MIT",
-              },
-              {
-                title: "AUDIT IT",
-                desc: "Every function, every API call, every data flow is visible. No black boxes. If you're skeptical about our privacy claims, read the code — it proves itself.",
-                tag: "TRANSPARENCY",
-                color: "#F9FF00",
-                Icon: Eye,
-                stat: "100%",
-              },
-              {
-                title: "CONTRIBUTE",
-                desc: "Found a bug? Have a tool idea? Submit a PR. Clef is built by the community, for the community. Your contribution ships to every user instantly.",
-                tag: "COMMUNITY",
-                color: "#7C3AED",
-                Icon: Heart,
-                stat: "PRs open",
-              },
+              { title: "FORK IT",     desc: "Clone the entire codebase, spin up your own instance, or build something new on top. MIT license — no restrictions.",                                                                  tag: "MIT LICENSE",  color: "#00FF87", bg: "#00FF87", Icon: GitBranch, stat: "MIT"      },
+              { title: "AUDIT IT",    desc: "Every function, every API call, every data flow is visible. No black boxes. If you're skeptical about our privacy claims, read the code.",                                            tag: "TRANSPARENCY", color: "#F9FF00", bg: "#F9FF00", Icon: Eye,       stat: "100%"     },
+              { title: "CONTRIBUTE",  desc: "Found a bug? Have a tool idea? Submit a PR. Clef is built by the community, for the community. Your contribution ships to every user.",                                               tag: "COMMUNITY",    color: "#7C3AED", bg: "#7C3AED", Icon: Heart,     stat: "PRs open" },
             ].map((p, i) => (
               <div key={i}
-                className="hero-testimonial p-8 border-b-[3px] md:border-b-0 md:border-r-[3px] border-white/10 last:border-0 group hover:bg-white/5 transition-colors duration-200">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="w-10 h-10 border-[2px] flex items-center justify-center" style={{ borderColor: p.color + "40" }}>
-                    <p.Icon size={18} style={{ color: p.color }} />
+                className="hero-testimonial border-[3px] border-black group hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                {/* Color header bar */}
+                <div className="h-3 w-full" style={{ background: p.bg }} />
+                <div className="p-8">
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="w-12 h-12 border-[3px] border-black flex items-center justify-center" style={{ background: p.bg }}>
+                      <p.Icon size={20} className="text-black" />
+                    </div>
+                    <span className="font-oswald text-3xl font-bold text-black/10">{p.stat}</span>
                   </div>
-                  <span className="font-oswald text-2xl font-bold" style={{ color: p.color + "60" }}>{p.stat}</span>
+                  <span className="font-oswald text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 border-[2px] border-black text-black/50 inline-block mb-4">{p.tag}</span>
+                  <h3 className="font-oswald text-2xl font-bold uppercase text-black mb-4 tracking-tight">{p.title}</h3>
+                  <p className="font-inter text-sm text-black/55 leading-relaxed">{p.desc}</p>
                 </div>
-                <span className="font-oswald text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 border border-white/10 text-white/30 inline-block mb-4">{p.tag}</span>
-                <h3 className="font-oswald text-xl font-bold uppercase text-white mb-4 tracking-tight">{p.title}</h3>
-                <p className="font-inter text-sm text-white/50 leading-relaxed mb-6">{p.desc}</p>
-                <div className="w-8 h-1" style={{ background: p.color }} />
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* ── SECTION: Offline & PWA ── */}
-      <div className="bg-white border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
-          <div className="mb-12">
-            <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-4">OFFLINE FIRST</span>
-            <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase leading-[0.9] tracking-[-0.03em]">
-              NO WIFI.<br /><span className="text-gradient-cyber">NO PROBLEM.</span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-[3px] border-black">
-            {/* PWA install visual */}
-            <div className="border-b-[3px] md:border-b-0 md:border-r-[3px] border-black p-8 bg-[#001a0a]">
-              <div className="flex flex-col gap-4 max-w-xs">
-                <div className="flex items-center gap-3 border-[2px] border-[#00FF87]/30 px-4 py-3 bg-[#00FF87]/5">
+      {/* ── SECTION: Offline & PWA — dark bg ── */}
+      <div className="bg-[#1a1a1a] border-b-[3px] border-black">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
+            <div className="lg:border-r-[3px] lg:border-white/10 lg:pr-16 pb-12 lg:pb-0">
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#00FF87] block mb-4">OFFLINE FIRST</span>
+              <h2 className="font-oswald text-5xl md:text-6xl font-bold uppercase text-white leading-[0.88] tracking-[-0.04em] mb-6">
+                NO WIFI.<br /><span className="text-gradient-cyber">NO PROBLEM.</span>
+              </h2>
+              <p className="font-inter text-sm text-white/55 leading-relaxed max-w-sm mb-8">
+                After your first visit, Clef is fully cached as a Progressive Web App. Lose your WiFi mid-project? Keep working. Every tool runs offline, no exceptions.
+              </p>
+              <div className="flex flex-col gap-3">
+                {[
+                  { step: "01", title: "First Visit",    desc: "Service worker caches all tool bundles, assets, and fonts.",  color: "#F9FF00" },
+                  { step: "02", title: "Install as PWA", desc: "Add to home screen. Behaves like a native app.",              color: "#00E5FF" },
+                  { step: "03", title: "Work Anywhere",  desc: "Plane, basement, dead zone — every tool runs locally.",       color: "#00FF87" },
+                ].map((s, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="w-9 h-9 border-[2px] flex items-center justify-center font-oswald text-xs font-bold flex-shrink-0" style={{ borderColor: s.color, color: s.color }}>{s.step}</div>
+                    <div>
+                      <div className="font-oswald text-sm font-bold uppercase tracking-tight text-white mb-1">{s.title}</div>
+                      <div className="font-inter text-xs text-white/40 leading-relaxed">{s.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="lg:pl-16">
+              <div className="border-[3px] border-white/10 bg-black/30 p-6 max-w-sm">
+                <div className="flex items-center gap-3 border-[2px] border-[#00FF87]/30 px-4 py-3 bg-[#00FF87]/5 mb-4">
                   <WifiOff size={16} className="text-[#00FF87]" />
                   <span className="font-oswald text-xs font-bold uppercase tracking-widest text-[#00FF87]">OFFLINE MODE ACTIVE</span>
                 </div>
                 {[
-                  { name: "JSON Formatter", status: "Ready", color: "#00FF87" },
-                  { name: "Regex Tester",   status: "Ready", color: "#00FF87" },
-                  { name: "Color Converter",status: "Ready", color: "#00FF87" },
-                  { name: "Clef AI",        status: "Requires connection", color: "#F9FF00" },
+                  { name: "JSON Formatter",  status: "Ready",              color: "#00FF87" },
+                  { name: "Regex Tester",    status: "Ready",              color: "#00FF87" },
+                  { name: "Color Converter", status: "Ready",              color: "#00FF87" },
+                  { name: "Word Counter",    status: "Ready",              color: "#00FF87" },
+                  { name: "Clef AI",         status: "Requires connection", color: "#F9FF00" },
                 ].map((t, i) => (
-                  <div key={i} className="flex items-center justify-between border-b border-white/5 pb-2 last:border-0">
-                    <span className="font-inter text-xs text-white/60">{t.name}</span>
+                  <div key={i} className="flex items-center justify-between border-b border-white/5 py-2.5 last:border-0">
+                    <span className="font-inter text-xs text-white/55">{t.name}</span>
                     <span className="font-oswald text-[9px] font-bold uppercase tracking-wider" style={{ color: t.color }}>{t.status}</span>
                   </div>
                 ))}
-                <div className="mt-2 border-[2px] border-[#00E5FF]/20 px-3 py-2 flex items-center gap-2">
+                <div className="mt-4 border-[2px] border-[#00E5FF]/20 px-3 py-2 flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#00E5FF] animate-pulse" />
-                  <span className="font-inter text-[10px] text-[#00E5FF]/70 uppercase tracking-wider">Service worker active — 27 tools cached</span>
+                  <span className="font-inter text-[10px] text-[#00E5FF]/70 uppercase tracking-wider">27 tools cached • PWA ready</span>
                 </div>
-              </div>
-            </div>
-            {/* PWA info */}
-            <div className="p-8">
-              <span className="font-inter text-[9px] uppercase tracking-widest text-black/30 block mb-6">HOW IT WORKS</span>
-              <div className="flex flex-col gap-5">
-                {[
-                  { step: "01", title: "First Visit", desc: "Clef's service worker caches all tool bundles, assets, and fonts to your device.", color: "#00FF87" },
-                  { step: "02", title: "Install as PWA", desc: "Add Clef to your home screen or desktop. It behaves like a native app — no browser chrome.", color: "#00E5FF" },
-                  { step: "03", title: "Work Anywhere", desc: "Plane, basement, dead zone — every tool runs locally. No CDN, no cloud, no waiting.", color: "#7C3AED" },
-                ].map((s, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-8 h-8 border-[2px] flex items-center justify-center font-oswald text-xs font-bold flex-shrink-0" style={{ borderColor: s.color, color: s.color }}>{s.step}</div>
-                    <div>
-                      <div className="font-oswald text-sm font-bold uppercase tracking-tight mb-1">{s.title}</div>
-                      <div className="font-inter text-xs text-black/50 leading-relaxed">{s.desc}</div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── SECTION: Tech Stack ── */}
-      <div className="bg-[#0a0005] border-b-[3px] border-black">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
+      {/* ── SECTION: Tech Stack — red/black bg ── */}
+      <div className="bg-[#FF0004] border-b-[3px] border-black">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
-            <div className="lg:border-r-[3px] lg:border-white/10 lg:pr-16 pb-12 lg:pb-0">
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#7C3AED] block mb-4">UNDER THE HOOD</span>
-              <h2 className="font-oswald text-4xl md:text-5xl font-bold uppercase text-white leading-[0.9] tracking-[-0.03em] mb-6">
-                MODERN STACK.<br /><span className="text-gradient-purple">ZERO BLOAT.</span>
+            <div className="lg:border-r-[3px] lg:border-black lg:pr-16 pb-12 lg:pb-0">
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">UNDER THE HOOD</span>
+              <h2 className="font-oswald text-5xl md:text-6xl font-bold uppercase text-black leading-[0.88] tracking-[-0.04em] mb-6">
+                MODERN STACK.<br /><span className="text-outline-black">ZERO BLOAT.</span>
               </h2>
-              <p className="font-inter text-sm text-white/55 leading-relaxed max-w-sm">
+              <p className="font-inter text-sm text-black/65 leading-relaxed max-w-sm">
                 Built with React 19, TypeScript, Vite, Tailwind, and GSAP. Deployed on the edge. Every dependency is justified — nothing is there for show.
               </p>
             </div>
-            <div className="lg:pl-16 grid grid-cols-2 gap-0 border-[3px] border-white/10">
+            <div className="lg:pl-16 grid grid-cols-2 gap-3">
               {[
-                { name: "React 19",    role: "UI Framework",     color: "#00E5FF" },
-                { name: "TypeScript",  role: "Type Safety",      color: "#00E5FF" },
-                { name: "Vite 7",      role: "Build Tool",       color: "#F9FF00" },
-                { name: "Tailwind 3",  role: "Styling",          color: "#00E5FF" },
-                { name: "GSAP 3",      role: "Animations",       color: "#00FF87" },
-                { name: "Convex",      role: "Backend / DB",     color: "#FF0004" },
-                { name: "Groq / Llama","role": "AI Inference",   color: "#7C3AED" },
-                { name: "Lenis",       role: "Smooth Scroll",    color: "#7C3AED" },
+                { name: "React 19",     role: "UI Framework",   color: "#00E5FF", bg: "#1a1a1a" },
+                { name: "TypeScript",   role: "Type Safety",    color: "#00E5FF", bg: "#1a1a1a" },
+                { name: "Vite 7",       role: "Build Tool",     color: "#F9FF00", bg: "#1a1a1a" },
+                { name: "Tailwind 3",   role: "Styling",        color: "#00E5FF", bg: "#1a1a1a" },
+                { name: "GSAP 3",       role: "Animations",     color: "#00FF87", bg: "#1a1a1a" },
+                { name: "Convex",       role: "Backend / DB",   color: "#F9FF00", bg: "#1a1a1a" },
+                { name: "Groq / Llama", role: "AI Inference",   color: "#7C3AED", bg: "#1a1a1a" },
+                { name: "Lenis",        role: "Smooth Scroll",  color: "#7C3AED", bg: "#1a1a1a" },
               ].map((tech, i) => (
                 <div key={i}
-                  className="border-b-[3px] border-r-[3px] border-white/10 last:border-r-0 p-5 group hover:bg-white/5 transition-colors duration-150">
-                  <div className="w-1.5 h-1.5 rotate-45 mb-3" style={{ background: tech.color }} />
+                  className="border-[3px] border-black p-5 group hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all duration-200 hover:-translate-y-0.5"
+                  style={{ background: tech.bg }}>
+                  <div className="w-2 h-2 rotate-45 mb-3" style={{ background: tech.color }} />
                   <div className="font-oswald text-sm font-bold uppercase tracking-tight text-white mb-1">{tech.name}</div>
                   <div className="font-inter text-[9px] uppercase tracking-widest text-white/30">{tech.role}</div>
                 </div>
@@ -1131,42 +1086,42 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── SECTION: Pricing Manifesto ── */}
-      <div className="bg-[#1a0000] border-b-[3px] border-black relative overflow-hidden">
-        <div className="px-6 md:px-12 lg:px-16 py-16 md:py-20 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div>
-              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF0004] block mb-3">PRICING MODEL</span>
-              <h2 className="font-oswald text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
-                FREE.<br />NOT FREEMIUM.<br /><span className="text-outline-white">NOT A TRIAL.</span>
+      {/* ── SECTION: Pricing Manifesto — yellow bg ── */}
+      <div className="bg-[#F9FF00] border-b-[3px] border-black relative overflow-hidden">
+        <div className="px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-12">
+            <div className="max-w-xl">
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 block mb-4">PRICING MODEL</span>
+              <h2 className="font-oswald text-6xl md:text-7xl lg:text-8xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-black mb-6">
+                FREE.<br />NOT FREEMIUM.<br /><span className="text-outline-black">NOT A TRIAL.</span>
               </h2>
-            </div>
-            <div className="flex flex-col gap-4 max-w-sm">
-              <p className="font-inter text-sm text-white/55 leading-relaxed">
+              <p className="font-inter text-sm text-black/65 leading-relaxed max-w-sm">
                 No "Pro" tier. No feature gates. No "upgrade to unlock." Every tool, every feature, every update — free for everyone, forever. That's the whole model.
               </p>
-              <div className="grid grid-cols-2 gap-0 border-[3px] border-white/10">
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-0 border-[3px] border-black bg-black">
                 {[
-                  { label: "Monthly cost",   val: "$0",    color: "#FF0004" },
-                  { label: "Annual cost",    val: "$0",    color: "#FF0004" },
-                  { label: "Tools unlocked", val: "All 28", color: "#F9FF00" },
-                  { label: "Credit card",    val: "Never",  color: "#00FF87" },
+                  { label: "Monthly cost",   val: "$0",     color: "#F9FF00" },
+                  { label: "Annual cost",    val: "$0",     color: "#F9FF00" },
+                  { label: "Tools unlocked", val: "All 28", color: "#00FF87" },
+                  { label: "Credit card",    val: "Never",  color: "#00E5FF" },
                 ].map((item, i) => (
-                  <div key={i} className="border-b-[2px] border-r-[2px] border-white/10 p-4 last:border-r-0">
-                    <div className="font-oswald text-xl font-bold mb-1" style={{ color: item.color }}>{item.val}</div>
-                    <div className="font-inter text-[9px] uppercase tracking-widest text-white/30">{item.label}</div>
+                  <div key={i} className="border-b-[2px] border-r-[2px] border-white/10 p-5 last:border-r-0">
+                    <div className="font-oswald text-3xl font-bold mb-1" style={{ color: item.color }}>{item.val}</div>
+                    <div className="font-inter text-[9px] uppercase tracking-widest text-white/40">{item.label}</div>
                   </div>
                 ))}
               </div>
               <Link to="/pricing"
-                className="group inline-flex items-center gap-3 border-[3px] border-[#FF0004] text-[#FF0004] font-oswald font-bold uppercase tracking-widest text-sm px-7 py-3 hover:bg-[#FF0004] hover:text-white transition-all duration-200 w-fit">
+                className="group inline-flex items-center gap-3 bg-black text-[#F9FF00] border-[3px] border-black font-oswald font-bold uppercase tracking-widest text-sm px-7 py-4 hover:bg-white hover:text-black transition-all duration-200 shadow-[4px_4px_0px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 w-fit">
                 SEE PRICING PAGE
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
         </div>
-        <div className="absolute -bottom-8 -left-8 font-oswald text-[200px] font-bold text-[#FF0004]/[0.04] leading-none select-none pointer-events-none uppercase">FREE</div>
+        <div className="absolute -bottom-8 -right-8 font-oswald text-[200px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">FREE</div>
       </div>
 
       <HorizontalSlides magneticWrap={magneticWrap} activeSlide={activeSlide} slide={slide} />
@@ -1343,30 +1298,38 @@ function ZoomSection() {
 
 function FinalSection() {
   return (
-    <div className="relative py-24 bg-[#F9FF00] border-t-[3px] border-black overflow-hidden">
-      <div className="px-6 md:px-12 lg:px-16 flex flex-col items-center text-center">
-        <div className="w-16 h-16 border-[4px] border-black flex items-center justify-center mb-8 bg-[#1a1a1a] rotate-45">
-          <Rocket className="-rotate-45 text-[#F9FF00]" size={32} />
+    <div className="relative py-28 md:py-36 bg-[#1a1a1a] border-t-[3px] border-black overflow-hidden">
+      <div className="px-6 md:px-12 lg:px-16 flex flex-col items-center text-center relative z-10">
+        {/* Animated color accent */}
+        <div className="flex gap-2 mb-10">
+          {["#F9FF00","#FF0004","#00E5FF","#00FF87","#7C3AED"].map((c, i) => (
+            <div key={i} className="w-3 h-3 rotate-45" style={{ background: c }} />
+          ))}
         </div>
-        <h2 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-8 text-black max-w-4xl">
-          OPEN YOUR FIRST TOOL.<br /><span className="text-outline-black">RIGHT NOW.</span>
+        <h2 className="font-oswald text-6xl md:text-8xl font-bold uppercase leading-[0.88] tracking-[-0.04em] mb-8 text-white max-w-4xl">
+          OPEN YOUR<br />FIRST TOOL.<br /><span className="text-gradient-fire">RIGHT NOW.</span>
         </h2>
-        <p className="font-inter text-base md:text-lg text-black/60 leading-relaxed mb-12 max-w-2xl font-medium">
-          No signups, no credit cards, no barriers. 28 tools ready to go — just click and start. Your workflow shouldn't cost anything.
+        <p className="font-inter text-base md:text-lg text-white/50 leading-relaxed mb-12 max-w-2xl font-medium">
+          No signups, no credit cards, no barriers. 28 tools ready to go — just click and start.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <Link to="/features" className="group bg-[#1a1a1a] text-[#F9FF00] border-[4px] border-[#1a1a1a] font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-white hover:text-black transition-all duration-200 shadow-[8px_8px_0px_rgba(0,0,0,0.3)] hover:shadow-[12px_12px_0px_rgba(0,0,0,0.2)] hover:-translate-y-1 flex items-center gap-3">
+          <Link to="/features" className="group bg-[#F9FF00] border-[4px] border-[#F9FF00] font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-white hover:border-white transition-all duration-200 shadow-[0_0_40px_rgba(249,255,0,0.3)] hover:shadow-[0_0_60px_rgba(249,255,0,0.5)] hover:-translate-y-1 flex items-center gap-3 text-black">
             OPEN THE WORKBENCH
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </Link>
           <a href="https://github.com/sah-rohit/Clef" target="_blank" rel="noopener noreferrer"
-            className="group border-[4px] border-black font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-black hover:text-[#F9FF00] transition-all duration-200 flex items-center gap-3">
+            className="group border-[4px] border-white/20 font-oswald font-bold uppercase tracking-widest text-lg px-10 py-5 hover:bg-white hover:text-black hover:border-white transition-all duration-200 flex items-center gap-3 text-white">
             STAR ON GITHUB
             <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </a>
         </div>
       </div>
-      <div className="absolute -bottom-20 -left-20 font-oswald text-[250px] font-bold text-black/[0.04] leading-none select-none pointer-events-none uppercase">CLEF</div>
+      {/* Ambient glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] opacity-[0.06]"
+          style={{ background: "radial-gradient(ellipse, #F9FF00 0%, transparent 70%)" }} />
+      </div>
+      <div className="absolute -bottom-20 -left-20 font-oswald text-[250px] font-bold text-white/[0.02] leading-none select-none pointer-events-none uppercase">CLEF</div>
     </div>
   );
 }

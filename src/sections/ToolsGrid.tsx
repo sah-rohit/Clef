@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { TOOLS, CATEGORIES, type ToolCategory } from "@/data/tools";
 import { ArrowUpRight, Search } from "lucide-react";
-import { SectionHeader } from "@/components/SectionHeader";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export function ToolsGrid() {
@@ -21,53 +20,52 @@ export function ToolsGrid() {
   });
 
   return (
-    <section id="tools" className="py-16 md:py-24 scroll-mt-20">
-      <div ref={headerRef} className="px-6 md:px-12 lg:px-16 mb-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <SectionHeader
-            eyebrow="Clef Workbench"
-            eyebrowColor="#FF0004"
-            title="MY DAILY TOOLS."
-            accentLast
-            accentStyle="gradient-fire"
-            size="lg"
-          />
-          <div className="flex flex-col gap-4">
-            <div className="relative">
-              <Search
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30"
-                size={16}
-              />
-              <input
-                type="text"
-                placeholder="Search tools..."
-                className="input-brutal pl-12 bg-white w-full md:w-64 py-2"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
+    <section id="tools" className="scroll-mt-20">
+      {/* Hero header — dark bg */}
+      <div className="bg-[#1a1a1a] border-b-[3px] border-black">
+        <div ref={headerRef} className="px-6 md:px-12 lg:px-16 py-16 md:py-20">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+            <div>
+              <span className="font-oswald text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF0004] block mb-4">CLEF WORKBENCH</span>
+              <h1 className="font-oswald text-5xl md:text-7xl font-bold uppercase leading-[0.88] tracking-[-0.04em] text-white">
+                MY DAILY<br /><span className="text-gradient-fire">TOOLS.</span>
+              </h1>
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={16} />
+                <input
+                  type="text"
+                  placeholder="Search tools..."
+                  className="border-[3px] border-white/20 bg-white/5 text-white pl-12 pr-4 py-3 font-inter text-sm outline-none focus:border-[#F9FF00] placeholder:text-white/30 w-full md:w-72 transition-colors"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Filter Tabs */}
-        <div className="mt-12 overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
-          <div className="flex gap-0 border-[3px] border-black bg-white w-max md:w-fit">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => setFilter(cat.value)}
-                className={`px-6 py-3 font-oswald text-xs font-bold uppercase tracking-wider border-r-[3px] border-black last:border-r-0 transition-colors whitespace-nowrap ${
-                  filter === cat.value ? "bg-[#F9FF00]" : "hover:bg-[#F9FF00]/30"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
+          {/* Filter Tabs */}
+          <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+            <div className="flex gap-0 border-[3px] border-white/20 w-max md:w-fit">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.value}
+                  onClick={() => setFilter(cat.value)}
+                  className={`px-6 py-3 font-oswald text-xs font-bold uppercase tracking-wider border-r-[3px] border-white/20 last:border-r-0 transition-all whitespace-nowrap ${
+                    filter === cat.value
+                      ? "bg-[#F9FF00] text-black border-[#F9FF00]"
+                      : "text-white/60 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      <div ref={gridRef} className="px-6 md:px-12 lg:px-16">
+      <div ref={gridRef} className="px-6 md:px-12 lg:px-16 py-12 bg-white">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-[3px] border-black">
           {filteredTools.map((tool, i) => {
             const Icon = tool.icon;
