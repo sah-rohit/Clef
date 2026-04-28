@@ -113,59 +113,98 @@ export default function MarkdownEditor() {
 
   return (
     <ToolLayout toolId="markdown-editor">
-      <div className="max-w-6xl mx-auto">
-        {/* Toolbar */}
-        <div className="flex flex-wrap items-center gap-3 mb-4">
-          <button
-            onClick={() => setShowPreview(!showPreview)}
-            className="btn-brutal btn-brutal-yellow text-xs py-2 px-4 flex items-center gap-2"
-          >
-            {showPreview ? <EyeOff size={14} /> : <Eye size={14} />}
-            {showPreview ? "HIDE PREVIEW" : "SHOW PREVIEW"}
-          </button>
-          <button onClick={handleCopyMD} className="btn-brutal text-xs py-2 px-4 bg-white flex items-center gap-2">
-            <Copy size={14} />
-            COPY MD
-          </button>
-          <button onClick={handleCopyHTML} className="btn-brutal text-xs py-2 px-4 bg-white flex items-center gap-2">
-            <Copy size={14} />
-            COPY HTML
-          </button>
-          <button onClick={handleDownloadMD} className="btn-brutal btn-brutal-black text-xs py-2 px-4 flex items-center gap-2">
-            <Download size={14} />
-            DOWNLOAD MD
-          </button>
-          <button onClick={handleDownloadHTML} className="btn-brutal text-xs py-2 px-4 bg-white flex items-center gap-2">
-            <Download size={14} />
-            DOWNLOAD HTML
-          </button>
-        </div>
-
-        {/* Editor + Preview */}
-        <div className={`grid ${showPreview ? "grid-cols-1 lg:grid-cols-2" : "grid-cols-1"} gap-0`}>
-          {/* Markdown Input */}
-          <div className="border-[3px] border-black">
-            <div className="bg-[#1a1a1a] text-white px-4 py-2">
-              <span className="font-oswald text-xs font-bold uppercase tracking-wider">Markdown</span>
-            </div>
-            <textarea
-              className="w-full min-h-[500px] px-4 py-3 bg-white font-mono text-sm outline-none resize-y leading-relaxed"
-              value={markdown}
-              onChange={(e) => setMarkdown(e.target.value)}
-              spellCheck={false}
-            />
+      <div className="flex flex-col gap-8">
+        {/* Advanced Toolbar */}
+        <div className="flex flex-wrap items-center justify-between gap-6 pb-6 border-b-[2px] border-black/5">
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={() => setShowPreview(!showPreview)}
+              className={`group btn-brutal py-3 px-6 flex items-center gap-3 hover:-translate-y-1 transition-all duration-300 ${showPreview ? "btn-brutal-yellow" : "bg-white"}`}
+            >
+              {showPreview ? <EyeOff size={18} className="group-hover:scale-110 transition-transform" /> : <Eye size={18} className="group-hover:scale-110 transition-transform" />}
+              <span className="font-oswald text-sm">{showPreview ? "HIDE_PREVIEW" : "SHOW_PREVIEW"}</span>
+            </button>
+            <div className="h-12 w-[2px] bg-black/10 mx-2 hidden sm:block" />
+            <button onClick={handleCopyMD} className="group btn-brutal bg-white py-3 px-6 flex items-center gap-3 hover:-translate-y-1 transition-all duration-300">
+              <Copy size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <span className="font-oswald text-sm">COPY_MARKDOWN</span>
+            </button>
+            <button onClick={handleCopyHTML} className="group btn-brutal bg-white py-3 px-6 flex items-center gap-3 hover:-translate-y-1 transition-all duration-300">
+              <Copy size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <span className="font-oswald text-sm">COPY_HTML</span>
+            </button>
           </div>
 
-          {/* Preview */}
-          {showPreview && (
-            <div className="border-[3px] border-black lg:border-l-0">
-              <div className="bg-[#F9FF00] px-4 py-2">
-                <span className="font-oswald text-xs font-bold uppercase tracking-wider">Preview</span>
+          <div className="flex flex-wrap gap-3">
+            <button onClick={handleDownloadMD} className="group btn-brutal btn-brutal-black py-3 px-6 flex items-center gap-3 hover:-translate-y-1 transition-all duration-300">
+              <Download size={18} className="group-hover:translate-y-0.5 transition-transform" />
+              <span className="font-oswald text-sm">EXPORT_MD</span>
+            </button>
+            <button onClick={handleDownloadHTML} className="group btn-brutal bg-white py-3 px-6 flex items-center gap-3 hover:-translate-y-1 transition-all duration-300">
+              <Download size={18} className="group-hover:translate-y-0.5 transition-transform" />
+              <span className="font-oswald text-sm">EXPORT_HTML</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Editor + Preview Split View */}
+        <div className={`grid ${showPreview ? "grid-cols-1 lg:grid-cols-2" : "grid-cols-1"} gap-8`}>
+          {/* Markdown Input Console */}
+          <div className="flex flex-col gap-4 animate-slide-up">
+            <div className="flex items-center justify-between px-2">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-black rotate-45" />
+                <span className="font-oswald text-xs font-black uppercase tracking-widest">MARKDOWN_SOURCE</span>
               </div>
-              <div
-                className="min-h-[500px] px-6 py-4 font-inter text-sm leading-relaxed overflow-auto prose max-w-none"
-                dangerouslySetInnerHTML={{ __html: parseMarkdown(markdown) }}
-              />
+              <span className="font-mono text-[9px] opacity-40">UTF-8_BUFFER</span>
+            </div>
+            <div className="relative group">
+              <div className="absolute inset-0 bg-black translate-x-1.5 translate-y-1.5 group-focus-within:translate-x-2.5 group-focus-within:translate-y-2.5 transition-all duration-300" />
+              <div className="relative border-[3px] border-black bg-white overflow-hidden">
+                <div className="bg-[#1a1a1a] px-4 py-2 border-b-[3px] border-black flex items-center justify-between">
+                  <div className="flex gap-1.5">
+                    <div className="w-2 h-2 bg-[#FF0004] rounded-full" />
+                    <div className="w-2 h-2 bg-[#F9FF00] rounded-full" />
+                  </div>
+                  <span className="font-mono text-[8px] text-white/40 uppercase">EDITOR_CORE</span>
+                </div>
+                <textarea
+                  className="w-full h-[600px] p-8 bg-[#fdfdfd] font-mono text-sm outline-none resize-none leading-relaxed focus:bg-white transition-colors custom-scrollbar"
+                  value={markdown}
+                  onChange={(e) => setMarkdown(e.target.value)}
+                  spellCheck={false}
+                  placeholder="Start writing your masterpiece..."
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Preview Console */}
+          {showPreview && (
+            <div className="flex flex-col gap-4 animate-slide-left">
+              <div className="flex items-center justify-between px-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-[#FF0004] rotate-45 border border-black" />
+                  <span className="font-oswald text-xs font-black uppercase tracking-widest">RENDER_PREVIEW</span>
+                </div>
+                <span className="font-mono text-[9px] opacity-40">VIEWPORT_VIRTUAL</span>
+              </div>
+              <div className="relative group">
+                <div className="absolute inset-0 bg-[#FF0004] translate-x-1.5 translate-y-1.5 group-hover:translate-x-2.5 group-hover:translate-y-2.5 transition-all duration-300 border-[2px] border-black" />
+                <div className="relative border-[3px] border-black bg-white overflow-hidden">
+                  <div className="bg-[#FF0004] px-4 py-2 border-b-[3px] border-black flex items-center justify-between">
+                    <div className="flex gap-1.5">
+                      <div className="w-2 h-2 bg-white/30 rounded-full" />
+                      <div className="w-2 h-2 bg-white/30 rounded-full" />
+                    </div>
+                    <span className="font-mono text-[8px] text-white/60 uppercase">COMPILED_HTML</span>
+                  </div>
+                  <div
+                    className="h-[600px] p-8 sm:p-12 font-inter text-sm leading-relaxed overflow-auto custom-scrollbar bg-white prose prose-neutral max-w-none prose-headings:font-oswald prose-headings:uppercase prose-headings:tracking-tight prose-a:text-[#FF0004] prose-blockquote:border-l-[6px] prose-blockquote:border-[#F9FF00] prose-blockquote:bg-[#fafafa]"
+                    dangerouslySetInnerHTML={{ __html: parseMarkdown(markdown) }}
+                  />
+                </div>
+              </div>
             </div>
           )}
         </div>

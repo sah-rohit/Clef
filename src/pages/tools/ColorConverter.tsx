@@ -93,142 +93,163 @@ export default function ColorConverter() {
 
   return (
     <ToolLayout toolId="color-converter">
-      <div className="max-w-4xl mx-auto">
-        {/* Color Preview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 mb-6">
-          <div
-            className="min-h-[200px] border-[3px] border-black flex items-center justify-center"
-            style={{ backgroundColor: hex }}
+      <div className="flex flex-col gap-10">
+        {/* Large Immersive Preview */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fade-in">
+          <div className="relative group">
+            <div className="absolute inset-0 bg-black translate-x-2 translate-y-2 group-hover:translate-x-3 group-hover:translate-y-3 transition-all duration-300" />
+            <div
+              className="relative h-[300px] border-[4px] border-black flex flex-col items-center justify-center overflow-hidden transition-all duration-500"
+              style={{ backgroundColor: hex }}
+            >
+              <div className="absolute top-4 left-4 font-oswald text-[10px] font-black uppercase tracking-[0.3em] opacity-30">COLOR_VIEWPORT</div>
+              <h2 className="font-oswald text-6xl md:text-8xl font-black uppercase transition-all duration-500 transform group-hover:scale-110" style={{ color: hsl.l > 50 ? "#1a1a1a" : "#ffffff" }}>
+                {hex.toUpperCase()}
+              </h2>
+              <div className="absolute bottom-4 right-4 flex gap-1">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="w-1.5 h-1.5 rotate-45" style={{ background: hsl.l > 50 ? "#1a1a1a" : "#ffffff", opacity: 0.2 + (i * 0.2) }} />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-6 justify-center animate-slide-left">
+            <div className="flex flex-col gap-4">
+               {[
+                 { label: "HEX_BUFFER", value: hex.toUpperCase(), copy: hex.toUpperCase() },
+                 { label: "RGB_DATA", value: `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`, copy: `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` },
+                 { label: "HSL_COORD", value: `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`, copy: `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)` }
+               ].map((item, i) => (
+                 <div key={i} className="group flex items-center justify-between p-4 border-[3px] border-black bg-white hover:bg-black hover:text-white transition-all duration-300 shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
+                   <div className="flex flex-col">
+                     <span className="font-oswald text-[9px] font-black uppercase tracking-widest opacity-40 mb-1">{item.label}</span>
+                     <span className="font-mono text-sm font-bold">{item.value}</span>
+                   </div>
+                   <button onClick={() => copyValue(item.copy)} className="p-3 border-[2px] border-black group-hover:border-white transition-colors">
+                     <Copy size={16} />
+                   </button>
+                 </div>
+               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Control Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-slide-up">
+          {/* HEX ENGINE */}
+          <div className="flex flex-col gap-4">
+             <div className="flex items-center gap-3 px-2">
+                <div className="w-2 h-2 bg-black rotate-45" />
+                <span className="font-oswald text-xs font-black uppercase tracking-widest">HEX_ENGINE</span>
+              </div>
+              <div className="flex flex-col gap-3 p-6 border-[3px] border-black bg-white shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+                <div className="relative h-24 border-[3px] border-black overflow-hidden group">
+                  <input
+                    type="color"
+                    value={hex}
+                    onChange={(e) => updateFromHex(e.target.value)}
+                    className="absolute inset-[-10px] w-[calc(100%+20px)] h-[calc(100%+20px)] cursor-pointer"
+                  />
+                </div>
+                <input
+                  type="text"
+                  className="w-full border-[3px] border-black p-3 font-mono text-sm font-bold text-center outline-none focus:bg-[#F9FF00]/10 transition-colors"
+                  value={hex.toUpperCase()}
+                  onChange={(e) => updateFromHex(e.target.value)}
+                />
+              </div>
+          </div>
+
+          {/* RGB MATRIX */}
+          <div className="flex flex-col gap-4">
+             <div className="flex items-center gap-3 px-2">
+                <div className="w-2 h-2 bg-[#FF0004] rotate-45 border border-black shadow-[1px_1px_0px_black]" />
+                <span className="font-oswald text-xs font-black uppercase tracking-widest">RGB_MATRIX</span>
+              </div>
+              <div className="flex flex-col gap-6 p-6 border-[3px] border-black bg-white shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+                {(["r", "g", "b"] as const).map(ch => (
+                  <div key={ch} className="flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
+                      <span className="font-oswald text-[10px] font-black uppercase opacity-40">{ch === 'r' ? 'RED' : ch === 'g' ? 'GREEN' : 'BLUE'}</span>
+                      <span className="font-mono text-[10px] font-bold">{rgb[ch]}</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <input
+                        type="range"
+                        min={0}
+                        max={255}
+                        value={rgb[ch]}
+                        onChange={(e) => updateFromRgb(
+                          ch === "r" ? +e.target.value : rgb.r,
+                          ch === "g" ? +e.target.value : rgb.g,
+                          ch === "b" ? +e.target.value : rgb.b
+                        )}
+                        className="flex-1 accent-black"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+          </div>
+
+          {/* HSL COORDINATES */}
+          <div className="flex flex-col gap-4">
+             <div className="flex items-center gap-3 px-2">
+                <div className="w-2 h-2 bg-[#F9FF00] rotate-45 border border-black shadow-[1px_1px_0px_black]" />
+                <span className="font-oswald text-xs font-black uppercase tracking-widest">HSL_COORD_ARRAY</span>
+              </div>
+              <div className="flex flex-col gap-6 p-6 border-[3px] border-black bg-white shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+                {[
+                  { ch: "h", label: "HUE", max: 360, unit: "°" },
+                  { ch: "s", label: "SAT", max: 100, unit: "%" },
+                  { ch: "l", label: "LUM", max: 100, unit: "%" }
+                ].map(item => (
+                  <div key={item.ch} className="flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
+                      <span className="font-oswald text-[10px] font-black uppercase opacity-40">{item.label}</span>
+                      <span className="font-mono text-[10px] font-bold">{hsl[item.ch as keyof typeof hsl]}{item.unit}</span>
+                    </div>
+                    <input 
+                      type="range" 
+                      min={0} 
+                      max={item.max} 
+                      value={hsl[item.ch as keyof typeof hsl]} 
+                      onChange={(e) => updateFromHsl(
+                        item.ch === "h" ? +e.target.value : hsl.h,
+                        item.ch === "s" ? +e.target.value : hsl.s,
+                        item.ch === "l" ? +e.target.value : hsl.l
+                      )} 
+                      className="flex-1 accent-[#FF0004]" 
+                    />
+                  </div>
+                ))}
+              </div>
+          </div>
+        </div>
+
+        {/* Utility Toolbar */}
+        <div className="flex flex-wrap items-center justify-between gap-8 py-8 px-8 bg-black border-[4px] border-black shadow-[12px_12px_0px_rgba(0,0,0,1)] animate-slide-up">
+          <button 
+            onClick={randomColor} 
+            className="group flex items-center gap-4 bg-[#F9FF00] text-black font-oswald font-black uppercase tracking-[0.2em] text-sm py-4 px-8 border-[4px] border-black transition-all duration-300 hover:-translate-y-1 hover:bg-white"
           >
-            <span className="font-oswald text-4xl font-bold uppercase" style={{ color: hsl.l > 50 ? "#1a1a1a" : "#ffffff" }}>
-              {hex.toUpperCase()}
-            </span>
-          </div>
-          <div className="border-[3px] border-black md:border-l-0 p-6 flex flex-col justify-center">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="font-oswald text-xs font-bold uppercase tracking-widest text-[#1a1a1a]/50">HEX</span>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm font-bold">{hex.toUpperCase()}</span>
-                  <button onClick={() => copyValue(hex.toUpperCase())} className="p-1 hover:bg-[#F9FF00] transition-colors border border-black">
-                    <Copy size={12} />
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-oswald text-xs font-bold uppercase tracking-widest text-[#1a1a1a]/50">RGB</span>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm font-bold">rgb({rgb.r}, {rgb.g}, {rgb.b})</span>
-                  <button onClick={() => copyValue(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`)} className="p-1 hover:bg-[#F9FF00] transition-colors border border-black">
-                    <Copy size={12} />
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-oswald text-xs font-bold uppercase tracking-widest text-[#1a1a1a]/50">HSL</span>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm font-bold">hsl({hsl.h}, {hsl.s}%, {hsl.l}%)</span>
-                  <button onClick={() => copyValue(`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`)} className="p-1 hover:bg-[#F9FF00] transition-colors border border-black">
-                    <Copy size={12} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Inputs */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 mb-6">
-          {/* HEX Input */}
-          <div className="border-[3px] border-black p-4">
-            <label className="font-oswald text-xs font-bold uppercase tracking-widest block mb-2">HEX</label>
-            <input
-              type="text"
-              className="input-brutal font-mono"
-              value={hex}
-              onChange={(e) => updateFromHex(e.target.value)}
-            />
-            <input
-              type="color"
-              className="w-full h-10 mt-2 cursor-pointer border-[3px] border-black"
-              value={hex}
-              onChange={(e) => updateFromHex(e.target.value)}
-            />
-          </div>
-          {/* RGB Inputs */}
-          <div className="border-[3px] border-black md:border-l-0 p-4">
-            <label className="font-oswald text-xs font-bold uppercase tracking-widest block mb-2">RGB</label>
-            <div className="space-y-2">
-              {(["r", "g", "b"] as const).map(ch => (
-                <div key={ch} className="flex items-center gap-2">
-                  <span className="font-oswald text-xs font-bold w-4 uppercase">{ch}</span>
-                  <input
-                    type="range"
-                    min={0}
-                    max={255}
-                    value={rgb[ch]}
-                    onChange={(e) => updateFromRgb(
-                      ch === "r" ? +e.target.value : rgb.r,
-                      ch === "g" ? +e.target.value : rgb.g,
-                      ch === "b" ? +e.target.value : rgb.b
-                    )}
-                    className="flex-1"
-                  />
-                  <input
-                    type="number"
-                    min={0}
-                    max={255}
-                    value={rgb[ch]}
-                    onChange={(e) => updateFromRgb(
-                      ch === "r" ? +e.target.value : rgb.r,
-                      ch === "g" ? +e.target.value : rgb.g,
-                      ch === "b" ? +e.target.value : rgb.b
-                    )}
-                    className="w-14 border-[3px] border-black px-2 py-1 font-mono text-xs text-center"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* HSL Inputs */}
-          <div className="border-[3px] border-black md:border-l-0 p-4">
-            <label className="font-oswald text-xs font-bold uppercase tracking-widest block mb-2">HSL</label>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="font-oswald text-xs font-bold w-4">H</span>
-                <input type="range" min={0} max={360} value={hsl.h} onChange={(e) => updateFromHsl(+e.target.value, hsl.s, hsl.l)} className="flex-1" />
-                <input type="number" min={0} max={360} value={hsl.h} onChange={(e) => updateFromHsl(+e.target.value, hsl.s, hsl.l)} className="w-14 border-[3px] border-black px-2 py-1 font-mono text-xs text-center" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-oswald text-xs font-bold w-4">S</span>
-                <input type="range" min={0} max={100} value={hsl.s} onChange={(e) => updateFromHsl(hsl.h, +e.target.value, hsl.l)} className="flex-1" />
-                <input type="number" min={0} max={100} value={hsl.s} onChange={(e) => updateFromHsl(hsl.h, +e.target.value, hsl.l)} className="w-14 border-[3px] border-black px-2 py-1 font-mono text-xs text-center" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-oswald text-xs font-bold w-4">L</span>
-                <input type="range" min={0} max={100} value={hsl.l} onChange={(e) => updateFromHsl(hsl.h, hsl.s, +e.target.value)} className="flex-1" />
-                <input type="number" min={0} max={100} value={hsl.l} onChange={(e) => updateFromHsl(hsl.h, hsl.s, +e.target.value)} className="w-14 border-[3px] border-black px-2 py-1 font-mono text-xs text-center" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Presets & Random */}
-        <div className="flex flex-wrap items-center gap-3">
-          <button onClick={randomColor} className="btn-brutal btn-brutal-yellow flex items-center gap-2 text-sm py-2 px-4">
-            <RefreshCw size={14} />
-            RANDOM COLOR
+            <RefreshCw size={18} className="group-hover:rotate-180 transition-transform duration-500" />
+            REGENERATE_RANDOM_SEED
           </button>
-          <div className="flex gap-0 border-[3px] border-black">
-            {presets.map(p => (
-              <button
-                key={p}
-                onClick={() => updateFromHex(p)}
-                className="w-8 h-8 border-r-[3px] border-black last:border-r-0 hover:scale-110 transition-transform"
-                style={{ backgroundColor: p }}
-                title={p}
-              />
-            ))}
+          
+          <div className="flex flex-col gap-3">
+             <span className="font-oswald text-[9px] font-black uppercase tracking-[0.3em] text-white/30 text-right">SYSTEM_PRESETS</span>
+             <div className="flex gap-0 border-[3px] border-white/20">
+                {presets.map(p => (
+                  <button
+                    key={p}
+                    onClick={() => updateFromHex(p)}
+                    className="w-10 h-10 border-r-[3px] border-white/20 last:border-r-0 hover:scale-110 hover:z-10 transition-all duration-200"
+                    style={{ backgroundColor: p }}
+                  />
+                ))}
+              </div>
           </div>
         </div>
       </div>
