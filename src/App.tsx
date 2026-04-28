@@ -48,6 +48,9 @@ import NumberBaseConverter from "./pages/tools/NumberBaseConverter";
 import AspectRatio from "./pages/tools/AspectRatio";
 import JwtDecoder from "./pages/tools/JwtDecoder";
 import CronBuilder from "./pages/tools/CronBuilder";
+import PdfMerge from "./pages/tools/PdfMerge";
+import PdfSplit from "./pages/tools/PdfSplit";
+import ImageToPdf from "./pages/tools/ImageToPdf";
 
 import { ScrollToTop } from "./components/ScrollToTop";
 import { CustomCursor } from "./components/CustomCursor";
@@ -137,6 +140,9 @@ export default function App() {
         <Route path="aspect-ratio" element={<AspectRatio />} />
         <Route path="jwt-decoder" element={<JwtDecoder />} />
         <Route path="cron-builder" element={<CronBuilder />} />
+        <Route path="pdf-merge" element={<PdfMerge />} />
+        <Route path="pdf-split" element={<PdfSplit />} />
+        <Route path="image-to-pdf" element={<ImageToPdf />} />
       </Route>
 
       {/* Fallback */}

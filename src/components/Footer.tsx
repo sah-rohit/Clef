@@ -21,8 +21,7 @@ export function Footer() {
             Everything runs in your browser — private, fast, and always free.
           </p>
         </div>
-        
-        {/* Navigate Column */}
+                {/* Navigate Column */}
         <div className="md:col-span-3 border-r-[3px] border-black px-6 md:px-10 py-10 bg-[#00E5FF] text-black group transition-colors">
           <h4 className="font-oswald text-sm font-black uppercase tracking-[0.2em] text-black mb-6 flex items-center gap-2">
             <div className="w-2 h-2 bg-black rotate-45" /> Navigate
@@ -33,7 +32,7 @@ export function Footer() {
               { label: "Our Promise", path: "/promise" },
               { label: "Roster",      path: "/roster" },
               { label: "Inquiry",     path: "/inquiry" },
-              { label: "Pricing",     path: "/pricing" },
+              { label: "About",       path: "/about" },
               { label: "Account",     path: "/account" },
               { label: "How To Use",  path: "/how-to-use" },
               { label: "Changelog",   path: "/changelog" },
@@ -81,25 +80,26 @@ export function Footer() {
           </h4>
           <div className="space-y-3">
             {[
-              { label: "GitHub", path: "/github" },
+              { label: "GitHub", path: "https://github.com/sah-rohit/Clef" },
               { label: "Contact", path: "/contact" },
             ].map((item) => (
-              <Link
+              <a
                 key={item.label}
-                to={item.path}
+                href={item.path}
                 className="block font-oswald text-sm font-bold uppercase tracking-wider text-white/70 hover:text-white hover:translate-x-1 transition-all cursor-pointer"
               >
                 {item.label}
-              </Link>
+              </a>
             ))}
           </div>
         </div>
       </div>
-      <div className="border-t border-white/10 px-6 md:px-10 py-6 text-center bg-[#FF0004]/10">
-         <span className="font-oswald text-xs md:text-sm text-[#FF0004] uppercase tracking-widest font-bold">
-           DEVELOPMENT NOTICE: THIS PLATFORM IS IN EARLY ACCESS. FEATURES MAY BREAK UNEXPECTEDLY. NO GUARANTEE OF FUTURE MAINTENANCE.
+      <div className="border-t border-white/10 px-6 md:px-10 py-6 text-center bg-[#FF0004]">
+         <span className="font-oswald text-xs md:text-sm text-white uppercase tracking-widest font-bold">
+           DEVELOPMENT NOTICE: THIS PLATFORM IS IN EARLY ACCESS. FEATURES MAY BREAK UNEXPECTEDLY.
          </span>
       </div>
+
       <div className="border-t border-white/10 px-6 md:px-10 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
         <span className="font-inter text-[10px] text-white/40 uppercase tracking-widest font-bold">
           &copy; 2026 CLEF BY SONATA INTERACTIVE — ALL RIGHTS RESERVED.
