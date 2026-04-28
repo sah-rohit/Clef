@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Send, Copy, ThumbsUp, ThumbsDown, Pin, PinOff,
   RotateCcw, StopCircle, Bot, MessageSquare, Shield, X, Plus, Trash2,
-  Maximize2, Minimize2, Sparkles, Terminal, Cpu, Activity
+  Maximize2, Minimize2,
 } from "lucide-react";
 import { useAuth } from "@/providers/AuthProvider";
 import { useToast } from "@/providers/ToastProvider";
@@ -34,31 +34,35 @@ function saveConversations(c: Conversation[]) {
   localStorage.setItem("clef_conversations", JSON.stringify(c));
 }
 
+
+
 export function ClefAI() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isOpen,        setIsOpen]        = useState(false);
+  const [isFullscreen,  setIsFullscreen]  = useState(false);
   const [conversations, setConversations] = useState<Conversation[]>(loadConversations);
   const [activeConvoId, setActiveConvoId] = useState<string | null>(null);
-  const [showHistory, setShowHistory] = useState(false);
-  const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const [abortCtrl, setAbortCtrl] = useState<AbortController | null>(null);
-  const [stats, setStats] = useState({ hour: 0, day: 0 });
+  const [showHistory,   setShowHistory]   = useState(false);
+  const [input,         setInput]         = useState("");
+  const [isTyping,      setIsTyping]      = useState(false);
+  const [abortCtrl,     setAbortCtrl]     = useState<AbortController | null>(null);
+  const [stats,         setStats]         = useState({ hour: 0, day: 0 });
 
-  const { user } = useAuth();
+  const { user }      = useAuth();
   const { showToast } = useToast();
-  const messagesRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const chatAction = useAction(api.ai.chat);
+  const messagesRef   = useRef<HTMLDivElement>(null);
+  const textareaRef   = useRef<HTMLTextAreaElement>(null);
+  const chatAction    = useAction(api.ai.chat);
 
   const isEmailUser = user && !user.isGuest;
-  const limits = isEmailUser ? { hour: 20, day: 80 } : { hour: 10, day: 50 };
+  const limits      = isEmailUser ? { hour: 20, day: 80 } : { hour: 10, day: 50 };
   const activeConvo = conversations.find(c => c.id === activeConvoId);
-  const pairs = activeConvo?.pairs || [];
+  const pairs       = activeConvo?.pairs || [];
   const pinnedPairs = pairs.filter(p => p.pinned);
 
   useEffect(() => { saveConversations(conversations); }, [conversations]);
+  useEffect(() => { updateStats(); }, []);
 
+  // Auto-scroll to bottom whenever pairs or typing state changes
   const scrollToBottom = useCallback(() => {
     const el = messagesRef.current;
     if (!el) return;
@@ -67,18 +71,18 @@ export function ClefAI() {
     });
   }, []);
 
-  // ── Intro Animation ──
+  // Entrance animation for panel
   useEffect(() => {
     if (isOpen) {
-      const tl = gsap.timeline();
-      tl.fromTo(".ai-panel", 
-        { y: 100, opacity: 0, scale: 0.9, rotateX: -10 },
-        { y: 0, opacity: 1, scale: 1, rotateX: 0, duration: 0.6, ease: "power4.out" }
+      gsap.fromTo(
+        ".ai-panel-animate",
+        { y: 50, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.1)" }
       );
-      tl.fromTo(".ai-header-item",
-        { y: -20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: "back.out(1.7)" },
-        "-=0.3"
+      gsap.fromTo(
+        ".ai-message-animate",
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power2.out", delay: 0.2 }
       );
     }
   }, [isOpen]);
@@ -87,24 +91,33 @@ export function ClefAI() {
     if (isOpen) scrollToBottom();
   }, [pairs, isTyping, isOpen, scrollToBottom]);
 
-  function checkRateLimit() {
+  function updateStats() {
     const now = Date.now();
     const logs = JSON.parse(localStorage.getItem("clef_chat_logs") || "[]");
-    const hr = logs.filter((t: number) => now - t < 3600000);
-    const day = logs.filter((t: number) => now - t < 86400000);
-    if (hr.length >= limits.hour) { showToast(`Hourly limit reached (${limits.hour}).`, "error"); return false; }
-    if (day.length >= limits.day) { showToast(`Daily limit reached (${limits.day}).`, "error"); return false; }
+    setStats({
+      hour: logs.filter((t: number) => now - t < 3_600_000).length,
+      day:  logs.filter((t: number) => now - t < 86_400_000).length,
+    });
+  }
+
+  function checkRateLimit() {
+    const now  = Date.now();
+    const logs = JSON.parse(localStorage.getItem("clef_chat_logs") || "[]");
+    const hr   = logs.filter((t: number) => now - t < 3_600_000);
+    const day  = logs.filter((t: number) => now - t < 86_400_000);
+    if (hr.length  >= limits.hour) { showToast(`Hourly limit (${limits.hour}).`, "error"); return false; }
+    if (day.length >= limits.day)  { showToast(`Daily limit (${limits.day}).`,   "error"); return false; }
     localStorage.setItem("clef_chat_logs", JSON.stringify([...day, now]));
     setStats({ hour: hr.length + 1, day: day.length + 1 });
     return true;
   }
 
-  const handleNewChat = () => { setActiveConvoId(null); setShowHistory(false); };
+  const handleNewChat    = () => { setActiveConvoId(null); setShowHistory(false); };
   const loadConversation = (id: string) => { setActiveConvoId(id); setShowHistory(false); };
   const deleteConversation = (id: string) => {
     setConversations(p => p.filter(c => c.id !== id));
     if (activeConvoId === id) setActiveConvoId(null);
-    showToast("Purged.", "info");
+    showToast("Deleted.", "info");
   };
 
   const updateActivePairs = (fn: (p: MessagePair[]) => MessagePair[]) => {
@@ -117,6 +130,8 @@ export function ClefAI() {
     updateActivePairs(prev => prev.map((p, i) => i === idx ? { ...p, pinned: !p.pinned } : p));
   };
 
+
+
   const handleSend = async (customInput?: string, pairIndex?: number) => {
     const text = customInput || input;
     if (!text.trim() || isTyping) return;
@@ -125,7 +140,7 @@ export function ClefAI() {
     setIsTyping(true);
     if (!customInput) setInput("");
 
-    let cid = activeConvoId;
+    let cid    = activeConvoId;
     let cPairs = [...pairs];
 
     if (!cid) {
@@ -165,6 +180,9 @@ export function ClefAI() {
       c.id === finalCid ? { ...c, pairs: cPairs, updatedAt: Date.now() } : c
     ));
 
+    const ctrl = new AbortController();
+    setAbortCtrl(ctrl);
+
     try {
       const msgs = [
         ...cPairs
@@ -193,160 +211,287 @@ export function ClefAI() {
         return { ...c, pairs: np, updatedAt: Date.now() };
       }));
     } catch {
-      showToast("Neural link failed.", "error");
+      showToast("AI Engine error. Try again.", "error");
     } finally {
       setIsTyping(false);
+      setAbortCtrl(null);
     }
   };
 
-  const panelClass = isFullscreen
-    ? "fixed inset-0 z-[1000] bg-white flex flex-col"
-    : "fixed right-6 bottom-20 w-[420px] h-[640px] z-[57] bg-white border-[4px] border-black flex flex-col shadow-[16px_16px_0px_black] ai-panel";
+  const handleStop = () => { abortCtrl?.abort(); };
+
+  // ── Panel dimensions ──────────────────────────────────────────────────────
+  // Fullscreen: covers entire viewport
+  // Normal: fixed bottom-right panel
+  const panelPositionClass = isFullscreen
+    ? "fixed inset-0 z-[100000]"
+    : "fixed inset-x-0 bottom-0 md:inset-auto md:right-6 md:bottom-14 z-[100000] md:z-[57] w-full h-[85dvh] md:w-[440px] md:h-[620px]";
+  const panelBottomStyle = isFullscreen ? {} : {};
+
+
 
   return (
     <>
+      {/* ── FAB ── */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed right-6 bottom-6 w-16 h-16 bg-[#1a1a1a] text-[#F9FF00] border-[4px] border-black flex items-center justify-center hover:bg-[#F9FF00] hover:text-black transition-all shadow-[6px_6px_0px_black] active:shadow-none active:translate-x-1 active:translate-y-1 group z-[56]"
+          className="fixed right-4 md:right-6 z-[56] w-14 h-14 md:w-16 md:h-16 bg-[#1a1a1a] text-white border-[3px] md:border-[4px] border-black flex items-center justify-center hover:bg-[#F9FF00] hover:text-black transition-all shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[6px_6px_0px_rgba(0,0,0,1)] group"
+          style={{ bottom: "calc(40px + 12px)" }}
         >
-          <Bot size={28} className="group-hover:rotate-12 transition-transform" />
+          <Bot size={24} className="shrink-0" />
+          <div className="absolute right-full mr-4 px-3 py-1 bg-black text-white text-[10px] font-bold uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden md:block">
+            Clef AI
+          </div>
         </button>
       )}
 
+      {/* ── Chat panel ── */}
       {isOpen && (
-        <div className={panelClass}>
+        <div
+          data-lenis-prevent
+          className={`${panelPositionClass} flex flex-col border-[4px] border-black bg-white overflow-hidden shadow-[16px_16px_0px_rgba(0,0,0,1)] ai-panel-animate pointer-events-auto`}
+          style={panelBottomStyle}
+        >
+
           {/* Header */}
-          <div className="bg-black text-white px-6 py-4 flex items-center justify-between border-b-[4px] border-black shrink-0 relative overflow-hidden">
-             <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(#F9FF00 1px, transparent 0)", backgroundSize: "16px 16px" }} />
-             <div className="flex items-center gap-3 relative z-10 ai-header-item">
-                <div className="w-10 h-10 border-[2px] border-[#F9FF00] bg-[#F9FF00]/10 flex items-center justify-center">
-                   <Bot size={20} className="text-[#F9FF00]" />
-                </div>
-                <div>
-                   <h3 className="font-oswald text-lg font-black uppercase tracking-widest leading-none">CLEF_AI</h3>
-                   <div className="flex items-center gap-1.5 mt-1">
-                      <div className="w-1.5 h-1.5 bg-[#00FF87] rounded-full animate-pulse" />
-                      <span className="font-mono text-[8px] text-[#00FF87] font-bold tracking-tighter">NEURAL_LINK_STABLE</span>
-                   </div>
-                </div>
-             </div>
-             <div className="flex items-center gap-2 relative z-10 ai-header-item">
-                <button onClick={() => setShowHistory(!showHistory)} className="p-2 border-[2px] border-white/10 hover:border-[#F9FF00] hover:text-[#F9FF00] transition-all"><MessageSquare size={14} /></button>
-                <button onClick={handleNewChat} className="p-2 border-[2px] border-white/10 hover:border-[#00FF87] hover:text-[#00FF87] transition-all"><Plus size={14} /></button>
-                <button onClick={() => setIsFullscreen(!isFullscreen)} className="p-2 border-[2px] border-white/10 hover:border-[#00E5FF] hover:text-[#00E5FF] transition-all hidden md:block">{isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}</button>
-                <button onClick={() => setIsOpen(false)} className="p-2 border-[2px] border-white/10 hover:bg-[#FF0004] hover:border-[#FF0004] transition-all"><X size={14} /></button>
-             </div>
+          <div className="bg-[#1a1a1a] text-white px-5 py-4 flex items-center justify-between border-b-[4px] border-black shrink-0 relative overflow-hidden">
+            {/* Background geometric pattern */}
+            <div className="absolute inset-0 pointer-events-none opacity-20"
+              style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`, backgroundSize: "20px 20px" }} />
+            
+            <div className="flex items-center gap-3 relative z-10">
+              <Bot size={24} className="shrink-0 text-[#F9FF00]" />
+              <div>
+                <span className="font-oswald text-lg font-bold uppercase tracking-[0.2em] text-white leading-none block">Clef AI</span>
+                <span className="font-inter text-[9px] font-bold text-[#00FF87] uppercase tracking-widest flex items-center gap-1.5 mt-1">
+                  <div className="w-1.5 h-1.5 bg-[#00FF87] rounded-full animate-pulse" /> SYSTEM ONLINE
+                </span>
+              </div>
+              {pinnedPairs.length > 0 && (
+                <span className="bg-[#FF0004] text-white border-[2px] border-white/20 font-oswald text-[9px] font-bold px-2 py-0.5 uppercase tracking-wider ml-2">
+                  {pinnedPairs.length} PINNED
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-1.5 relative z-10">
+              <button onClick={() => setShowHistory(!showHistory)}
+                className={`p-1.5 transition-colors border-[2px] border-transparent hover:border-black/30 ${showHistory ? "bg-[#F9FF00] text-black" : "hover:bg-white/10"}`}
+                title="Conversations">
+                <MessageSquare size={13} />
+              </button>
+              <button onClick={handleNewChat}
+                className="p-1.5 hover:bg-white/10 transition-colors border-[2px] border-transparent hover:border-black/30"
+                title="New Chat">
+                <Plus size={13} />
+              </button>
+              <button onClick={() => setIsFullscreen(f => !f)}
+                className="p-1.5 hover:bg-[#00E5FF]/20 hover:text-[#00E5FF] transition-colors border-[2px] border-transparent hover:border-[#00E5FF]/30 hidden md:flex items-center"
+                title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}>
+                {isFullscreen ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
+              </button>
+              <button onClick={() => { setIsOpen(false); setIsFullscreen(false); }}
+                className="p-1.5 hover:bg-[#FF0004] transition-colors border-[2px] border-transparent hover:border-[#FF0004]"
+                title="Close">
+                <X size={14} />
+              </button>
+            </div>
           </div>
 
-          {/* Messages */}
-          <div ref={messagesRef} className="flex-1 overflow-y-auto bg-white p-6 space-y-8 custom-scrollbar relative">
-             <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
-             
-             {pairs.length === 0 && (
-               <div className="flex flex-col items-center justify-center h-full opacity-10 gap-6 select-none">
-                  <Terminal size={48} />
-                  <p className="font-oswald text-2xl font-black uppercase tracking-[0.4em] text-center">INITIALIZING<br />INTERFACE</p>
-               </div>
-             )}
-
-             {pairs.map((pair, idx) => (
-               <div key={pair.id} className="flex flex-col gap-6 animate-slide-up">
-                  {/* User Message */}
-                  <div className="flex justify-end">
-                     <div className="max-w-[85%] bg-[#1a1a1a] text-white p-5 border-[3px] border-black shadow-[4px_4px_0px_rgba(0,0,0,0.3)] rounded-[32px] rounded-tr-sm">
-                        <AIMarkdown content={pair.user.versions[pair.user.currentIdx].content} />
-                     </div>
+          {/* Pinned strip */}
+          {pinnedPairs.length > 0 && !showHistory && (
+            <div className="bg-[#F9FF00]/10 border-b-[2px] border-black/20 px-3 py-2 shrink-0">
+              <p className="font-oswald text-[8px] font-bold uppercase tracking-widest text-black/40 mb-1">PINNED</p>
+              <div className="space-y-1 max-h-20 overflow-y-auto ai-scroll">
+                {pinnedPairs.map(p => (
+                  <div key={p.id} className="flex items-start gap-2 bg-white border border-black/10 px-2 py-1">
+                    <Pin size={8} className="text-[#FF0004] shrink-0 mt-0.5" />
+                    <p className="font-inter text-[9px] text-black/70 line-clamp-1 flex-1">
+                      {p.ai.versions[p.ai.currentIdx].content.slice(0, 100)}…
+                    </p>
+                    <button onClick={() => { const i = pairs.findIndex(pp => pp.id === p.id); if (i !== -1) togglePin(i); }}
+                      className="shrink-0 hover:text-[#FF0004] transition-colors">
+                      <X size={8} />
+                    </button>
                   </div>
-                  {/* AI Message */}
-                  <div className="flex justify-start">
-                     <div className={`max-w-[90%] p-6 border-[3px] border-black shadow-[6px_6px_0px_black] rounded-[32px] rounded-tl-sm transition-all ${pair.pinned ? "bg-[#F9FF00]/5 border-[#F9FF00]" : "bg-white"}`}>
-                        <div className="flex items-center gap-3 mb-4 opacity-30">
-                           <Cpu size={14} />
-                           <span className="font-mono text-[8px] font-black tracking-widest uppercase">CORE_LLAMA_3.1_BUFFER</span>
-                        </div>
-                        {pair.ai.versions[pair.ai.currentIdx].content ? (
-                          <div className="prose prose-sm prose-pre:bg-[#1a1a1a] prose-pre:border-[2px] prose-pre:border-black max-w-none">
-                            <AIMarkdown content={pair.ai.versions[pair.ai.currentIdx].content} />
-                          </div>
-                        ) : isTyping && idx === pairs.length - 1 ? (
-                          <div className="flex gap-2 py-2">
-                             {[0,1,2].map(i => <div key={i} className="w-2 h-2 bg-black rounded-full animate-bounce" style={{ animationDelay: `${i*0.2}s` }} />)}
-                          </div>
-                        ) : null}
-
-                        {pair.ai.versions[pair.ai.currentIdx].content && (
-                          <div className="mt-6 flex items-center justify-between border-t-[2px] border-black/5 pt-4">
-                             <div className="flex items-center gap-2">
-                                <button onClick={() => { navigator.clipboard.writeText(pair.ai.versions[pair.ai.currentIdx].content); showToast("Copied.", "success"); }} className="p-2 border-[2px] border-black/10 hover:border-black transition-all rounded-lg"><Copy size={12} /></button>
-                                <button onClick={() => togglePin(idx)} className={`p-2 border-[2px] transition-all rounded-lg ${pair.pinned ? "border-[#F9FF00] text-[#D97706] bg-[#F9FF00]/10" : "border-black/10 hover:border-black"}`}>{pair.pinned ? <PinOff size={12} /> : <Pin size={12} />}</button>
-                             </div>
-                             <div className="flex items-center gap-4">
-                                <Activity size={10} className="text-black/20" />
-                                <button onClick={() => handleSend(pair.user.versions[pair.user.currentIdx].content, idx)} className="font-oswald text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:text-[#00E5FF] transition-colors"><RotateCcw size={10} /> RE_GENERATE</button>
-                             </div>
-                          </div>
-                        )}
-                     </div>
-                  </div>
-               </div>
-             ))}
-          </div>
-
-          {/* History Overlay */}
-          {showHistory && (
-             <div className="absolute inset-x-0 top-[76px] bottom-0 z-[100] bg-white border-t-[4px] border-black p-6 flex flex-col animate-slide-up">
-                <div className="flex items-center justify-between mb-8">
-                   <h4 className="font-oswald text-xl font-black uppercase tracking-widest flex items-center gap-3"><Terminal size={20} /> ARCHIVED_DATA</h4>
-                   <button onClick={() => setShowHistory(false)} className="p-2 border-[3px] border-black hover:bg-black hover:text-white transition-all"><X size={16} /></button>
-                </div>
-                <div className="flex-1 overflow-y-auto space-y-3 custom-scrollbar">
-                   {conversations.map(c => (
-                     <div key={c.id} className="group border-[3px] border-black p-4 flex items-center justify-between hover:bg-[#F9FF00]/5 transition-all">
-                        <div onClick={() => loadConversation(c.id)} className="flex-1 cursor-pointer">
-                           <p className="font-inter text-[11px] font-bold uppercase truncate">{c.title}</p>
-                           <p className="font-mono text-[8px] opacity-40 mt-1 uppercase">{new Date(c.updatedAt).toLocaleDateString()} // {c.pairs.length} BLOCKS</p>
-                        </div>
-                        <button onClick={() => deleteConversation(c.id)} className="opacity-0 group-hover:opacity-100 p-2 border-[2px] border-black hover:bg-[#FF0004] hover:text-white transition-all"><Trash2 size={12} /></button>
-                     </div>
-                   ))}
-                </div>
-             </div>
+                ))}
+              </div>
+            </div>
           )}
 
-          {/* Input Area */}
-          <div className="bg-black p-6 shrink-0 border-t-[4px] border-black relative">
-             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#F9FF00] px-4 py-1 border-[3px] border-black font-oswald text-[9px] font-black uppercase tracking-widest text-black">
-                INPUT_READY
-             </div>
-             <div className="flex gap-4">
+          {/* History overlay */}
+          {showHistory && (
+            <div className="absolute inset-x-0 top-[48px] bottom-0 z-[105] bg-white border-t-[3px] border-black flex flex-col p-4 animate-fade-in">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-oswald text-sm font-bold uppercase tracking-widest">CONVERSATIONS</h3>
+                <button onClick={() => setShowHistory(false)} className="p-1 hover:bg-black hover:text-white border-[2px] border-black">
+                  <X size={13} />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto space-y-1.5 ai-scroll">
+                {conversations.length === 0 ? (
+                  <p className="text-[10px] font-bold uppercase opacity-30 text-center mt-20">No conversations yet.</p>
+                ) : (
+                  [...conversations].sort((a, b) => b.updatedAt - a.updatedAt).map(c => (
+                    <div key={c.id}
+                      className={`p-3 border-[2px] cursor-pointer group flex items-start justify-between gap-2 transition-colors ${
+                        c.id === activeConvoId ? "border-[#F9FF00] bg-[#F9FF00]/10" : "border-black hover:bg-[#fafafa]"
+                      }`}>
+                      <div className="flex-1 min-w-0" onClick={() => loadConversation(c.id)}>
+                        <p className="font-inter text-[10px] font-bold truncate">{c.title}</p>
+                        <p className="font-oswald text-[8px] opacity-40 uppercase mt-0.5">
+                          {c.pairs.length} msgs • {new Date(c.updatedAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <button onClick={e => { e.stopPropagation(); deleteConversation(c.id); }}
+                        className="opacity-0 group-hover:opacity-100 p-1 hover:bg-[#FF0004] hover:text-white border-[2px] border-black transition-all shrink-0">
+                        <Trash2 size={10} />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ── Messages area ── */}
+          <div
+            ref={messagesRef}
+            data-lenis-prevent
+            className="flex-1 min-h-0 overflow-y-auto ai-scroll bg-white relative scroll-smooth"
+          >
+            {/* Subtle background texture */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+              style={{ backgroundImage: `radial-gradient(#000 1.5px, transparent 0)`, backgroundSize: "24px 24px" }} />
+              
+            <div className={`p-4 md:p-6 space-y-6 relative z-10 ${isFullscreen ? "max-w-4xl mx-auto w-full" : "w-full"}`}>
+              {pairs.length === 0 && (
+                <div className="flex flex-col items-center justify-center min-h-[300px] opacity-30 select-none">
+                  <Bot size={28} />
+                  <p className="font-oswald text-lg font-bold uppercase tracking-[0.2em] mt-4 text-center leading-tight">
+                    System Ready.<br />Awaiting Input.
+                  </p>
+                  <p className="font-inter text-[9px] uppercase tracking-widest mt-2 opacity-60">
+                    Markdown • LaTeX • Code highlighting
+                  </p>
+                </div>
+              )}
+
+              {pairs.map((pair, idx) => (
+                <div key={pair.id} className="space-y-4 ai-message-animate">
+                  {/* User bubble - Apple-like rounded corners on one side but brutalist borders */}
+                  <div className="flex justify-end group">
+                    <div className="bg-[#00E5FF] border-[3px] border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] max-w-[85%] rounded-[24px] rounded-tr-[4px] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
+                      <div className="prose prose-sm max-w-none text-black">
+                        <AIMarkdown content={pair.user.versions[pair.user.currentIdx].content} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* AI bubble - Clean white card with shadow */}
+                  <div className="flex justify-start">
+                    <div className={`border-[3px] border-black p-5 w-full shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-[24px] rounded-tl-[4px] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all ${
+                      pair.pinned
+                        ? "bg-[#fafafa] border-l-[8px] border-l-[#F9FF00]"
+                        : "bg-white"
+                    }`}>
+                      {pair.ai.versions[pair.ai.currentIdx].content ? (
+                        <div className="prose prose-sm md:prose-base max-w-none text-black">
+                          <AIMarkdown content={pair.ai.versions[pair.ai.currentIdx].content} />
+                        </div>
+                      ) : isTyping && idx === pairs.length - 1 ? (
+                        <div className="flex items-center gap-2 py-2">
+                          {[0, 1, 2].map(i => (
+                            <div key={i} className="w-2.5 h-2.5 bg-black rounded-full animate-bounce"
+                              style={{ animationDelay: `${i * 0.15}s` }} />
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {/* Action bar — only show when there's content */}
+                      {pair.ai.versions[pair.ai.currentIdx].content && (
+                        <div className="mt-4 flex items-center justify-between border-t-[2px] border-black/10 pt-3">
+                          <div className="flex items-center gap-1.5">
+                            <button onClick={() => { navigator.clipboard.writeText(pair.ai.versions[pair.ai.currentIdx].content); showToast("Copied!", "success"); }}
+                              className="hover:bg-[#F9FF00] p-1.5 border-[2px] border-transparent hover:border-black transition-all rounded-md" title="Copy">
+                              <Copy size={12} />
+                            </button>
+                            <button onClick={() => togglePin(idx)}
+                              className={`p-1.5 border-[2px] border-transparent hover:border-black transition-all rounded-md ${pair.pinned ? "text-[#FF0004] bg-[#FF0004]/10" : "hover:bg-white/10"}`}
+                              title={pair.pinned ? "Unpin" : "Pin"}>
+                              {pair.pinned ? <PinOff size={12} /> : <Pin size={12} />}
+                            </button>
+                            <div className="w-px h-4 bg-black/20 mx-1" />
+                            <button onClick={() => updateActivePairs(prev => prev.map((p, i) => i === idx ? { ...p, feedback: p.feedback === "up" ? null : "up" } : p))}
+                              className={`p-1.5 border-[2px] border-transparent hover:border-black transition-all rounded-md ${pair.feedback === "up" ? "text-[#059669] bg-[#059669]/10" : "hover:bg-black/5"}`}>
+                              <ThumbsUp size={12} />
+                            </button>
+                            <button onClick={() => updateActivePairs(prev => prev.map((p, i) => i === idx ? { ...p, feedback: p.feedback === "down" ? null : "down" } : p))}
+                              className={`p-1.5 border-[2px] border-transparent hover:border-black transition-all rounded-md ${pair.feedback === "down" ? "text-[#FF0004] bg-[#FF0004]/10" : "hover:bg-black/5"}`}>
+                              <ThumbsDown size={12} />
+                            </button>
+                          </div>
+                          <button onClick={() => handleSend(pair.user.versions[pair.user.currentIdx].content, idx)}
+                            className="hover:bg-black hover:text-[#F9FF00] p-1.5 px-3 border-[2px] border-transparent hover:border-black flex items-center gap-1.5 font-oswald text-[10px] font-bold tracking-widest transition-all rounded-md">
+                            <RotateCcw size={10} /> RETRY
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Input area ── */}
+          <div className={`border-t-[4px] border-black bg-white shrink-0 ${isFullscreen ? "flex flex-col items-center" : ""}`}>
+            <div className={`${isFullscreen ? "w-full max-w-3xl" : "w-full"} p-3`}>
+              {/* Textarea + send */}
+              <div className="flex gap-3">
                 <textarea
                   ref={textareaRef}
-                  className="flex-1 bg-white border-[3px] border-black p-4 font-inter text-sm font-bold outline-none resize-none min-h-[60px] max-h-[140px] shadow-[4px_4px_0px_rgba(249,255,0,0.4)] focus:shadow-none focus:translate-x-1 focus:translate-y-1 transition-all rounded-2xl"
-                  placeholder="Transmit instructions..."
+                  className="flex-1 border-[4px] border-black p-3.5 font-inter text-sm font-medium outline-none resize-none focus:bg-[#fafafa] min-h-[60px] max-h-[140px] placeholder:text-black/30 ai-scroll transition-colors rounded-xl"
+                  style={{ touchAction: "manipulation", WebkitUserSelect: "text", userSelect: "text", cursor: "text" }}
+                  placeholder="Ask anything…"
                   value={input}
+                  rows={2}
+                  autoComplete="off"
+                  autoCorrect="on"
+                  inputMode="text"
                   onChange={e => setInput(e.target.value)}
-                  onKeyDown={e => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+                  onKeyDown={e => { 
+                    if (e.key === "Enter" && !e.shiftKey) { 
+                      e.preventDefault(); 
+                      handleSend(); 
+                    } 
+                  }}
+                  onFocus={() => {
+                    if (window.innerWidth < 768) {
+                      setTimeout(scrollToBottom, 300);
+                    }
+                  }}
                 />
                 <button
-                  onClick={() => isTyping ? abortCtrl?.abort() : handleSend()}
-                  className={`w-16 h-16 shrink-0 flex items-center justify-center border-[4px] border-black transition-all shadow-[6px_6px_0px_black] active:shadow-none active:translate-x-1 active:translate-y-1 rounded-2xl ${isTyping ? "bg-[#FF0004] text-white" : "bg-[#F9FF00] text-black"}`}
+                  onClick={() => isTyping ? handleStop() : handleSend()}
+                  className={`w-14 shrink-0 ${isTyping ? "bg-[#FF0004]" : "bg-[#F9FF00]"} border-[4px] border-black hover:bg-black hover:text-white transition-all flex items-center justify-center shadow-[4px_4px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 rounded-xl`}
                 >
-                  {isTyping ? <StopCircle size={24} /> : <Send size={24} />}
+                  {isTyping ? <StopCircle size={20} /> : <Send size={20} />}
                 </button>
-             </div>
-             <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center gap-4">
-                   <div className="flex items-center gap-1.5">
-                      <Sparkles size={10} className="text-[#F9FF00]" />
-                      <span className="font-oswald text-[8px] font-black uppercase tracking-widest text-white/40">LLAMA_3.1</span>
-                   </div>
-                </div>
-                <div className="font-mono text-[8px] font-bold text-white/20 uppercase tracking-tighter">
-                   QUOTA: {stats.hour}/{limits.hour}H // {stats.day}/{limits.day}D
-                </div>
-             </div>
+              </div>
+
+              {/* Footer info */}
+              <div className="flex items-center justify-between mt-2.5 px-1">
+                <p className="text-[9px] font-bold uppercase text-black/40 tracking-[0.15em] flex items-center gap-1.5">
+                  <Shield size={10} /> Llama 3.1 • MD+LaTeX
+                </p>
+                <p className="text-[9px] font-bold uppercase text-black/40 tracking-[0.15em]">
+                  {stats.hour}/{limits.hour}h • {stats.day}/{limits.day}d
+                </p>
+              </div>
+            </div>
           </div>
+
         </div>
       )}
     </>

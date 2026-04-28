@@ -27,7 +27,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export type ToolCategory = "developer" | "productivity" | "utility" | "pdf";
+export type ToolCategory = "developer" | "productivity" | "utility";
 
 export type ToolDef = {
   id: string;
@@ -88,7 +88,7 @@ export const TOOLS: ToolDef[] = [
   {
     id: "password-generator",
     name: "PASSWORD GENERATOR",
-    shortDesc: "NIST-grade Entropy Engine with Diceware passphrases and security auditing.",
+    shortDesc: "Generate strong, secure passwords with customizable options.",
     category: "utility",
     icon: KeyRound,
     color: "#DC2626",
@@ -97,7 +97,7 @@ export const TOOLS: ToolDef[] = [
   {
     id: "qr-code-generator",
     name: "QR CODE GENERATOR",
-    shortDesc: "High-Fidelity Customization Suite with presets and high-res exporting.",
+    shortDesc: "Create QR codes from any text or URL. Download as image.",
     category: "utility",
     icon: QrCode,
     color: "#1a1a1a",
@@ -115,7 +115,7 @@ export const TOOLS: ToolDef[] = [
   {
     id: "lorem-ipsum",
     name: "LOREM IPSUM",
-    shortDesc: "Typography Workbench with Semantic HTML mode and asset placeholders.",
+    shortDesc: "Generate placeholder text — paragraphs, sentences, or words.",
     category: "productivity",
     icon: AlignLeft,
     color: "#D97706",
@@ -124,7 +124,7 @@ export const TOOLS: ToolDef[] = [
   {
     id: "word-counter",
     name: "WORD COUNTER",
-    shortDesc: "Content Analytics Suite with readability scoring and keyword density.",
+    shortDesc: "Count words, characters, sentences, and paragraphs in real time.",
     category: "productivity",
     icon: Hash,
     color: "#7C3AED",
@@ -133,7 +133,7 @@ export const TOOLS: ToolDef[] = [
   {
     id: "unit-converter",
     name: "UNIT CONVERTER",
-    shortDesc: "Measurement Console with expanded categories and conversion logs.",
+    shortDesc: "Convert length, weight, temperature, and more between units.",
     category: "utility",
     icon: Ruler,
     color: "#0891B2",
@@ -151,7 +151,7 @@ export const TOOLS: ToolDef[] = [
   {
     id: "calculator",
     name: "CALCULATOR",
-    shortDesc: "Scientific Workbench with trig functions, constants, and log console.",
+    shortDesc: "Full-featured scientific calculator with history.",
     category: "utility",
     icon: Calculator,
     color: "#1a1a1a",
@@ -178,7 +178,7 @@ export const TOOLS: ToolDef[] = [
   {
     id: "regex-tester",
     name: "REGEX TESTER",
-    shortDesc: "Professional Regex Workbench with library, substitution, and real-time explanation.",
+    shortDesc: "Test and debug regular expressions with real-time matching.",
     category: "developer",
     icon: Regex,
     color: "#E11D48",
@@ -214,7 +214,7 @@ export const TOOLS: ToolDef[] = [
   {
     id: "diff-checker",
     name: "DIFF CHECKER",
-    shortDesc: "Git-grade Comparison Suite with Split/Unified views and diff filtering.",
+    shortDesc: "Compare two blocks of text side-by-side and highlight differences.",
     category: "developer",
     icon: GitCompare,
     color: "#7C3AED",
@@ -268,7 +268,7 @@ export const TOOLS: ToolDef[] = [
   {
     id: "jwt-decoder",
     name: "JWT DECODER",
-    shortDesc: "Security Inspection Suite with real-time auditing and interactive claims dictionary.",
+    shortDesc: "Decode and inspect JSON Web Tokens. View header, payload, and signature.",
     category: "developer",
     icon: KeySquare,
     color: "#9333EA",
@@ -283,76 +283,11 @@ export const TOOLS: ToolDef[] = [
     color: "#059669",
     path: "/tools/cron-builder",
   },
-  /* ─── PDF TOOLS ─── */
-  {
-    id: "pdf-merge",
-    name: "PDF MERGE",
-    shortDesc: "Combine multiple PDF documents into a single professional file.",
-    category: "pdf",
-    icon: FileText,
-    color: "#FF0004",
-    path: "/tools/pdf-merge",
-  },
-  {
-    id: "pdf-split",
-    name: "PDF SPLIT",
-    shortDesc: "Extract specific pages or split a large PDF into individual documents.",
-    category: "pdf",
-    icon: Scissors,
-    color: "#F9FF00",
-    path: "/tools/pdf-split",
-  },
-  {
-    id: "pdf-compress",
-    name: "PDF COMPRESS",
-    shortDesc: "Reduce PDF file size while maintaining optimal visual quality.",
-    category: "pdf",
-    icon: Ruler,
-    color: "#00E5FF",
-    path: "/tools/pdf-compress",
-  },
-  {
-    id: "pdf-to-image",
-    name: "PDF TO IMAGE",
-    shortDesc: "Convert PDF pages into high-quality PNG or JPEG images.",
-    category: "pdf",
-    icon: ImageIcon,
-    color: "#00FF87",
-    path: "/tools/pdf-to-image",
-  },
-  {
-    id: "image-to-pdf",
-    name: "IMAGE TO PDF",
-    shortDesc: "Transform images (JPG, PNG, WebP) into a clean PDF document.",
-    category: "pdf",
-    icon: FileText,
-    color: "#7C3AED",
-    path: "/tools/image-to-pdf",
-  },
-  {
-    id: "pdf-protect",
-    name: "PDF PROTECT",
-    shortDesc: "Add secure password encryption to your sensitive PDF documents.",
-    category: "pdf",
-    icon: ShieldCheck,
-    color: "#1a1a1a",
-    path: "/tools/pdf-protect",
-  },
-  {
-    id: "pdf-unlock",
-    name: "PDF UNLOCK",
-    shortDesc: "Remove passwords and restrictions from your protected PDF files.",
-    category: "pdf",
-    icon: KeyRound,
-    color: "#FF0004",
-    path: "/tools/pdf-unlock",
-  },
 ];
 
 export const CATEGORIES: { value: ToolCategory | "all"; label: string }[] = [
   { value: "all", label: "ALL TOOLS" },
   { value: "developer", label: "DEVELOPER" },
-  { value: "pdf", label: "PDF TOOLS" },
   { value: "productivity", label: "PRODUCTIVITY" },
   { value: "utility", label: "UTILITY" },
 ];

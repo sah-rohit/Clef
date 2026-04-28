@@ -4,7 +4,7 @@ import { Copy, ArrowDownUp } from "lucide-react";
 import { useToast } from "@/providers/ToastProvider";
 
 export default function UrlEncoder() {
-  const [input, setInput] = useState("https://clef.pages.dev/search?q=hello world&lang=en");
+  const [input, setInput] = useState("https://clef.dev/search?q=hello world&lang=en");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<"encode" | "decode">("encode");
   const { showToast } = useToast();

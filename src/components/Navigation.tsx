@@ -48,7 +48,8 @@ export function Navigation() {
     { label: "OUR PROMISE", path: "/promise",          color: "#00FF87" },
     { label: "ROSTER",      path: "/roster",           color: "#00E5FF" },
     { label: "INQUIRY",     path: "/inquiry",          color: "#7C3AED" },
-    { label: "ABOUT",       path: "/about",            color: "#FF0004" },
+    { label: "PRICING",     path: "/pricing",          color: "#FF0004" },
+    { label: "ABOUT",       path: "/about",            color: "#7C3AED" },
   ];
 
   const ClefLogo = () => (

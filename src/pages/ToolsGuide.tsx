@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { BackButton } from "@/components/BackButton";
 import { Link } from "react-router";
 import { TOOLS, CATEGORIES } from "@/data/tools";
-import { ArrowUpRight, Code, Layers, Wrench, ChevronRight, FileText, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, Code, Layers, Wrench, ChevronRight, type LucideIcon } from "lucide-react";
 
 /* ─── Category metadata ─── */
 const CATEGORY_META: Record<string, { color: string; icon: LucideIcon; desc: string }> = {
@@ -22,11 +22,6 @@ const CATEGORY_META: Record<string, { color: string; icon: LucideIcon; desc: str
     color: "#00FF87",
     icon: Wrench,
     desc: "Converters, generators, and everyday helpers. The tools you need once in a while but really need when you need them.",
-  },
-  pdf: {
-    color: "#FF0004",
-    icon: FileText,
-    desc: "System-level PDF manipulation. Merge, split, compress, and convert documents with professional-grade precision and total privacy.",
   },
 };
 
@@ -103,18 +98,6 @@ const TOOL_DETAILS: Record<string, { howTo: string[]; useCases: string[] }> = {
   "hash-generator": {
     howTo: ["Enter text or upload a file", "Select hash algorithm (SHA-256, SHA-512, etc.)", "Copy the hash output"],
     useCases: ["Verifying file integrity", "Generating checksums"],
-  },
-  "pdf-merge": {
-    howTo: ["Upload two or more PDF files", "Reorder them in the document queue", "Click Initialize Merge to combine them"],
-    useCases: ["Combining reports", "Merging scanned documents", "Creating portfolios"],
-  },
-  "pdf-split": {
-    howTo: ["Upload a PDF file", "Specify page ranges (e.g., 1-5, 10)", "Click Execute Split to extract pages"],
-    useCases: ["Extracting specific chapters", "Removing unwanted pages", "Splitting large documents"],
-  },
-  "image-to-pdf": {
-    howTo: ["Upload images (JPG/PNG)", "Choose page layout (A4 or Fit)", "Click Generate PDF to convert"],
-    useCases: ["Converting photos to documents", "Creating PDF galleries", "Scanned document generation"],
   },
 };
 
