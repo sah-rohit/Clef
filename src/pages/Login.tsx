@@ -52,12 +52,47 @@ const PANEL_CONFIG: Record<Mode, {
 };
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [mode, setMode] = useState<Mode>("SIGNIN");
+  const [email, setEmail] = useState(() => sessionStorage.getItem("clef_signup_email") || "");
+  const [name, setName] = useState(() => sessionStorage.getItem("clef_signup_name") || "");
+  const [password, setPassword] = useState(() => sessionStorage.getItem("clef_signup_password") || "");
+  const [mode, setMode] = useState<Mode>(() => (sessionStorage.getItem("clef_login_mode") as Mode) || "SIGNIN");
   const [agreed, setAgreed] = useState(false);
+  const [readTerms, setReadTerms] = useState(() => sessionStorage.getItem("clef_signup_read_terms") === "true");
+  const [readPrivacy, setReadPrivacy] = useState(() => sessionStorage.getItem("clef_signup_read_privacy") === "true");
   const [prevMode, setPrevMode] = useState<Mode>("SIGNIN");
+
+  useEffect(() => {
+    sessionStorage.setItem("clef_signup_email", email);
+  }, [email]);
+
+  useEffect(() => {
+    sessionStorage.setItem("clef_signup_name", name);
+  }, [name]);
+
+  useEffect(() => {
+    sessionStorage.setItem("clef_signup_password", password);
+  }, [password]);
+
+  useEffect(() => {
+    sessionStorage.setItem("clef_login_mode", mode);
+  }, [mode]);
+
+  useEffect(() => {
+    sessionStorage.setItem("clef_signup_read_terms", String(readTerms));
+  }, [readTerms]);
+
+  useEffect(() => {
+    sessionStorage.setItem("clef_signup_read_privacy", String(readPrivacy));
+  }, [readPrivacy]);
+
+  const clearSessionStorage = () => {
+    sessionStorage.removeItem("clef_signup_email");
+    sessionStorage.removeItem("clef_signup_name");
+    sessionStorage.removeItem("clef_signup_password");
+    sessionStorage.removeItem("clef_signup_read_terms");
+    sessionStorage.removeItem("clef_signup_read_privacy");
+    sessionStorage.removeItem("clef_login_mode");
+  };
 
   const { loginAsGuest, signInWithEmail, signUpWithEmail, isAuthenticated } = useAuth();
   const { showToast } = useToast();
@@ -105,12 +140,13 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!agreed) { showToast("Please agree to the Terms and Privacy Policy.", "warning"); return; }
+    if (mode === "SIGNUP" && !agreed) { showToast("Please agree to the Terms and Privacy Policy.", "warning"); return; }
     if (mode === "SIGNUP") {
       if (!email || !password) { showToast("Please enter both email and password.", "warning"); return; }
       if (password.length < 8) { showToast("Password must be at least 8 characters long.", "warning"); return; }
       try {
         await signUpWithEmail(email, password, name || email.split("@")[0]);
+        clearSessionStorage();
         showToast("Account created successfully!", "success");
         navigate("/account");
       } catch (e: any) {
@@ -122,6 +158,7 @@ export default function Login() {
       if (!email || !password) { showToast("Please enter both email and password.", "warning"); return; }
       try {
         await signInWithEmail(email, password);
+        clearSessionStorage();
         showToast("Welcome back!", "success");
         navigate("/account");
       } catch (e: any) {
@@ -131,6 +168,7 @@ export default function Login() {
       }
     } else {
       loginAsGuest();
+      clearSessionStorage();
       showToast("Logged in as Guest!", "success");
       navigate("/account");
     }
@@ -276,20 +314,68 @@ export default function Login() {
                 </div>
               )}
 
-              <div className="flex items-start gap-3 p-4 border-[3px] border-black/10 bg-[#fafafa]">
-                <button type="button" onClick={() => setAgreed(!agreed)}
-                  className={`w-5 h-5 border-[3px] border-black flex-shrink-0 flex items-center justify-center transition-colors mt-0.5 ${agreed ? "bg-black" : "bg-white"}`}>
-                  {agreed && <ShieldCheck size={11} className="text-[#F9FF00]" />}
-                </button>
-                <label className="font-inter text-[10px] leading-relaxed cursor-pointer select-none font-medium uppercase tracking-tight" onClick={() => setAgreed(!agreed)}>
-                  I agree to the <a href="/terms" className="underline font-bold hover:text-[#FF0004]">Terms</a> and{" "}
-                  <a href="/privacy" className="underline font-bold hover:text-[#FF0004]">Privacy Policy</a>.
-                </label>
-              </div>
+              {mode === "SIGNUP" && (
+                <div className={`flex items-start gap-3 p-4 border-[3px] border-black/10 bg-[#fafafa] ${(!readTerms || !readPrivacy) ? "opacity-65" : ""}`}>
+                  <button 
+                    type="button" 
+                    disabled={!readTerms || !readPrivacy}
+                    onClick={() => setAgreed(!agreed)}
+                    className={`w-5 h-5 border-[3px] border-black flex-shrink-0 flex items-center justify-center transition-colors mt-0.5 ${
+                      (!readTerms || !readPrivacy) ? "bg-black/5 border-black/15 cursor-not-allowed text-black/25" : agreed ? "bg-black" : "bg-white"
+                    }`}
+                  >
+                    {agreed && <ShieldCheck size={11} className="text-[#F9FF00]" />}
+                  </button>
+                  <label 
+                    className={`font-inter text-[10px] leading-relaxed cursor-pointer select-none font-medium uppercase tracking-tight ${
+                      (!readTerms || !readPrivacy) ? "text-black/40" : "text-black"
+                    }`}
+                    onClick={() => {
+                      if (readTerms && readPrivacy) {
+                        setAgreed(!agreed);
+                      } else {
+                        showToast("Please open and read both the Terms and Privacy Policy pages first.", "warning");
+                      }
+                    }}
+                  >
+                    I agree to the{" "}
+                    <a 
+                      href="/terms" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setReadTerms(true);
+                      }}
+                      className="underline font-bold hover:text-[#FF0004]"
+                    >
+                      Terms
+                    </a>{" "}
+                    and{" "}
+                    <a 
+                      href="/privacy" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setReadPrivacy(true);
+                      }}
+                      className="underline font-bold hover:text-[#FF0004]"
+                    >
+                      Privacy Policy
+                    </a>.
+                    {(!readTerms || !readPrivacy) && (
+                      <span className="block text-[8px] text-[#FF0004] mt-1 font-bold">
+                        (You must click and view both pages to agree)
+                      </span>
+                    )}
+                  </label>
+                </div>
+              )}
 
-              <button type="submit" disabled={!agreed}
+              <button type="submit" disabled={mode === "SIGNUP" && !agreed}
                 className={`w-full flex items-center justify-center gap-3 font-oswald font-bold uppercase tracking-widest text-sm py-4 border-[3px] border-black transition-all duration-150 ${
-                  agreed
+                  mode !== "SIGNUP" || agreed
                     ? "bg-[#1a1a1a] text-white hover:bg-[#F9FF00] hover:text-black shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-none"
                     : "bg-black/5 text-black/25 cursor-not-allowed border-black/15"
                 }`}>

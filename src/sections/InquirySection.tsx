@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Send, MessageSquare, Heart, Shield, RefreshCw } from "lucide-react";
+import { Send, MessageSquare, Heart, HeartCrack, Shield, RefreshCw, Edit3, Trash2, Check, X } from "lucide-react";
 import { useToast } from "@/providers/ToastProvider";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -27,11 +27,20 @@ interface Post {
 
 export function InquirySection({ showBackButton = false }: { showBackButton?: boolean }) {
   const [activeTab, setActiveTab] = useState<TabId>("FEEDBACK");
-  const posts = useQuery(api.posts.get, { type: activeTab === "CONTACT" ? undefined : activeTab }) || [];
+  const posts = useQuery(api.posts.get, { type: activeTab }) || [];
   
   const createPost = useMutation(api.posts.create);
   const likePost = useMutation(api.posts.like);
   const replyToPost = useMutation(api.posts.reply);
+
+  const dislikePost = useMutation(api.posts.dislike);
+  const editPost = useMutation(api.posts.edit);
+  const removePost = useMutation(api.posts.remove);
+
+  const likeReply = useMutation(api.posts.likeReply);
+  const dislikeReply = useMutation(api.posts.dislikeReply);
+  const editReply = useMutation(api.posts.editReply);
+  const deleteReply = useMutation(api.posts.deleteReply);
 
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
@@ -39,8 +48,32 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyAuthor, setReplyAuthor] = useState("");
   const [replyContent, setReplyContent] = useState("");
+
+  const [editingPostId, setEditingPostId] = useState<string | null>(null);
+  const [editingPostContent, setEditingPostContent] = useState("");
+  
+  const [editingReplyId, setEditingReplyId] = useState<string | null>(null);
+  const [editingReplyContent, setEditingReplyContent] = useState("");
   
   const { showToast } = useToast();
+
+  const isMyPost = (postId: string) => {
+    try {
+      const myPosts = JSON.parse(localStorage.getItem("clef_my_posts") || "[]");
+      return myPosts.includes(postId);
+    } catch {
+      return false;
+    }
+  };
+
+  const isMyReply = (replyId: string) => {
+    try {
+      const myReplies = JSON.parse(localStorage.getItem("clef_my_replies") || "[]");
+      return myReplies.includes(replyId);
+    } catch {
+      return false;
+    }
+  };
 
   const checkDailyLimit = () => {
     const today = new Date().toISOString().split("T")[0];
@@ -65,15 +98,10 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
       return;
     }
 
-    if (activeTab === "CONTACT") {
-      showToast("Message sent to operations! We'll review it shortly.", "success");
-      setContent("");
-      incrementDailyLimit();
-      return;
-    }
+
 
     try {
-      await createPost({
+      const postId = await createPost({
         type: activeTab,
         author: author.trim() || "Anonymous",
         content: content.trim(),
@@ -81,6 +109,14 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
       incrementDailyLimit();
       setContent("");
       showToast("Post shared with the community!", "success");
+      if (postId) {
+        try {
+          const myPosts = JSON.parse(localStorage.getItem("clef_my_posts") || "[]");
+          localStorage.setItem("clef_my_posts", JSON.stringify([...myPosts, postId]));
+        } catch (err) {
+          console.error("Failed to save post ownership", err);
+        }
+      }
     } catch (e) {
       showToast("Failed to post message.", "error");
     }
@@ -98,7 +134,7 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
     }
 
     try {
-      await replyToPost({
+      const replyId = await replyToPost({
         postId: postId as Id<"posts">,
         author: replyAuthor.trim() || "Anonymous",
         content: replyContent.trim(),
@@ -108,6 +144,14 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
       setReplyContent("");
       setReplyingTo(null);
       showToast("Reply posted!", "success");
+      if (replyId) {
+        try {
+          const myReplies = JSON.parse(localStorage.getItem("clef_my_replies") || "[]");
+          localStorage.setItem("clef_my_replies", JSON.stringify([...myReplies, replyId]));
+        } catch (err) {
+          console.error("Failed to save reply ownership", err);
+        }
+      }
     } catch (e) {
       showToast("Failed to post reply.", "error");
     }
@@ -121,7 +165,81 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
     }
   };
 
-  const filteredPosts = activeTab === "CONTACT" ? [] : posts;
+  const handleDislike = async (id: string) => {
+    try {
+      await dislikePost({ id: id as Id<"posts"> });
+    } catch (e) {
+      showToast("Failed to dislike post.", "error");
+    }
+  };
+
+  const handleEditPost = async (id: string) => {
+    if (!editingPostContent.trim()) {
+      showToast("Post content cannot be empty.", "warning");
+      return;
+    }
+    try {
+      await editPost({ id: id as Id<"posts">, content: editingPostContent.trim() });
+      setEditingPostId(null);
+      setEditingPostContent("");
+      showToast("Post updated!", "success");
+    } catch (e) {
+      showToast("Failed to edit post.", "error");
+    }
+  };
+
+  const handleDeletePost = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this post?")) return;
+    try {
+      await removePost({ id: id as Id<"posts"> });
+      showToast("Post deleted.", "success");
+    } catch (e) {
+      showToast("Failed to delete post.", "error");
+    }
+  };
+
+  const handleLikeReply = async (postId: string, replyId: string) => {
+    try {
+      await likeReply({ postId: postId as Id<"posts">, replyId });
+    } catch (e) {
+      showToast("Failed to like reply.", "error");
+    }
+  };
+
+  const handleDislikeReply = async (postId: string, replyId: string) => {
+    try {
+      await dislikeReply({ postId: postId as Id<"posts">, replyId });
+    } catch (e) {
+      showToast("Failed to dislike reply.", "error");
+    }
+  };
+
+  const handleEditReply = async (postId: string, replyId: string) => {
+    if (!editingReplyContent.trim()) {
+      showToast("Reply content cannot be empty.", "warning");
+      return;
+    }
+    try {
+      await editReply({ postId: postId as Id<"posts">, replyId, content: editingReplyContent.trim() });
+      setEditingReplyId(null);
+      setEditingReplyContent("");
+      showToast("Reply updated!", "success");
+    } catch (e) {
+      showToast("Failed to edit reply.", "error");
+    }
+  };
+
+  const handleDeleteReply = async (postId: string, replyId: string) => {
+    if (!confirm("Are you sure you want to delete this reply?")) return;
+    try {
+      await deleteReply({ postId: postId as Id<"posts">, replyId });
+      showToast("Reply deleted.", "success");
+    } catch (e) {
+      showToast("Failed to delete reply.", "error");
+    }
+  };
+
+  const filteredPosts = posts;
 
   return (
     <section id="inquiry" className="border-t-[4px] border-black overflow-hidden">
@@ -217,7 +335,7 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
                   </button>
                 </div>
 
-                {activeTab !== "CONTACT" && (
+
                   <div className="mt-16 pt-12 border-t-[4px] border-black">
                     <h3 className="font-oswald text-2xl font-bold uppercase tracking-tight mb-8">
                       COMMUNITY FEED
@@ -240,9 +358,35 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
                               </div>
                               <span className="bg-black text-[#F9FF00] text-[10px] font-bold px-3 py-1 tracking-widest uppercase">{post.type}</span>
                             </div>
-                            <p className="font-inter text-sm leading-relaxed text-[#1a1a1a]">{post.content}</p>
+                            
+                            {editingPostId === post._id ? (
+                              <div className="space-y-3 my-4">
+                                <textarea
+                                  className="w-full border-[3px] border-black p-3.5 font-inter text-sm font-medium outline-none bg-white min-h-[100px] resize-none focus:bg-[#fafafa]"
+                                  value={editingPostContent}
+                                  onChange={(e) => setEditingPostContent(e.target.value)}
+                                />
+                                <div className="flex gap-2">
+                                  <button 
+                                    onClick={() => handleEditPost(post._id)}
+                                    className="flex items-center gap-1.5 font-oswald text-xs font-bold px-4 py-2 bg-[#F9FF00] border-[3px] border-black hover:bg-black hover:text-[#F9FF00] transition-colors shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                                  >
+                                    <Check size={12} /> SAVE
+                                  </button>
+                                  <button 
+                                    onClick={() => setEditingPostId(null)}
+                                    className="flex items-center gap-1.5 font-oswald text-xs font-bold px-4 py-2 border-[3px] border-black hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                                  >
+                                    <X size={12} /> CANCEL
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <p className="font-inter text-sm leading-relaxed text-[#1a1a1a]">{post.content}</p>
+                            )}
+
                             <div className="mt-6 pt-4 border-t-[2px] border-black flex items-center justify-between">
-                              <div className="flex gap-4">
+                              <div className="flex flex-wrap gap-4">
                                 <button 
                                   onClick={() => handleLike(post._id)}
                                   className="flex items-center gap-2 font-oswald text-xs font-bold text-[#1a1a1a] hover:text-[#FF0004] transition-colors"
@@ -251,24 +395,119 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
                                   {post.likes} LIKES
                                 </button>
                                 <button 
+                                  onClick={() => handleDislike(post._id)}
+                                  className="flex items-center gap-2 font-oswald text-xs font-bold text-[#1a1a1a] hover:text-[#7C3AED] transition-colors"
+                                >
+                                  <HeartCrack size={16} className={(post.dislikes ?? 0) > 0 ? "fill-[#7C3AED] text-[#7C3AED]" : ""} />
+                                  {post.dislikes ?? 0} DISLIKES
+                                </button>
+                                <button 
                                   onClick={() => setReplyingTo(replyingTo === post._id ? null : post._id)}
                                   className="flex items-center gap-2 font-oswald text-xs font-bold text-[#1a1a1a] hover:text-[#059669] transition-colors"
                                 >
                                   <MessageSquare size={16} /> REPLY
                                 </button>
                               </div>
+                              {isMyPost(post._id) && !editingPostId && (
+                                <div className="flex gap-2">
+                                  <button 
+                                    onClick={() => {
+                                      setEditingPostId(post._id);
+                                      setEditingPostContent(post.content);
+                                    }}
+                                    className="flex items-center gap-1 font-oswald text-[10px] font-bold text-black/60 hover:text-black transition-colors"
+                                    title="Edit Post"
+                                  >
+                                    <Edit3 size={12} /> EDIT
+                                  </button>
+                                  <button 
+                                    onClick={() => handleDeletePost(post._id)}
+                                    className="flex items-center gap-1 font-oswald text-[10px] font-bold text-[#FF0004]/70 hover:text-[#FF0004] transition-colors"
+                                    title="Delete Post"
+                                  >
+                                    <Trash2 size={12} /> DELETE
+                                  </button>
+                                </div>
+                              )}
                             </div>
                             
                             {/* Replies */}
                             {post.replies && post.replies.length > 0 && (
                               <div className="mt-6 pl-4 border-l-[3px] border-black/20 space-y-4">
-                                {post.replies.map((reply) => (
-                                  <div key={reply.id} className="pt-2">
-                                    <div className="flex items-center gap-2 mb-1">
-                                      <span className="font-oswald text-xs font-bold uppercase text-[#FF0004]">@{reply.author}</span>
-                                      <span className="font-inter text-[10px] text-black/40 font-bold uppercase">• {new Date(reply.timestamp).toLocaleDateString()}</span>
+                                {post.replies.map((reply: any) => (
+                                  <div key={reply.id} className="pt-2 border-b border-black/5 last:border-b-0 pb-3">
+                                    <div className="flex items-center justify-between gap-2 mb-1">
+                                      <div className="flex items-center gap-2">
+                                        <span className="font-oswald text-xs font-bold uppercase text-[#FF0004]">@{reply.author}</span>
+                                        <span className="font-inter text-[10px] text-black/40 font-bold uppercase">• {new Date(reply.timestamp).toLocaleDateString()}</span>
+                                      </div>
+                                      
+                                      {isMyReply(reply.id) && !editingReplyId && (
+                                        <div className="flex items-center gap-2">
+                                          <button 
+                                            onClick={() => {
+                                              setEditingReplyId(reply.id);
+                                              setEditingReplyContent(reply.content);
+                                            }}
+                                            className="text-black/50 hover:text-black transition-colors"
+                                            title="Edit Reply"
+                                          >
+                                            <Edit3 size={11} />
+                                          </button>
+                                          <button 
+                                            onClick={() => handleDeleteReply(post._id, reply.id)}
+                                            className="text-[#FF0004]/60 hover:text-[#FF0004] transition-colors"
+                                            title="Delete Reply"
+                                          >
+                                            <Trash2 size={11} />
+                                          </button>
+                                        </div>
+                                      )}
                                     </div>
-                                    <p className="font-inter text-xs leading-relaxed text-[#1a1a1a]">{reply.content}</p>
+                                    
+                                    {editingReplyId === reply.id ? (
+                                      <div className="space-y-2 mt-1.5 mb-2">
+                                        <textarea
+                                          className="w-full border-[2px] border-black p-2 font-inter text-xs bg-white resize-none h-16 outline-none focus:bg-[#fafafa]"
+                                          value={editingReplyContent}
+                                          onChange={(e) => setEditingReplyContent(e.target.value)}
+                                        />
+                                        <div className="flex gap-1.5">
+                                          <button 
+                                            onClick={() => handleEditReply(post._id, reply.id)}
+                                            className="flex items-center gap-1 font-oswald text-[9px] font-bold px-2.5 py-1 bg-[#F9FF00] border border-black hover:bg-black hover:text-[#F9FF00] transition-colors"
+                                          >
+                                            <Check size={10} /> SAVE
+                                          </button>
+                                          <button 
+                                            onClick={() => setEditingReplyId(null)}
+                                            className="flex items-center gap-1 font-oswald text-[9px] font-bold px-2.5 py-1 border border-black hover:bg-black hover:text-white transition-colors"
+                                          >
+                                            <X size={10} /> CANCEL
+                                          </button>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <p className="font-inter text-xs leading-relaxed text-[#1a1a1a]">{reply.content}</p>
+                                    )}
+
+                                    {/* Like and Dislike action bar for reply */}
+                                    <div className="flex items-center gap-3 mt-2">
+                                      <button 
+                                        onClick={() => handleLikeReply(post._id, reply.id)}
+                                        className="flex items-center gap-1 font-oswald text-[10px] font-bold text-black/50 hover:text-[#FF0004] transition-colors"
+                                      >
+                                        <Heart size={12} className={reply.likes > 0 ? "fill-[#FF0004] text-[#FF0004]" : ""} />
+                                        {reply.likes ?? 0}
+                                      </button>
+                                      <button 
+                                        onClick={() => handleDislikeReply(post._id, reply.id)}
+                                        className="flex items-center gap-1 font-oswald text-[10px] font-bold text-black/50 hover:text-[#7C3AED] transition-colors"
+                                      >
+                                        <HeartCrack size={12} className={reply.dislikes > 0 ? "fill-[#7C3AED] text-[#7C3AED]" : ""} />
+                                        {reply.dislikes ?? 0}
+                                      </button>
+                                    </div>
                                   </div>
                                 ))}
                               </div>
@@ -301,7 +540,6 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
                       )}
                     </div>
                   </div>
-                )}
               </div>
             </div>
           </div>

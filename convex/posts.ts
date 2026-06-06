@@ -28,9 +28,10 @@ export const create = mutation({
       content: args.content,
       timestamp: new Date().toISOString(),
       likes: 0,
+      dislikes: 0,
       replies: [],
     };
-    await ctx.db.insert("posts", newPost);
+    return await ctx.db.insert("posts", newPost);
   },
 });
 
@@ -40,6 +41,34 @@ export const like = mutation({
     const post = await ctx.db.get(args.id);
     if (!post) throw new Error("Post not found");
     await ctx.db.patch(args.id, { likes: post.likes + 1 });
+  },
+});
+
+export const dislike = mutation({
+  args: { id: v.id("posts") },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.id);
+    if (!post) throw new Error("Post not found");
+    const currentDislikes = post.dislikes ?? 0;
+    await ctx.db.patch(args.id, { dislikes: currentDislikes + 1 });
+  },
+});
+
+export const edit = mutation({
+  args: { id: v.id("posts"), content: v.string() },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.id);
+    if (!post) throw new Error("Post not found");
+    await ctx.db.patch(args.id, { content: args.content });
+  },
+});
+
+export const remove = mutation({
+  args: { id: v.id("posts") },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.id);
+    if (!post) throw new Error("Post not found");
+    await ctx.db.delete(args.id);
   },
 });
 
@@ -53,15 +82,74 @@ export const reply = mutation({
     const post = await ctx.db.get(args.postId);
     if (!post) throw new Error("Post not found");
     
+    const replyId = Math.random().toString(36).substring(2, 11);
     const newReply = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: replyId,
       author: args.author,
       content: args.content,
       timestamp: new Date().toISOString(),
+      likes: 0,
+      dislikes: 0,
     };
     
     await ctx.db.patch(args.postId, {
       replies: [...post.replies, newReply],
     });
+    return replyId;
+  },
+});
+
+export const likeReply = mutation({
+  args: { postId: v.id("posts"), replyId: v.string() },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.postId);
+    if (!post) throw new Error("Post not found");
+    const updatedReplies = post.replies.map(r => {
+      if (r.id === args.replyId) {
+        return { ...r, likes: (r.likes ?? 0) + 1 };
+      }
+      return r;
+    });
+    await ctx.db.patch(args.postId, { replies: updatedReplies });
+  },
+});
+
+export const dislikeReply = mutation({
+  args: { postId: v.id("posts"), replyId: v.string() },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.postId);
+    if (!post) throw new Error("Post not found");
+    const updatedReplies = post.replies.map(r => {
+      if (r.id === args.replyId) {
+        return { ...r, dislikes: (r.dislikes ?? 0) + 1 };
+      }
+      return r;
+    });
+    await ctx.db.patch(args.postId, { replies: updatedReplies });
+  },
+});
+
+export const editReply = mutation({
+  args: { postId: v.id("posts"), replyId: v.string(), content: v.string() },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.postId);
+    if (!post) throw new Error("Post not found");
+    const updatedReplies = post.replies.map(r => {
+      if (r.id === args.replyId) {
+        return { ...r, content: args.content };
+      }
+      return r;
+    });
+    await ctx.db.patch(args.postId, { replies: updatedReplies });
+  },
+});
+
+export const deleteReply = mutation({
+  args: { postId: v.id("posts"), replyId: v.string() },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.postId);
+    if (!post) throw new Error("Post not found");
+    const updatedReplies = post.replies.filter(r => r.id !== args.replyId);
+    await ctx.db.patch(args.postId, { replies: updatedReplies });
   },
 });

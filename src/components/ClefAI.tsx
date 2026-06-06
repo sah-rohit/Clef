@@ -381,7 +381,7 @@ export function ClefAI() {
                 <div key={pair.id} className="space-y-4 ai-message-animate">
                   {/* User bubble - Apple-like rounded corners on one side but brutalist borders */}
                   <div className="flex justify-end group">
-                    <div className="bg-[#00E5FF] border-[3px] border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] max-w-[85%] rounded-[24px] rounded-tr-[4px] hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
+                    <div className="bg-[#00E5FF] border-[3px] border-black p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)] max-w-[85%] rounded-none hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all">
                       <div className="prose prose-sm max-w-none text-black">
                         <AIMarkdown content={pair.user.versions[pair.user.currentIdx].content} />
                       </div>
@@ -390,7 +390,7 @@ export function ClefAI() {
 
                   {/* AI bubble - Clean white card with shadow */}
                   <div className="flex justify-start">
-                    <div className={`border-[3px] border-black p-5 w-full shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-[24px] rounded-tl-[4px] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all ${
+                    <div className={`border-[3px] border-black p-5 w-full shadow-[4px_4px_0px_rgba(0,0,0,1)] rounded-none hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all ${
                       pair.pinned
                         ? "bg-[#fafafa] border-l-[8px] border-l-[#F9FF00]"
                         : "bg-white"
