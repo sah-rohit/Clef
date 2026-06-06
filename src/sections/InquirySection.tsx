@@ -93,7 +93,7 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
       return;
     }
     
-    if (checkDailyLimit() >= 5) {
+    if (!import.meta.env.DEV && checkDailyLimit() >= 5) {
       showToast("Daily limit reached (5 posts). Let's keep it clean!", "error");
       return;
     }
@@ -128,7 +128,7 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
       return;
     }
     
-    if (checkDailyLimit() >= 5) {
+    if (!import.meta.env.DEV && checkDailyLimit() >= 5) {
       showToast("Daily limit reached.", "error");
       return;
     }
@@ -491,8 +491,8 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
                                       <p className="font-inter text-xs leading-relaxed text-[#1a1a1a]">{reply.content}</p>
                                     )}
 
-                                    {/* Like and Dislike action bar for reply */}
-                                    <div className="flex items-center gap-3 mt-2">
+                                    {/* Like, Dislike, and Reply action bar for reply */}
+                                    <div className="flex items-center gap-4 mt-2">
                                       <button 
                                         onClick={() => handleLikeReply(post._id, reply.id)}
                                         className="flex items-center gap-1 font-oswald text-[10px] font-bold text-black/50 hover:text-[#FF0004] transition-colors"
@@ -506,6 +506,23 @@ export function InquirySection({ showBackButton = false }: { showBackButton?: bo
                                       >
                                         <HeartCrack size={12} className={reply.dislikes > 0 ? "fill-[#7C3AED] text-[#7C3AED]" : ""} />
                                         {reply.dislikes ?? 0}
+                                      </button>
+                                      <button 
+                                        onClick={() => {
+                                          setReplyingTo(post._id);
+                                          setReplyAuthor("");
+                                          setReplyContent(`@${reply.author} `);
+                                          // Focus the reply textarea
+                                          setTimeout(() => {
+                                            const textarea = document.querySelector(`textarea[placeholder="WRITE A REPLY..."]`) as HTMLTextAreaElement;
+                                            if (textarea) textarea.focus();
+                                          }, 100);
+                                        }}
+                                        className="flex items-center gap-1 font-oswald text-[10px] font-bold text-black/50 hover:text-[#059669] transition-colors"
+                                        title="Reply to this message"
+                                      >
+                                        <MessageSquare size={12} />
+                                        REPLY
                                       </button>
                                     </div>
                                   </div>
