@@ -3,7 +3,7 @@ import { action } from "./_generated/server";
 
 // Primary model: fast and cheap. Fallback: more capable, used if primary fails.
 const PRIMARY_MODEL = "llama-3.1-8b-instant";
-const FALLBACK_MODEL = "llama-3.3-70b-versatile";
+const FALLBACK_MODEL = "llama-3.1-8b-instant";
 
 async function callGroq(
   apiKey: string,
